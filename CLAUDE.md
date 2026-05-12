@@ -2,6 +2,37 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project Context & Rules
+
+This is a customized fork of [9d8dev/next-woo](https://github.com/9d8dev/next-woo). The goal is to build custom features while staying mergeable with upstream updates. **Always read this section before making any changes.**
+
+### Branching Strategy
+- `upstream-track` — pure mirror of `upstream/main` (9d8dev/next-woo). Never commit custom code here.
+- `main` — deployment branch for Biznet Gio / Niagahoster (Woo/WP) and Netlify / Vercel / Cloudflare Pages (Nextjs). All customizations live here.
+- `upstream` remote → `https://github.com/9d8dev/next-woo.git`
+- `origin` remote → `git@github.com:simplyeazy/ilife-next-woo.git`
+
+### Syncing Upstream Updates
+```bash
+# 1. Sync upstream-track to latest upstream
+git checkout upstream-track
+git pull upstream main
+git push origin upstream-track
+
+# 2. Merge upstream into main
+git checkout main
+git merge upstream-track
+# Resolve conflicts if any, then push
+git push origin main
+```
+
+### Customization Rules (Minimize Merge Conflicts)
+- **Prefer composition over modification**: wrap original components rather than editing them in-place.
+- **New files over edits**: add new components/pages in dedicated files; avoid modifying upstream files unless unavoidable.
+- **Isolate customizations**: keep custom code in clearly named files/directories (e.g., `components/custom/`, `app/custom/`).
+- **Config over code**: use `site.config.ts` and `menu.config.ts` for site-specific values.
+- When an upstream file must be modified, add a comment: `// CUSTOM: <reason>` to mark the change for easy conflict resolution.
+
 ## Build Commands
 - `pnpm dev` - Start development server with turbo mode
 - `pnpm build` - Build for production
