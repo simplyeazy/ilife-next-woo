@@ -40,3 +40,7 @@ next-env.d.ts
 .claude
 .factory
 RAILWAY-SETUP.md
+
+# pnpm
+.pnpm/
+.pnpm-store/
