@@ -1,0 +1,67 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uwordpress", "-pwordpress"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  wordpress:
+    build: ./wordpress
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_URL: "http://localhost:8080"
+      WORDPRESS_TITLE: "iLife Store"
+      WORDPRESS_ADMIN_USER: admin
+      WORDPRESS_ADMIN_PASSWORD: admin123
+      WORDPRESS_ADMIN_EMAIL: admin@example.com
+      NEXTJS_URL: "http://localhost:3000"
+      WORDPRESS_WEBHOOK_SECRET: "dev-secret-change-me"
+    volumes:
+      - wp_data:/var/www/html
+
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - wordpress
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    # env_file picks up WC_CONSUMER_KEY / WC_CONSUMER_SECRET from .env.local
+    env_file:
+      - path: .env.local
+        required: false
+    environment:
+      # Internal: Next.js server-side fetches go directly to the wordpress container
+      WORDPRESS_URL: "http://wordpress"
+      WORDPRESS_HOSTNAME: "wordpress"
+      # Public: browser-side links use the host-exposed port
+      NEXT_PUBLIC_WORDPRESS_URL: "http://localhost:8080"
+      WORDPRESS_WEBHOOK_SECRET: "dev-secret-change-me"
+
+volumes:
+  db_data:
+  wp_data:
