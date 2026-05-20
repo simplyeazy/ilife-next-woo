@@ -6,6 +6,14 @@ export const mainMenu = {
   about: "https://github.com/9d8dev/next-wp",
 };
 
+// CUSTOM: iLife main navigation
+export const iLifeMenu = [
+  { label: "Beranda", href: "/" },
+  { label: "Produk", href: "/shop" },
+  { label: "Portofolio", href: "/portofolio" },
+  { label: "Tentang Kami", href: "/tentang-kami" },
+];
+
 export const contentMenu = {
   categories: "/posts/categories",
   tags: "/posts/tags",
