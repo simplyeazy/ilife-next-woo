@@ -10,6 +10,14 @@ while [ ! -f /var/www/html/wp-config.php ]; do
   sleep 2
 done
 
+# Allow direct file system writes (enables plugin upload via WP Admin without FTP)
+wp config set FS_METHOD direct --allow-root 2>/dev/null || true
+
+# Ensure uploads directory is writable
+mkdir -p /var/www/html/wp-content/uploads
+chown -R www-data:www-data /var/www/html/wp-content
+chmod -R 755 /var/www/html/wp-content/uploads
+
 # Wait for database to be ready
 echo "Waiting for database connection..."
 for i in $(seq 1 30); do
@@ -36,6 +44,9 @@ if ! wp core is-installed --allow-root 2>/dev/null; then
 
   echo "WordPress installed successfully!"
 
+  # Enable pretty permalinks (required for REST API and WooCommerce)
+  wp rewrite structure '/%postname%/' --hard --allow-root
+
   # Remove default plugins (keep only next-revalidate)
   echo "Removing default plugins..."
   wp plugin delete akismet --allow-root 2>/dev/null || true
@@ -61,6 +72,17 @@ fi
 if ! wp plugin is-active next-revalidate --allow-root 2>/dev/null; then
   echo "Activating Next.js Revalidation plugin..."
   wp plugin activate next-revalidate --allow-root
+fi
+
+# CUSTOM: activate all plugins from wordpress/plugins/
+if [ -d /usr/src/plugins ]; then
+  for plugin_dir in /usr/src/plugins/*/; do
+    plugin_name=$(basename "$plugin_dir")
+    if ! wp plugin is-active "$plugin_name" --allow-root 2>/dev/null; then
+      echo "Activating plugin: $plugin_name"
+      wp plugin activate "$plugin_name" --allow-root
+    fi
+  done
 fi
 
 # Activate the headless theme

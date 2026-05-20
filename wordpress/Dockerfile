@@ -13,6 +13,8 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 # Copy plugin and theme to staging location (volume overwrites /var/www/html)
 COPY next-revalidate /usr/src/next-revalidate
 COPY theme /usr/src/nextjs-headless
+# CUSTOM: copy all custom plugins (add a folder under wordpress/plugins/ for each new plugin)
+COPY plugins /usr/src/plugins
 
 # Copy the setup scripts
 COPY setup.sh /usr/local/bin/setup-wordpress.sh
