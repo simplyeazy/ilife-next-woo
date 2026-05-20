@@ -5,7 +5,7 @@ type SiteConfig = {
 };
 
 export const siteConfig: SiteConfig = {
-  site_name: "next-woo",
-  site_description: "Headless WooCommerce store powered by Next.js",
-  site_domain: "https://next-woo.com",
+  site_name: "iLife",
+  site_description: "Solusi videotron & layar LED terpercaya untuk periklanan dan pertunjukan publik.",
+  site_domain: "https://ilife.co.id",
 };
