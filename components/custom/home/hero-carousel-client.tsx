@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import {
   Carousel,
@@ -36,11 +35,11 @@ export function HeroCarouselClient({ slides }: { slides: SlideData[] }) {
             <CarouselItem key={slide.id} className="pl-0">
               <div className="relative w-full h-[70vh] min-h-[420px] flex items-center bg-gradient-to-br from-blue-950 to-slate-900">
                 {slide.imageUrl && (
-                  <Image
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
                     src={slide.imageUrl}
                     alt={slide.title}
-                    fill
-                    className="object-cover opacity-40"
+                    className="absolute inset-0 w-full h-full object-cover opacity-40"
                   />
                 )}
                 <div
