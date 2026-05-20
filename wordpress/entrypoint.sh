@@ -7,11 +7,21 @@ copy_custom_files() {
         sleep 2
     done
 
-    # Copy plugin if not already present
+    # Copy upstream next-revalidate plugin if not already present
     if [ ! -d /var/www/html/wp-content/plugins/next-revalidate ]; then
         echo "Installing next-revalidate plugin..."
         cp -r /usr/src/next-revalidate /var/www/html/wp-content/plugins/
         chown -R www-data:www-data /var/www/html/wp-content/plugins/next-revalidate
+    fi
+
+    # CUSTOM: copy all plugins from wordpress/plugins/ (always sync to pick up updates)
+    if [ -d /usr/src/plugins ]; then
+        for plugin_dir in /usr/src/plugins/*/; do
+            plugin_name=$(basename "$plugin_dir")
+            echo "Syncing plugin: $plugin_name"
+            cp -r "$plugin_dir" "/var/www/html/wp-content/plugins/$plugin_name"
+            chown -R www-data:www-data "/var/www/html/wp-content/plugins/$plugin_name"
+        done
     fi
 
     # Copy theme if not already present
