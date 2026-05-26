@@ -56,6 +56,7 @@ export interface WooCommerceResponse<T> {
 const USER_AGENT = "Next.js WooCommerce Client";
 const CACHE_TTL = 3600; // 1 hour
 
+// CUSTOM: Normalize image/permalink URLs in WC API responses.
 // Build authenticated URL for WooCommerce REST API
 function buildWooCommerceUrl(
   endpoint: string,
@@ -702,11 +703,11 @@ export async function getEnabledPaymentGateways(): Promise<PaymentGateway[]> {
 
 export function formatPrice(
   price: string | number,
-  currency: string = "USD"
+  currency: string = "IDR"
 ): string {
   const numericPrice = typeof price === "string" ? parseFloat(price) : price;
 
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency,
   }).format(numericPrice);
