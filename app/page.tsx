@@ -5,10 +5,11 @@ import { AboutSection } from "@/components/custom/home/about-section";
 import { FeaturesSection } from "@/components/custom/home/features-section";
 import { FeaturedProductsSection } from "@/components/custom/home/featured-products";
 import { ClientsSection } from "@/components/custom/home/clients-section";
+import { MerekProdukSection } from "@/components/custom/home/merek-produk-section";
 
 export default function Home() {
   // CUSTOM: section order matches original ilife.co.id
-  // Hero → About → Client Logos → Features → Featured Products
+  // Hero → About → Client Logos → Features → Featured Products → Merek Produk
   return (
     <main>
       <HeroCarousel />
@@ -17,6 +18,9 @@ export default function Home() {
       <FeaturesSection />
       <Suspense>
         <FeaturedProductsSection />
+      </Suspense>
+      <Suspense>
+        <MerekProdukSection />
       </Suspense>
     </main>
   );
