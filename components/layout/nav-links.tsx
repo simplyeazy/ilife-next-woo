@@ -4,6 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { iLifeMenu } from "@/menu.config";
 import { cn } from "@/lib/utils";
+import { TentangKamiNavItem } from "@/components/custom/nav/tentang-kami-nav-item";
+
+// CUSTOM: "Tentang Kami" entry is replaced with a dropdown component
+const DROPDOWN_LABELS = new Set(["Tentang Kami"]);
 
 export function NavLinks() {
   const pathname = usePathname();
@@ -11,6 +15,9 @@ export function NavLinks() {
   return (
     <div className="hidden md:flex items-center">
       {iLifeMenu.map(({ label, href }) => {
+        if (DROPDOWN_LABELS.has(label)) {
+          return <TentangKamiNavItem key={href} />;
+        }
         const isActive =
           href === "/" ? pathname === "/" : pathname.startsWith(href);
         return (
