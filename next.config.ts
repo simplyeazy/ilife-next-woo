@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
             port: "",
             pathname: "/**",
           },
+          // Keep localhost:8080 for browser-side rendering (client components)
           {
             protocol: "http",
             hostname: "localhost",
@@ -29,27 +30,30 @@ const nextConfig: NextConfig = {
             hostname: wordpressHostname,
             port: "",
             pathname: "/**",
-          },
-          // CUSTOM: iLife original CDN assets (client logos, carousel images)
-          {
-            protocol: "https",
-            hostname: "d33wubrfki0l68.cloudfront.net",
-            port: "",
-            pathname: "/**",
-          },
+          }
         ],
   },
-  async redirects() {
-    if (!wordpressUrl) {
-      return [];
-    }
+  // CUSTOM: /produk is the public-facing URL; /shop is kept for upstream compat
+  async rewrites() {
     return [
-      {
+      { source: "/produk", destination: "/shop" },
+      { source: "/produk/:path*", destination: "/shop/:path*" },
+    ];
+  },
+  async redirects() {
+    const rules: { source: string; destination: string; permanent: boolean }[] = [
+      // CUSTOM: redirect legacy /shop URLs to /produk
+      { source: "/shop", destination: "/produk", permanent: true },
+      { source: "/shop/:path*", destination: "/produk/:path*", permanent: true },
+    ];
+    if (wordpressUrl) {
+      rules.push({
         source: "/admin",
         destination: `${wordpressUrl}/wp-admin`,
         permanent: true,
-      },
-    ];
+      });
+    }
+    return rules;
   },
 };
 

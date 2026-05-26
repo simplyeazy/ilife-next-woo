@@ -11,7 +11,7 @@ const FALLBACK_SLIDES: SlideData[] = [
     subtitle: "Tampilan jernih, warna vivid, cocok untuk ruang indoor Anda",
     imageUrl: `${CDN}/a1915043cbb7ec93ec9dec242ef3c2a17f72043a/d5da9/static/74ea5e8a60109fadc4895bcc75759676/c11dd/carousel-1.jpg`,
     ctaText: "Lihat Produk Indoor",
-    ctaUrl: "/shop",
+    ctaUrl: "/produk",
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ const FALLBACK_SLIDES: SlideData[] = [
     subtitle: "Tahan cuaca, cerah, dan bertenaga tinggi untuk kebutuhan outdoor",
     imageUrl: `${CDN}/f0c7d0548987212635905d45d3bc7a93cf4d27fd/aabc1/static/1d69e5c94079cb24163111d80ae0fe25/c11dd/carousel-2.jpg`,
     ctaText: "Lihat Produk Outdoor",
-    ctaUrl: "/shop",
+    ctaUrl: "/produk",
   },
   {
     id: 3,
