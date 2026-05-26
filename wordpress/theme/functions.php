@@ -6,6 +6,29 @@
  * Allows admin, login, REST API, and other WordPress internals.
  */
 
+// CUSTOM: Allow WooCommerce REST API consumer key auth over HTTP (local dev / Docker).
+// WooCommerce's perform_basic_authentication() only runs when is_ssl() === true.
+// We set $_SERVER['HTTPS'] = 'on' just before WooCommerce's determine_current_user
+// hook (priority 15) and restore it immediately after, so that URL generation
+// for images and permalinks is not affected (avoids https://localhost URLs in API output).
+add_filter('determine_current_user', function ($user_id) {
+    if (
+        !empty($_GET['consumer_key']) &&
+        !empty($_GET['consumer_secret']) &&
+        !empty($_SERVER['REQUEST_URI']) &&
+        str_contains($_SERVER['REQUEST_URI'], '/wp-json/wc/')
+    ) {
+        $_SERVER['HTTPS'] = 'on';
+    }
+    return $user_id;
+}, 10); // fires before WC (priority 15)
+
+add_filter('determine_current_user', function ($user_id) {
+    // Restore after WooCommerce auth has run
+    unset($_SERVER['HTTPS']);
+    return $user_id;
+}, 20);
+
 // Redirect frontend requests to Next.js
 add_action('template_redirect', function () {
     // Allow WordPress admin area
