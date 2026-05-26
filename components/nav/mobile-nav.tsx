@@ -19,8 +19,11 @@ import {
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 
-import { iLifeMenu } from "@/menu.config";
+import { iLifeMenu, tentangKamiSubMenu } from "@/menu.config";
 import { ILifeLogo } from "@/components/custom/ilife-logo";
+
+// Labels that should be replaced with their sub-items in mobile nav
+const DROPDOWN_LABELS = new Set(["Tentang Kami"]);
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false);
@@ -50,11 +53,34 @@ export function MobileNav() {
               Menu
             </h3>
             <Separator />
-            {iLifeMenu.map(({ label, href }) => (
-              <MobileLink key={href} href={href} onOpenChange={setOpen}>
-                {label}
-              </MobileLink>
-            ))}
+            {iLifeMenu.map(({ label, href }) => {
+              if (DROPDOWN_LABELS.has(label)) {
+                return (
+                  <div key={href}>
+                    <p className="text-lg font-medium text-gray-700 mb-1">
+                      {label}
+                    </p>
+                    <div className="flex flex-col space-y-1 pl-4 border-l border-gray-200">
+                      {tentangKamiSubMenu.map((sub) => (
+                        <MobileLink
+                          key={sub.href}
+                          href={sub.href}
+                          onOpenChange={setOpen}
+                          className="text-base text-gray-600"
+                        >
+                          {sub.label}
+                        </MobileLink>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+              return (
+                <MobileLink key={href} href={href} onOpenChange={setOpen}>
+                  {label}
+                </MobileLink>
+              );
+            })}
           </div>
         </ScrollArea>
       </SheetContent>

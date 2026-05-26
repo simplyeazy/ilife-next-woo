@@ -10,8 +10,8 @@ const tautan = [
 ];
 
 const layanan = [
-  { label: "Videotron", href: "/shop" },
-  { label: "Running Text", href: "/shop" },
+  { label: "Videotron", href: "/produk" },
+  { label: "Running Text", href: "/produk" },
   { label: "Penyewaan", href: "/penyewaan" },
 ];
 

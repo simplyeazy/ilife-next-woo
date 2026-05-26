@@ -104,6 +104,20 @@ export async function POST(request: NextRequest) {
           revalidateTag(`product-${contentId}`, { expire: 0 });
         }
       }
+      // CUSTOM: iLife CPT types
+      else if (contentType === "produk") {
+        revalidateTag("produk", { expire: 0 });
+        revalidatePath("/produk");
+      } else if (contentType === "slides") {
+        revalidateTag("slides", { expire: 0 });
+        revalidatePath("/");
+      } else if (contentType === "clients") {
+        revalidateTag("clients", { expire: 0 });
+        revalidatePath("/");
+      } else if (contentType === "merek_produk") {
+        revalidateTag("merek", { expire: 0 });
+        revalidatePath("/");
+      }
 
       // Also revalidate the entire layout for safety
       revalidatePath("/", "layout");
