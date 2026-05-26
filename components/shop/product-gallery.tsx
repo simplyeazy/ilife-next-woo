@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 import type { ProductImage } from "@/lib/woocommerce.d";
-import { cn } from "@/lib/utils";
+import { cn, wcImagesUnoptimized } from "@/lib/utils"; // CUSTOM: wcImagesUnoptimized bypasses SSRF in dev
 
 interface ProductGalleryProps {
   images: ProductImage[];
@@ -35,6 +35,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 50vw"
           priority
+          unoptimized={wcImagesUnoptimized}
         />
       </div>
 
@@ -43,7 +44,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
         <div className="flex gap-2 overflow-x-auto pb-2">
           {images.map((image, index) => (
             <button
-              key={image.id}
+              key={`${image.id}-${index}`}
               onClick={() => setSelectedIndex(index)}
               className={cn(
                 "relative w-20 h-20 flex-shrink-0 rounded-md overflow-hidden border-2 transition-all",
@@ -58,6 +59,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
                 fill
                 className="object-cover"
                 sizes="80px"
+                unoptimized={wcImagesUnoptimized}
               />
             </button>
           ))}

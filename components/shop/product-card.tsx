@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import type { Product } from "@/lib/woocommerce.d";
-import { cn } from "@/lib/utils";
+import { cn, wcImagesUnoptimized } from "@/lib/utils"; // CUSTOM: wcImagesUnoptimized bypasses SSRF in dev
 import { formatPrice, calculateDiscountPercentage, isProductInStock } from "@/lib/woocommerce";
 import { Badge } from "@/components/ui/badge";
 
@@ -36,6 +36,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
             className="object-cover transition-transform group-hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             priority={priority}
+            unoptimized={wcImagesUnoptimized}
           />
         ) : (
           <div className="flex items-center justify-center w-full h-full text-muted-foreground">
