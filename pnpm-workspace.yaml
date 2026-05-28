@@ -1,0 +1,5 @@
+# pnpm v10.26+ / v11: allow build scripts for required native modules
+# Replaces the deprecated "onlyBuiltDependencies" setting
+allowBuilds:
+  sharp: true
+  unrs-resolver: true
