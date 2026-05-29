@@ -32,10 +32,10 @@ export function Footer() {
             <p>Indonesia</p>
           </div>
           <div className="text-sm text-gray-700 flex flex-col gap-1 mt-1">
-            <p><span className="font-semibold">Kantor:</span>{" "}<a href="tel:+622965301042" className="text-[#1565C0] hover:underline">+62296-5301042</a></p>
-            <p><span className="font-semibold">WhatsApp:</span>{" "}<a href="https://wa.me/6289506017899" className="text-[#1565C0] hover:underline">+62895-06017899</a></p>
-            <p><span className="font-semibold">Telepon:</span>{" "}<a href="tel:+628121556762" className="text-[#1565C0] hover:underline">+62812–15567626</a></p>
-            <p><span className="font-semibold">Email:</span>{" "}<a href="mailto:info@ilife.id" className="text-[#1565C0] hover:underline">info@ilife.id</a></p>
+            <p><span className="font-semibold">Kantor:</span>{" "}<a href={`tel:${process.env.NEXT_PUBLIC_PHONE_OFFICE}`} className="text-[#1565C0] hover:underline">{process.env.NEXT_PUBLIC_PHONE_OFFICE}</a></p>
+            <p><span className="font-semibold">WhatsApp:</span>{" "}<a href={`https://wa.me/${process.env.NEXT_PUBLIC_WA_NUMBER?.replace(/\D/g, '')}`} className="text-[#1565C0] hover:underline">{process.env.NEXT_PUBLIC_WA_NUMBER}</a></p>
+            <p><span className="font-semibold">Telepon:</span>{" "}<a href={`tel:${process.env.NEXT_PUBLIC_PHONE_MOBILE}`} className="text-[#1565C0] hover:underline">{process.env.NEXT_PUBLIC_PHONE_MOBILE}</a></p>
+            <p><span className="font-semibold">Email:</span>{" "}<a href={`mailto:${process.env.NEXT_PUBLIC_EMAIL}`} className="text-[#1565C0] hover:underline">{process.env.NEXT_PUBLIC_EMAIL}</a></p>
           </div>
         </div>
 
@@ -58,14 +58,15 @@ export function Footer() {
             </Link>
           ))}
         </div>
-
+        
+        {/* TODO */}
         {/* Bergabung buletin */}
-        <div className="flex flex-col gap-2">
+        {/* <div className="flex flex-col gap-2">
           <h5 className="font-semibold text-[#1565C0] text-base mb-1">Bergabung buletin kami</h5>
           <p className="text-sm text-gray-600 leading-relaxed">
             Mari berlangganan buletin promosi kami dengan menghubungi kami untuk mendapatkan tawaran terbaik
           </p>
-        </div>
+        </div> */}
       </div>
 
       {/* Copyright bar */}
