@@ -55,6 +55,7 @@ services:
       - path: .env.local
         required: false
     environment:
+      CI: "true"
       # Internal: Next.js server-side fetches go directly to the wordpress container
       WORDPRESS_URL: "http://wordpress"
       WORDPRESS_HOSTNAME: "wordpress"
