@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ShoppingCart, X, Plus, Minus, Trash2 } from "lucide-react";
 
 import { useCart } from "./cart-provider";
-import { formatPrice } from "@/lib/woocommerce";
+import { formatPrice } from "@/lib/woocommerce-utils";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,

@@ -1,4 +1,4 @@
-import { formatPrice, calculateDiscountPercentage } from "@/lib/woocommerce";
+import { formatPrice, calculateDiscountPercentage } from "@/lib/woocommerce-utils";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import type { Product } from "@/lib/woocommerce.d";
 import { cn, wcImagesUnoptimized } from "@/lib/utils"; // CUSTOM: wcImagesUnoptimized bypasses SSRF in dev
-import { formatPrice, calculateDiscountPercentage, isProductInStock } from "@/lib/woocommerce";
+import { formatPrice, calculateDiscountPercentage, isProductInStock } from "@/lib/woocommerce-utils";
 import { Badge } from "@/components/ui/badge";
 
 interface ProductCardProps {
