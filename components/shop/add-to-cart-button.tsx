@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ShoppingCart, Plus, Minus, Loader2 } from "lucide-react";
 
 import type { Product, ProductVariation } from "@/lib/woocommerce.d";
-import { isProductInStock } from "@/lib/woocommerce";
+import { isProductInStock } from "@/lib/woocommerce-utils";
 import { useCart } from "@/components/shop/cart-provider";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
