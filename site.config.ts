@@ -8,6 +8,7 @@ type SiteConfig = {
   instagram?: string;
   facebook?: string;
   tiktok?: string;
+  shopee?: string;
 };
 
 export const siteConfig: SiteConfig = {
@@ -21,4 +22,5 @@ export const siteConfig: SiteConfig = {
   instagram: process.env.NEXT_PUBLIC_INSTAGRAM ?? "",
   facebook: process.env.NEXT_PUBLIC_FACEBOOK ?? "",
   tiktok: process.env.NEXT_PUBLIC_TIKTOK ?? "",
+  shopee: process.env.NEXT_PUBLIC_SHOPEE ?? "",
 };
