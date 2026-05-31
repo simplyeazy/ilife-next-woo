@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,20 +13,25 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { AddressSelector, EMPTY_WILAYAH, type WilayahAddress } from "@/components/shop/address-selector";
+
+interface ShippingRate {
+  method_id: string;
+  method_title: string;
+  total: string;
+}
 
 interface CheckoutFormData {
   email: string;
   firstName: string;
   lastName: string;
   company: string;
+  /** Street address line typed by user (jalan, nomor rumah, RT/RW) */
   address1: string;
-  address2: string;
-  city: string;
-  state: string;
-  postcode: string;
-  country: string;
   phone: string;
   notes: string;
+  /** Cascading Indonesian region selector */
+  wilayah: WilayahAddress;
 }
 
 export default function CheckoutPage() {
@@ -34,6 +39,9 @@ export default function CheckoutPage() {
   const { cart, isLoading, clearCart } = useCart();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [shippingRates, setShippingRates] = useState<ShippingRate[]>([]);
+  const [selectedShipping, setSelectedShipping] = useState<ShippingRate | null>(null);
+  const [loadingRates, setLoadingRates] = useState(false);
 
   const [formData, setFormData] = useState<CheckoutFormData>({
     email: "",
@@ -41,14 +49,46 @@ export default function CheckoutPage() {
     lastName: "",
     company: "",
     address1: "",
-    address2: "",
-    city: "",
-    state: "",
-    postcode: "",
-    country: "US",
     phone: "",
     notes: "",
+    wilayah: EMPTY_WILAYAH,
   });
+
+  // Fetch JNE shipping rates whenever a complete address is provided
+  const fetchShippingRates = useCallback(async (wilayah: WilayahAddress) => {
+    if (!wilayah.cityName || !wilayah.postcode) return;
+
+    setLoadingRates(true);
+    setShippingRates([]);
+    setSelectedShipping(null);
+
+    try {
+      const res = await fetch("/api/shipping-rates", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          destination: {
+            city: wilayah.cityName,
+            state: wilayah.provinceName,
+            postcode: wilayah.postcode,
+            country: "ID",
+          },
+          items: cart.items.map((i) => ({
+            product_id: i.productId,
+            variation_id: i.variationId,
+            quantity: i.quantity,
+          })),
+        }),
+      });
+      if (res.ok) {
+        const data = (await res.json()) as { rates: ShippingRate[] };
+        setShippingRates(data.rates ?? []);
+        if (data.rates?.length === 1) setSelectedShipping(data.rates[0]);
+      }
+    } finally {
+      setLoadingRates(false);
+    }
+  }, [cart.items]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -72,11 +112,13 @@ export default function CheckoutPage() {
             last_name: formData.lastName,
             company: formData.company,
             address_1: formData.address1,
-            address_2: formData.address2,
-            city: formData.city,
-            state: formData.state,
-            postcode: formData.postcode,
-            country: formData.country,
+            // district + village appended so JNE plugin sees complete sub-district info
+            address_2: [formData.wilayah.districtName, formData.wilayah.villageName]
+              .filter(Boolean).join(", "),
+            city: formData.wilayah.cityName,
+            state: formData.wilayah.provinceName,
+            postcode: formData.wilayah.postcode,
+            country: "ID",
             email: formData.email,
             phone: formData.phone,
           },
@@ -85,17 +127,22 @@ export default function CheckoutPage() {
             last_name: formData.lastName,
             company: formData.company,
             address_1: formData.address1,
-            address_2: formData.address2,
-            city: formData.city,
-            state: formData.state,
-            postcode: formData.postcode,
-            country: formData.country,
+            address_2: [formData.wilayah.districtName, formData.wilayah.villageName]
+              .filter(Boolean).join(", "),
+            city: formData.wilayah.cityName,
+            state: formData.wilayah.provinceName,
+            postcode: formData.wilayah.postcode,
+            country: "ID",
           },
           line_items: cart.items.map((item) => ({
             product_id: item.productId,
             variation_id: item.variationId,
             quantity: item.quantity,
           })),
+          // Include selected JNE shipping rate so order total is correct
+          shipping_lines: selectedShipping
+            ? [{ method_id: selectedShipping.method_id, method_title: selectedShipping.method_title, total: selectedShipping.total }]
+            : [],
           customer_note: formData.notes,
         }),
       });
@@ -246,69 +293,76 @@ export default function CheckoutPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="address1">Street Address *</Label>
+                    <Label htmlFor="address1">Alamat Jalan *</Label>
                     <Input
                       id="address1"
                       name="address1"
                       required
-                      placeholder="House number and street name"
+                      placeholder="Nama jalan, nomor rumah, RT/RW"
                       value={formData.address1}
                       onChange={handleInputChange}
                     />
-                    <Input
-                      id="address2"
-                      name="address2"
-                      placeholder="Apartment, suite, unit, etc. (optional)"
-                      value={formData.address2}
-                      onChange={handleInputChange}
-                    />
                   </div>
 
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="city">City *</Label>
-                      <Input
-                        id="city"
-                        name="city"
-                        required
-                        value={formData.city}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="state">State / Province *</Label>
-                      <Input
-                        id="state"
-                        name="state"
-                        required
-                        value={formData.state}
-                        onChange={handleInputChange}
-                      />
-                    </div>
-                  </div>
+                  <AddressSelector
+                    value={formData.wilayah}
+                    onChange={(wilayah) => {
+                      setFormData((prev) => ({ ...prev, wilayah }));
+                      // Fetch JNE rates once we have city + postcode
+                      if (wilayah.cityName && wilayah.postcode) {
+                        fetchShippingRates(wilayah);
+                      }
+                    }}
+                    required
+                  />
+                </div>
 
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="postcode">ZIP / Postal Code *</Label>
-                      <Input
-                        id="postcode"
-                        name="postcode"
-                        required
-                        value={formData.postcode}
-                        onChange={handleInputChange}
-                      />
+                {/* ── Shipping method ─────────────────────────────── */}
+                <div className="border rounded-lg p-6 space-y-4">
+                  <h2 className="text-xl font-bold">Metode Pengiriman</h2>
+
+                  {!formData.wilayah.cityName && (
+                    <p className="text-sm text-muted-foreground">Pilih alamat terlebih dahulu untuk melihat opsi pengiriman.</p>
+                  )}
+
+                  {loadingRates && (
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Memuat ongkos kirim…
                     </div>
+                  )}
+
+                  {!loadingRates && shippingRates.length > 0 && (
                     <div className="space-y-2">
-                      <Label htmlFor="country">Country *</Label>
-                      <Input
-                        id="country"
-                        name="country"
-                        required
-                        value={formData.country}
-                        onChange={handleInputChange}
-                      />
+                      {shippingRates.map((rate) => (
+                        <label
+                          key={rate.method_id}
+                          className={`flex items-center justify-between p-3 border rounded-lg cursor-pointer transition-colors ${
+                            selectedShipping?.method_id === rate.method_id
+                              ? "border-primary bg-primary/5"
+                              : "hover:bg-muted/50"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <input
+                              type="radio"
+                              name="shipping_method"
+                              value={rate.method_id}
+                              checked={selectedShipping?.method_id === rate.method_id}
+                              onChange={() => setSelectedShipping(rate)}
+                              className="accent-primary"
+                            />
+                            <span className="text-sm font-medium">{rate.method_title}</span>
+                          </div>
+                          <span className="text-sm font-semibold">{formatPrice(rate.total)}</span>
+                        </label>
+                      ))}
                     </div>
-                  </div>
+                  )}
+
+                  {!loadingRates && formData.wilayah.cityName && shippingRates.length === 0 && (
+                    <p className="text-sm text-destructive">Tidak ada layanan pengiriman tersedia untuk alamat ini.</p>
+                  )}
                 </div>
 
                 <div className="border rounded-lg p-6 space-y-4">
@@ -375,8 +429,14 @@ export default function CheckoutPage() {
                       <span>{formatPrice(cart.totals.subtotal)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Shipping</span>
-                      <span>Calculated at next step</span>
+                      <span className="text-muted-foreground">Ongkos Kirim</span>
+                      <span>
+                        {selectedShipping
+                          ? formatPrice(selectedShipping.total)
+                          : loadingRates
+                          ? "Memuat…"
+                          : "—"}
+                      </span>
                     </div>
                   </div>
 
@@ -391,7 +451,7 @@ export default function CheckoutPage() {
                     type="submit"
                     className="w-full"
                     size="lg"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || loadingRates || (shippingRates.length > 0 && !selectedShipping)}
                   >
                     {isSubmitting ? (
                       <>
