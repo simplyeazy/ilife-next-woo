@@ -1,7 +1,9 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import Image from "next/image";
 import type { ClientData } from "@/lib/custom/clients";
+import { wcImagesUnoptimized } from "@/lib/utils";
 
 interface Props {
   clients: ClientData[];
@@ -45,12 +47,13 @@ export function BrandsScrollClient({ clients, autoScroll }: Props) {
       >
         {items.map((client, i) => {
           const inner = client.logoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={client.logoUrl}
               alt={client.name}
               width={120}
               height={80}
+              sizes="120px"
+              unoptimized={wcImagesUnoptimized}
               className="object-contain grayscale hover:grayscale-0 transition-all duration-300 max-h-[80px] w-auto"
             />
           ) : (
