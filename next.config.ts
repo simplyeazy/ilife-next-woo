@@ -30,7 +30,7 @@ const nextConfig: NextConfig = {
             hostname: wordpressHostname,
             port: "",
             pathname: "/**",
-          }
+          },
         ],
   },
   // CUSTOM: /produk is the public-facing URL; /shop is kept for upstream compat
