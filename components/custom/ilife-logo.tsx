@@ -1,10 +1,29 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface ILifeLogoProps {
   className?: string;
+  /** If provided, renders the WordPress-managed logo image instead of the SVG fallback. */
+  src?: string;
+  alt?: string;
 }
 
-export function ILifeLogo({ className }: ILifeLogoProps) {
+export function ILifeLogo({ className, src, alt }: ILifeLogoProps) {
+  if (src) {
+    return (
+      <div className={cn("flex items-center select-none", className)}>
+        <Image
+          src={src}
+          alt={alt ?? "Logo"}
+          height={40}
+          width={160}
+          className="h-10 w-auto object-contain"
+          priority
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={cn("flex items-center select-none", className)}>
       <svg

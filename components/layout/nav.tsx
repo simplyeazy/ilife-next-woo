@@ -5,6 +5,7 @@ import { CartDrawer } from "@/components/shop";
 import { cn } from "@/lib/utils";
 import { ILifeLogo } from "@/components/custom/ilife-logo";
 import { NavLinks } from "@/components/layout/nav-links";
+import { getLogo } from "@/lib/custom/logo";
 
 interface NavProps {
   className?: string;
@@ -12,7 +13,9 @@ interface NavProps {
   id?: string;
 }
 
-export function Nav({ className, children, id }: NavProps) {
+export async function Nav({ className, children, id }: NavProps) {
+  const logo = await getLogo();
+
   return (
     <nav
       className={cn(
@@ -30,13 +33,13 @@ export function Nav({ className, children, id }: NavProps) {
           className="hover:opacity-80 transition-opacity"
           aria-label="iLife beranda"
         >
-          <ILifeLogo />
+          <ILifeLogo src={logo?.src} alt={logo?.alt} />
         </Link>
         {children}
         <div className="flex items-center gap-1">
           <NavLinks />
           <CartDrawer />
-          <MobileNav />
+          <MobileNav logoSrc={logo?.src} logoAlt={logo?.alt} />
         </div>
       </div>
     </nav>
