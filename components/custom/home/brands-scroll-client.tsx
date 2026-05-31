@@ -53,6 +53,7 @@ export function BrandsScrollClient({ clients, autoScroll }: Props) {
               width={120}
               height={80}
               sizes="120px"
+              quality={60}
               unoptimized={wcImagesUnoptimized}
               className="object-contain grayscale hover:grayscale-0 transition-all duration-300 max-h-[80px] w-auto"
             />
