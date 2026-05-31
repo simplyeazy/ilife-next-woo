@@ -3,7 +3,9 @@
  * Plugin Name: iLife Logo
  * Description: Registers the 'logo' CPT so the site logo can be managed from WordPress. Upload a featured image to the active Logo post and it will replace the default SVG logo on the front-end.
  * Version: 1.0.0
- * Author: lundy.dev
+ * Author: <a href="https://lundy.dev">lundy.dev</a>
+ * Author URI: https://lundy.dev
+ * Plugin URI: https://lundy.dev
  */
 if (!defined('ABSPATH')) exit;
 

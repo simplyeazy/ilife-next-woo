@@ -3,6 +3,8 @@
  * Plugin Name: iLife Clients
  * Description: Registers the 'clients' CPT for the clients section
  * Version: 1.0.0
+ * Author: <a href="https://lundy.dev">lundy.dev</a>
+ * Author URI: https://lundy.dev
  */
 if (!defined('ABSPATH')) exit;
 

@@ -1,11 +1,10 @@
 <?php
 /**
- * Plugin Name: Wilayah Indonesia
+ * Plugin Name: iLife Wilayah Indonesia
  * Description: Stores Indonesian administrative regions (provinces, cities, districts, villages) and exposes them via REST API.
  * Version: 1.0.0
  * Author: <a href="https://lundy.dev">lundy.dev</a>
  * Author URI: https://lundy.dev
- * Plugin URI: https://lundy.dev
  */
 
 if (!defined('ABSPATH')) exit;
