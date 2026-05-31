@@ -25,7 +25,12 @@ import { ILifeLogo } from "@/components/custom/ilife-logo";
 // Labels that should be replaced with their sub-items in mobile nav
 const DROPDOWN_LABELS = new Set(["Tentang Kami"]);
 
-export function MobileNav() {
+interface MobileNavProps {
+  logoSrc?: string;
+  logoAlt?: string;
+}
+
+export function MobileNav({ logoSrc, logoAlt }: MobileNavProps = {}) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -43,7 +48,7 @@ export function MobileNav() {
         <SheetHeader>
           <SheetTitle className="text-left">
             <MobileLink href="/" onOpenChange={setOpen}>
-              <ILifeLogo />
+              <ILifeLogo src={logoSrc} alt={logoAlt} />
             </MobileLink>
           </SheetTitle>
         </SheetHeader>

@@ -1,6 +1,7 @@
 // CUSTOM: redesigned footer to match iLife branding
 import Link from "next/link";
 import { ILifeLogo } from "@/components/custom/ilife-logo";
+import { getLogo } from "@/lib/custom/logo";
 
 const tautan = [
   { label: "Beranda", href: "/" },
@@ -15,7 +16,9 @@ const layanan = [
   { label: "Penyewaan", href: "/penyewaan" },
 ];
 
-export function Footer() {
+export async function Footer() {
+  const logo = await getLogo();
+
   return (
     <footer className="bg-white border-t border-gray-200">
       {/* Main footer columns */}
@@ -23,7 +26,7 @@ export function Footer() {
         {/* Company info */}
         <div className="flex flex-col gap-3">
           <Link href="/" className="mb-1">
-            <ILifeLogo className="text-2xl" />
+            <ILifeLogo className="text-2xl" src={logo?.src} alt={logo?.alt} />
           </Link>
           <div className="text-sm text-gray-600 leading-relaxed">
             <p className="font-semibold text-gray-800">CV. Anugerah Terang Dunia</p>
