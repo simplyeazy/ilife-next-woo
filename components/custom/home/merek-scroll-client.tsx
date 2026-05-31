@@ -1,7 +1,9 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import Image from "next/image";
 import type { MerekItem } from "@/lib/custom/merek";
+import { wcImagesUnoptimized } from "@/lib/utils";
 
 interface Props {
   brands: MerekItem[];
@@ -47,12 +49,13 @@ export function MerekScrollClient({ brands, autoScroll }: Props) {
           const isExternal = !brand.wcBrandSlug && !!brand.brandUrl;
 
           const logo = brand.logoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={brand.logoUrl}
               alt={brand.name}
-              width={120}
+              width={200}
               height={64}
+              sizes="200px"
+              unoptimized={wcImagesUnoptimized}
               className="object-contain grayscale hover:grayscale-0 transition-all duration-300 max-h-[64px] w-auto"
             />
           ) : (
