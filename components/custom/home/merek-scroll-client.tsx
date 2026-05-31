@@ -55,6 +55,7 @@ export function MerekScrollClient({ brands, autoScroll }: Props) {
               width={200}
               height={64}
               sizes="200px"
+              quality={60}
               unoptimized={wcImagesUnoptimized}
               className="object-contain grayscale hover:grayscale-0 transition-all duration-300 max-h-[64px] w-auto"
             />
