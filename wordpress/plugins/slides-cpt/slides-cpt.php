@@ -3,6 +3,8 @@
  * Plugin Name: iLife Hero Slides
  * Description: Registers the 'slides' CPT for the hero carousel
  * Version: 1.0.0
+ * Author: <a href="https://lundy.dev">lundy.dev</a>
+ * Author URI: https://lundy.dev
  */
 if (!defined('ABSPATH')) exit;
 

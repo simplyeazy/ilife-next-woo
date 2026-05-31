@@ -3,6 +3,8 @@
  * Plugin Name: Merek Produk CPT
  * Description: Curated brand showcase. Each entry maps a brand logo to a WooCommerce brand slug and/or manufacturer website.
  * Version: 1.0.0
+ * Author: <a href="https://lundy.dev">lundy.dev</a>
+ * Author URI: https://lundy.dev
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
