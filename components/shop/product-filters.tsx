@@ -83,7 +83,7 @@ export function ProductFilters({
         <Input
           id="search"
           type="search"
-          placeholder="Search products..."
+          placeholder="Cari produk..."
           defaultValue={currentSearch}
           onChange={(e) => {
             const value = e.target.value;
@@ -99,7 +99,7 @@ export function ProductFilters({
       {/* Category */}
       {categories.length > 0 && (
         <div className="space-y-2">
-          <Label>Category</Label>
+          <Label>Kategori</Label>
           <Select
             value={currentCategory || "all"}
             onValueChange={(value) =>
@@ -107,10 +107,10 @@ export function ProductFilters({
             }
           >
             <SelectTrigger>
-              <SelectValue placeholder="All categories" />
+              <SelectValue placeholder="Semua kategori" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All categories</SelectItem>
+              <SelectItem value="all">Semua kategori</SelectItem>
               {categories.map((category) => (
                 <SelectItem key={category.id} value={category.slug}>
                   {category.name} ({category.count})
@@ -132,10 +132,10 @@ export function ProductFilters({
             }
           >
             <SelectTrigger>
-              <SelectValue placeholder="All tags" />
+              <SelectValue placeholder="Semua tag" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All tags</SelectItem>
+              <SelectItem value="all">Semua tag</SelectItem>
               {tags.map((tag) => (
                 <SelectItem key={tag.id} value={tag.slug}>
                   {tag.name} ({tag.count})
@@ -148,7 +148,7 @@ export function ProductFilters({
 
       {/* Sort */}
       <div className="space-y-2">
-        <Label>Sort by</Label>
+        <Label>Urutkan berdasarkan</Label>
         <Select
           value={currentSort || "default"}
           onValueChange={(value) =>
@@ -156,22 +156,22 @@ export function ProductFilters({
           }
         >
           <SelectTrigger>
-            <SelectValue placeholder="Default sorting" />
+            <SelectValue placeholder="Urutan default" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="default">Default sorting</SelectItem>
-            <SelectItem value="popularity">Popularity</SelectItem>
-            <SelectItem value="rating">Average rating</SelectItem>
-            <SelectItem value="date">Latest</SelectItem>
-            <SelectItem value="price">Price: Low to High</SelectItem>
-            <SelectItem value="price-desc">Price: High to Low</SelectItem>
+            <SelectItem value="default">Urutan default</SelectItem>
+            <SelectItem value="popularity">Popularitas</SelectItem>
+            <SelectItem value="rating">Rating rata-rata</SelectItem>
+            <SelectItem value="date">Terbaru</SelectItem>
+            <SelectItem value="price">Harga: Rendah ke Tinggi</SelectItem>
+            <SelectItem value="price-desc">Harga: Tinggi ke Rendah</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       {/* Price Range */}
       <div className="space-y-2">
-        <Label>Price Range</Label>
+        <Label>Rentang Harga</Label>
         <div className="flex gap-2">
           <Input
             type="number"
@@ -200,13 +200,13 @@ export function ProductFilters({
           className="w-full"
           disabled={isPending}
         >
-          Clear Filters
+          Hapus Filter
         </Button>
       )}
 
       {isPending && (
         <div className="text-sm text-muted-foreground text-center">
-          Loading...
+          Memuat...
         </div>
       )}
     </div>
