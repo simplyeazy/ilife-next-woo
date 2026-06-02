@@ -42,7 +42,7 @@ export function CartDrawer() {
               {itemCount > 99 ? "99+" : itemCount}
             </span>
           )}
-          <span className="sr-only">Open cart</span>
+          <span className="sr-only">Buka keranjang</span>
         </Button>
       </SheetTrigger>
 
@@ -50,7 +50,7 @@ export function CartDrawer() {
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
             <ShoppingCart className="h-5 w-5" />
-            Your Cart ({itemCount})
+            Keranjang Anda ({itemCount})
           </SheetTitle>
         </SheetHeader>
 
@@ -61,10 +61,10 @@ export function CartDrawer() {
         ) : cart.items.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-4">
             <ShoppingCart className="h-16 w-16 text-muted-foreground/50" />
-            <p className="text-muted-foreground">Your cart is empty</p>
+            <p className="text-muted-foreground">Keranjang Anda kosong</p>
             <SheetClose asChild>
               <Button asChild>
-                <Link href="/shop">Continue Shopping</Link>
+                <Link href="/shop">Lanjutkan belanja</Link>
               </Button>
             </SheetClose>
           </div>
@@ -89,7 +89,7 @@ export function CartDrawer() {
                         />
                       ) : (
                         <div className="flex items-center justify-center w-full h-full text-muted-foreground text-xs">
-                          No image
+                          Tidak ada gambar
                         </div>
                       )}
                     </div>
@@ -202,12 +202,12 @@ export function CartDrawer() {
               <div className="space-y-2">
                 <SheetClose asChild>
                   <Button asChild className="w-full" size="lg">
-                    <Link href="/checkout">Proceed to Checkout</Link>
+                    <Link href="/checkout">Lanjutkan ke Checkout</Link>
                   </Button>
                 </SheetClose>
                 <SheetClose asChild>
                   <Button variant="outline" asChild className="w-full">
-                    <Link href="/cart">View Cart</Link>
+                    <Link href="/cart">Lihat keranjang</Link>
                   </Button>
                 </SheetClose>
               </div>

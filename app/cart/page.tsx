@@ -25,7 +25,7 @@ export default function CartPage() {
         <Container>
           <div className="flex items-center justify-center py-12">
             <div className="animate-pulse text-muted-foreground">
-              Loading cart...
+              Memuat keranjang...
             </div>
           </div>
         </Container>
@@ -40,15 +40,15 @@ export default function CartPage() {
           <div className="flex flex-col items-center justify-center py-12 space-y-6">
             <ShoppingCart className="h-24 w-24 text-muted-foreground/30" />
             <div className="text-center space-y-2">
-              <h1 className="text-2xl font-bold">Your cart is empty</h1>
+              <h1 className="text-2xl font-bold">keranjang anda kosong</h1>
               <p className="text-muted-foreground">
-                Looks like you haven&apos;t added anything to your cart yet.
+                Anda belum menambahkan apa pun ke keranjang Anda.
               </p>
             </div>
             <Button asChild size="lg">
               <Link href="/shop">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Continue Shopping
+                Lanjutkan belanja
               </Link>
             </Button>
           </div>
@@ -62,9 +62,9 @@ export default function CartPage() {
       <Container>
         <div className="space-y-8">
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold">Shopping Cart</h1>
+            <h1 className="text-3xl font-bold">Keranjang belanja</h1>
             <Button variant="ghost" onClick={clearCart}>
-              Clear Cart
+              Kosongkan Keranjang
             </Button>
           </div>
 
@@ -88,7 +88,7 @@ export default function CartPage() {
                       />
                     ) : (
                       <div className="flex items-center justify-center w-full h-full text-muted-foreground text-xs">
-                        No image
+                        Tidak ada gambar
                       </div>
                     )}
                   </div>
@@ -150,7 +150,7 @@ export default function CartPage() {
                         }
                       >
                         <Trash2 className="h-4 w-4 mr-1" />
-                        Remove
+                        Hapus
                       </Button>
                     </div>
                   </div>
@@ -170,7 +170,7 @@ export default function CartPage() {
             {/* Order Summary */}
             <div className="lg:col-span-1">
               <div className="border rounded-lg p-6 space-y-4 sticky top-4">
-                <h2 className="text-xl font-bold">Order Summary</h2>
+                <h2 className="text-xl font-bold">Ringkasan Pesanan</h2>
 
                 <div className="space-y-2">
                   <div className="flex justify-between">
@@ -182,14 +182,14 @@ export default function CartPage() {
 
                   {parseFloat(cart.totals.shipping) > 0 && (
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Shipping</span>
+                      <span className="text-muted-foreground">Ongkos Kirim</span>
                       <span>{formatPrice(cart.totals.shipping)}</span>
                     </div>
                   )}
 
                   {parseFloat(cart.totals.tax) > 0 && (
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Tax</span>
+                      <span className="text-muted-foreground">Pajak</span>
                       <span>{formatPrice(cart.totals.tax)}</span>
                     </div>
                   )}
@@ -203,13 +203,13 @@ export default function CartPage() {
                 </div>
 
                 <Button asChild className="w-full" size="lg">
-                  <Link href="/checkout">Proceed to Checkout</Link>
+                  <Link href="/checkout">Lanjutkan ke Checkout</Link>
                 </Button>
 
                 <Button variant="outline" asChild className="w-full">
                   <Link href="/shop">
                     <ArrowLeft className="mr-2 h-4 w-4" />
-                    Continue Shopping
+                    Lanjutkan belanja
                   </Link>
                 </Button>
               </div>

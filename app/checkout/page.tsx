@@ -192,15 +192,15 @@ export default function CheckoutPage() {
         <Container>
           <div className="flex flex-col items-center justify-center py-12 space-y-6">
             <div className="text-center space-y-2">
-              <h1 className="text-2xl font-bold">Your cart is empty</h1>
+              <h1 className="text-2xl font-bold">keranjang anda kosong</h1>
               <p className="text-muted-foreground">
-                Add some items to your cart before checking out.
+                Anda belum menambahkan apa pun ke keranjang Anda.
               </p>
             </div>
             <Button asChild>
               <Link href="/shop">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Continue Shopping
+                Lanjutkan belanja
               </Link>
             </Button>
           </div>
@@ -233,11 +233,11 @@ export default function CheckoutPage() {
               {/* Billing Details */}
               <div className="lg:col-span-2 space-y-6">
                 <div className="border rounded-lg p-6 space-y-4">
-                  <h2 className="text-xl font-bold">Billing Details</h2>
+                  <h2 className="text-xl font-bold">Detail Penagihan</h2>
 
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="firstName">First Name *</Label>
+                      <Label htmlFor="firstName">Nama Depan *</Label>
                       <Input
                         id="firstName"
                         name="firstName"
@@ -247,7 +247,7 @@ export default function CheckoutPage() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="lastName">Last Name *</Label>
+                      <Label htmlFor="lastName">Nama Belakang *</Label>
                       <Input
                         id="lastName"
                         name="lastName"
@@ -259,7 +259,7 @@ export default function CheckoutPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="company">Company (optional)</Label>
+                    <Label htmlFor="company">Perusahaan (opsional)</Label>
                     <Input
                       id="company"
                       name="company"
@@ -281,7 +281,7 @@ export default function CheckoutPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone *</Label>
+                    <Label htmlFor="phone">Telepon *</Label>
                     <Input
                       id="phone"
                       name="phone"
@@ -366,12 +366,12 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="border rounded-lg p-6 space-y-4">
-                  <h2 className="text-xl font-bold">Order Notes (optional)</h2>
+                  <h2 className="text-xl font-bold">Catatan Pesanan (opsional)</h2>
                   <textarea
                     name="notes"
                     rows={4}
                     className="w-full px-3 py-2 border rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Notes about your order, e.g. special notes for delivery"
+                    placeholder="Catatan tentang pesanan Anda, misalnya catatan khusus untuk pengiriman"
                     value={formData.notes}
                     onChange={handleInputChange}
                   />
@@ -381,7 +381,7 @@ export default function CheckoutPage() {
               {/* Order Summary */}
               <div className="lg:col-span-1">
                 <div className="border rounded-lg p-6 space-y-4 sticky top-4">
-                  <h2 className="text-xl font-bold">Your Order</h2>
+                  <h2 className="text-xl font-bold">Ringkasan Pesanan</h2>
 
                   <div className="space-y-3">
                     {cart.items.map((item) => (
@@ -400,7 +400,7 @@ export default function CheckoutPage() {
                             />
                           ) : (
                             <div className="flex items-center justify-center w-full h-full text-muted-foreground text-xs">
-                              No image
+                              Tidak ada gambar
                             </div>
                           )}
                         </div>
@@ -456,16 +456,16 @@ export default function CheckoutPage() {
                     {isSubmitting ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Processing...
+                        Memproses...
                       </>
                     ) : (
-                      "Proceed to Payment"
+                      "Lanjutkan ke Pembayaran"
                     )}
                   </Button>
 
                   <p className="text-xs text-center text-muted-foreground">
-                    By placing your order, you agree to our Terms of Service and
-                    Privacy Policy.
+                    Dengan melakukan pemesanan, Anda menyetujui Ketentuan Layanan dan
+                    Kebijakan Privasi.
                   </p>
                 </div>
               </div>

@@ -39,27 +39,26 @@ function SuccessContent() {
       </div>
 
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold">Thank you for your order!</h1>
+        <h1 className="text-3xl font-bold">Terima kasih atas pesanan Anda!</h1>
         <p className="text-muted-foreground max-w-md">
-          Your order has been placed successfully. We&apos;ll send you an
-          email confirmation shortly.
+          Pesanan Anda telah berhasil dibuat. Kami akan mengirimkan konfirmasi melalui email dalam waktu dekat.
         </p>
       </div>
 
       {orderId && (
         <div className="bg-muted px-6 py-4 rounded-lg">
-          <p className="text-sm text-muted-foreground">Order Number</p>
+          <p className="text-sm text-muted-foreground">Nomor Pesanan</p>
           <p className="text-2xl font-bold">#{orderId}</p>
         </div>
       )}
 
       <div className="flex gap-4">
         <Button asChild>
-          <Link href="/shop">Continue Shopping</Link>
+          <Link href="/shop">Lanjutkan belanja</Link>
         </Button>
         {orderId && (
           <Button variant="outline" asChild>
-            <Link href={`/account/orders/${orderId}`}>View Order</Link>
+            <Link href={`/account/orders/${orderId}`}>Lihat Pesanan</Link>
           </Button>
         )}
       </div>
