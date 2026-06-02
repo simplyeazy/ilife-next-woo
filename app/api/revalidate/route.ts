@@ -108,6 +108,9 @@ export async function POST(request: NextRequest) {
       else if (contentType === "produk") {
         revalidateTag("produk", { expire: 0 });
         revalidatePath("/produk");
+      } else if (contentType === "portofolio") {
+        revalidateTag("portofolio", { expire: 0 });
+        revalidatePath("/portofolio");
       } else if (contentType === "slides") {
         revalidateTag("slides", { expire: 0 });
         revalidatePath("/");
