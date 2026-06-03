@@ -1,9 +1,15 @@
 import { MetadataRoute } from "next";
 import { getAllPostsForSitemap } from "@/lib/wordpress";
+import { getAllProductSlugs } from "@/lib/woocommerce";
+import { getPortofolioItems } from "@/lib/custom/portofolio";
 import { siteConfig } from "@/site.config";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await getAllPostsForSitemap();
+  const [posts, productSlugs, portofolioItems] = await Promise.all([
+    getAllPostsForSitemap(),
+    getAllProductSlugs(),
+    getPortofolioItems(),
+  ]);
 
   const staticUrls: MetadataRoute.Sitemap = [
     {
@@ -42,6 +48,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.5,
     },
+    {
+      url: `${siteConfig.site_domain}/portofolio`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${siteConfig.site_domain}/shop`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
   ];
 
   const postUrls: MetadataRoute.Sitemap = posts.map((post) => ({
@@ -51,5 +69,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
-  return [...staticUrls, ...postUrls];
+  const productUrls: MetadataRoute.Sitemap = productSlugs.map(({ slug }) => ({
+    url: `${siteConfig.site_domain}/shop/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
+  const portofolioUrls: MetadataRoute.Sitemap = portofolioItems.map((item) => ({
+    url: `${siteConfig.site_domain}/portofolio/${item.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
+  return [...staticUrls, ...postUrls, ...productUrls, ...portofolioUrls];
 }
