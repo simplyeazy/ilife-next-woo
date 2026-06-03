@@ -107,10 +107,10 @@ export function ProductFilters({
             }
           >
             <SelectTrigger>
-              <SelectValue placeholder="Semua kategori" />
+              <SelectValue placeholder="Semua Kategori" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Semua kategori</SelectItem>
+              <SelectItem value="all">Semua Kategori</SelectItem>
               {categories.map((category) => (
                 <SelectItem key={category.id} value={category.slug}>
                   {category.name} ({category.count})
