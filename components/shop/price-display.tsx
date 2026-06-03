@@ -41,7 +41,7 @@ export function PriceDisplay({
   if (!price && !regularPrice) {
     return (
       <span className={cn("font-semibold", sizeClasses[size].price)}>
-        Price on request
+        Hubungi kami untuk harga 
       </span>
     );
   }

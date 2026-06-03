@@ -40,7 +40,7 @@ export function PostCard({ post }: { post: Post }) {
             />
           ) : (
             <div className="flex items-center justify-center w-full h-full text-muted-foreground">
-              No image available
+              Tidak ada gambar tersedia
             </div>
           )}
         </div>
