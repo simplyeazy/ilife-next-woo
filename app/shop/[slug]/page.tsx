@@ -170,9 +170,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
               {/* Short Description */}
               {product.short_description && (
                 <Prose>
-                  <div className="text-muted-foreground">
-                    {product.short_description.replace(/<[^>]*>/g, "")}
-                  </div>
+                  <div
+                    className="text-muted-foreground"
+                    dangerouslySetInnerHTML={{ __html: product.short_description }}
+                  />
                 </Prose>
               )}
 
@@ -220,9 +221,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <div className="space-y-4">
               <h2 className="text-2xl font-bold">Description</h2>
               <Prose>
-                <div className="text-muted-foreground">
-                  {product.description.replace(/<[^>]*>/g, "")}
-                </div>
+                <div
+                  className="text-muted-foreground"
+                  dangerouslySetInnerHTML={{ __html: product.description }}
+                />
               </Prose>
             </div>
           )}
@@ -273,7 +275,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           {/* Related Products */}
           {relatedProducts.length > 0 && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold">Related Products</h2>
+              <h2 className="text-2xl font-bold">Anda mungkin tertarik</h2>
               <ProductGrid products={relatedProducts} columns={4} />
             </div>
           )}

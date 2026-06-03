@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { MessageCircle, Mail } from "lucide-react";
+import { sendGAEvent } from "@next/third-parties/google";
 
 import type { Product, ProductVariation } from "@/lib/woocommerce.d";
 import { VariationSelector, AddToCartButton, PriceDisplay, StockBadge } from "@/components/shop";
@@ -84,6 +85,13 @@ export function ProductDetailClient({
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 flex-1 px-6 py-3 rounded-md bg-[#25D366] hover:bg-[#1ebe5d] text-white font-medium transition-colors"
+              onClick={() =>
+                sendGAEvent("event", "whatsapp_click", {
+                  product_name: product.name,
+                  product_id: product.id,
+                  source: "shop_detail",
+                })
+              }
             >
               <MessageCircle className="h-5 w-5" />
               Pesan via WhatsApp

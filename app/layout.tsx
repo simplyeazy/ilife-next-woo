@@ -1,6 +1,7 @@
 import "./globals.css";
 
 import { Inter as FontSans } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { CartProvider } from "@/components/shop";
 import { Nav } from "@/components/layout/nav";
@@ -50,6 +51,9 @@ export default function RootLayout({
           </CartProvider>
         </ThemeProvider>
       </body>
+      {process.env.NEXT_PUBLIC_GA_ID && (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+      )}
     </html>
   );
 }
