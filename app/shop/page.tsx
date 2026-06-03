@@ -116,7 +116,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     return `/shop${urlParams.toString() ? `?${urlParams.toString()}` : ""}`;
   };
 
-  const pageTitle = categoryData?.name || "Shop";
+  const pageTitle = categoryData?.name || "Toko";
 
   return (
     <Section>
@@ -125,8 +125,8 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
           <Prose>
             <h1>{pageTitle}</h1>
             <p className="text-muted-foreground">
-              {total} {total === 1 ? "product" : "products"} found
-              {search && ` matching "${search}"`}
+              {total} produk ditemui
+              {search && ` untuk "${search}"`}
             </p>
           </Prose>
 

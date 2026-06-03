@@ -17,7 +17,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
   if (!images || images.length === 0) {
     return (
       <div className="aspect-square bg-muted rounded-lg flex items-center justify-center text-muted-foreground">
-        No image available
+        Tidak ada gambar tersedia
       </div>
     );
   }
