@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: iLife Security (Login Lockdown)
+ * Plugin Name: iLife Login Lockdown
  * Description: Locks an IP address after a configurable number of failed wp-admin login attempts.
  * Version:     1.0.0
  * Author: <a href="https://lundy.dev">lundy.dev</a>
