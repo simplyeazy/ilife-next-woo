@@ -79,7 +79,7 @@ export function ProductFilters({
     <div className="space-y-6">
       {/* Search */}
       <div className="space-y-2">
-        <Label htmlFor="search">Search</Label>
+        <Label htmlFor="search">Pencarian</Label>
         <Input
           id="search"
           type="search"
@@ -156,10 +156,10 @@ export function ProductFilters({
           }
         >
           <SelectTrigger>
-            <SelectValue placeholder="Urutan default" />
+            <SelectValue placeholder="Urutan bawaan" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="default">Urutan default</SelectItem>
+            <SelectItem value="default">Urutan bawaan</SelectItem>
             <SelectItem value="popularity">Popularitas</SelectItem>
             <SelectItem value="rating">Rating rata-rata</SelectItem>
             <SelectItem value="date">Terbaru</SelectItem>

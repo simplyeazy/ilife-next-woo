@@ -40,7 +40,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
           />
         ) : (
           <div className="flex items-center justify-center w-full h-full text-muted-foreground">
-            No image
+            Tidak ada gambar tersedia
           </div>
         )}
 
@@ -80,7 +80,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
             </>
           ) : (
             <span className="font-semibold">
-              {product.price ? formatPrice(product.price) : "Price on request"}
+              {product.price ? formatPrice(product.price) : "Hubungi kami untuk harga"}
             </span>
           )}
         </div>
