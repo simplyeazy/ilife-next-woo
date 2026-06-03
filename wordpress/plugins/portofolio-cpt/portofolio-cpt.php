@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: iLife Portofolio
- * Description: Registers the 'portofolio' CPT for the /portofolio gallery page. Admin dapat mengelola proyek-proyek yang ditampilkan di halaman portofolio publik.
- * Version: 1.0.0
+ * Description: Registers the 'portofolio' CPT for the /portofolio gallery page. Admin dapat mengelola proyek-proyek iLife untuk ditampilkan di halaman /portofolio.
+ * Version: 1.1.0
  * Author: <a href="https://lundy.dev">lundy.dev</a>
  * Author URI: https://lundy.dev
  */
@@ -25,7 +25,7 @@ add_action('init', function () {
         'show_ui'      => true,
         'show_in_rest' => true,
         'rest_base'    => 'portofolio',
-        'supports'     => ['title', 'excerpt', 'thumbnail', 'page-attributes'],
+        'supports'     => ['title', 'editor', 'excerpt', 'thumbnail', 'page-attributes'],
         'menu_icon'    => 'dashicons-portfolio',
         'menu_position' => 6,
     ]);
