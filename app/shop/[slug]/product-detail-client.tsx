@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { MessageCircle } from "lucide-react";
 
 import type { Product, ProductVariation } from "@/lib/woocommerce.d";
 import { VariationSelector, AddToCartButton, PriceDisplay, StockBadge } from "@/components/shop";
+import { featureFlags, siteConfig } from "@/site.config";
 
 interface ProductDetailClientProps {
   product: Product;
@@ -53,8 +55,20 @@ export function ProductDetailClient({
         </div>
       )}
 
-      {/* Add to Cart */}
-      <AddToCartButton product={product} variation={selectedVariation} />
+      {/* CUSTOM: show WhatsApp CTA when cart is disabled, otherwise AddToCart */}
+      {featureFlags.ENABLE_CART ? (
+        <AddToCartButton product={product} variation={selectedVariation} />
+      ) : (
+        <a
+          href={`https://wa.me/${siteConfig.whatsapp_number.replace(/\D/g, "")}?text=${encodeURIComponent(`Halo, saya tertarik dengan produk: ${product.name}. Mohon informasi lebih lanjut.`)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-2 w-full px-6 py-3 rounded-md bg-[#25D366] hover:bg-[#1ebe5d] text-white font-medium transition-colors"
+        >
+          <MessageCircle className="h-5 w-5" />
+          Pesan via WhatsApp
+        </a>
+      )}
     </div>
   );
 }

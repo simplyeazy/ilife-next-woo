@@ -86,7 +86,7 @@ export function AddToCartButton({
       {/* Quantity Selector */}
       {showQuantity && (
         <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">Quantity:</span>
+          <span className="text-sm text-muted-foreground">Jumlah:</span>
           <div className="flex items-center border rounded-md">
             <Button
               type="button"

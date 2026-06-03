@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { featureFlags } from "@/site.config";
 
 /**
  * POST /api/shipping-rates
@@ -14,6 +15,11 @@ const WC_KEY = process.env.WC_CONSUMER_KEY;
 const WC_SECRET = process.env.WC_CONSUMER_SECRET;
 
 export async function POST(request: Request) {
+  // CUSTOM: JNE shipping lookup disabled via feature flag
+  if (!featureFlags.ENABLE_JNE_SHIPPING) {
+    return NextResponse.json({ error: "Shipping rate lookup is currently disabled." }, { status: 503 });
+  }
+
   if (!WP_BASE || !WC_KEY || !WC_SECRET) {
     return NextResponse.json({ error: "WooCommerce not configured." }, { status: 503 });
   }

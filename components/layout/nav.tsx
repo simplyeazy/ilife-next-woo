@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { ILifeLogo } from "@/components/custom/ilife-logo";
 import { NavLinks } from "@/components/layout/nav-links";
 import { getLogo } from "@/lib/custom/logo";
+import { featureFlags } from "@/site.config";
 
 interface NavProps {
   className?: string;
@@ -38,7 +39,7 @@ export async function Nav({ className, children, id }: NavProps) {
         {children}
         <div className="flex items-center gap-1">
           <NavLinks />
-          <CartDrawer />
+          {featureFlags.ENABLE_CART && <CartDrawer />}
           <MobileNav logoSrc={logo?.src} logoAlt={logo?.alt} />
         </div>
       </div>
