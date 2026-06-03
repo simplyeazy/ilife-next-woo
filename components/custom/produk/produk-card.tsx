@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCart, MessageCircle } from "lucide-react";
+import { sendGAEvent } from "@next/third-parties/google";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -79,7 +80,18 @@ export function ProdukCard({ item, waNumber, priority = false }: ProdukCardProps
             variant="outline"
             className="flex-1 border-green-600 text-green-700 hover:bg-green-600 hover:text-white gap-2"
           >
-            <a href={waUrl} target="_blank" rel="noopener noreferrer">
+            <a
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() =>
+              sendGAEvent("event", "whatsapp_click", {
+                product_name: item.title,
+                product_id: item.id,
+                source: "produk_card",
+              })
+            }
+          >
               <MessageCircle className="w-4 h-4" />
               WhatsApp
             </a>
