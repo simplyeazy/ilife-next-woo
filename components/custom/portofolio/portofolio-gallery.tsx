@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import type { PortofolioItem } from "@/lib/custom/portofolio";
@@ -57,9 +58,10 @@ export function PortofolioGallery({
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {filteredItems.map((item) => (
-            <div
+            <Link
               key={item.id}
-              className="group relative aspect-square overflow-hidden rounded-lg bg-muted"
+              href={`/portofolio/${item.slug}`}
+              className="group relative block aspect-square overflow-hidden rounded-lg bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               {item.imageUrl ? (
                 <Image
@@ -91,17 +93,9 @@ export function PortofolioGallery({
                     {item.excerpt}
                   </p>
                 )}
-                {item.projectUrl && (
-                  <a
-                    href={item.projectUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 text-xs font-medium text-white underline underline-offset-2 hover:text-white/80"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    Lihat detail →
-                  </a>
-                )}
+                <span className="mt-2 text-xs font-medium text-white underline underline-offset-2">
+                  Lihat detail →
+                </span>
               </div>
 
               {/* Category badge */}
@@ -112,7 +106,7 @@ export function PortofolioGallery({
                   </Badge>
                 </div>
               )}
-            </div>
+            </Link>
           ))}
         </div>
       )}
