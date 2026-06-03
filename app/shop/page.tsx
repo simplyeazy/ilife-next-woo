@@ -20,8 +20,11 @@ import {
 } from "@/components/ui/pagination";
 
 export const metadata: Metadata = {
-  title: "Shop",
-  description: "Browse our product catalog",
+  title: "Produk",
+  description: "Temukan produk LED display, videotron, dan signage terbaik dari iLife. Kualitas premium untuk kebutuhan periklanan dan pertunjukan publik Anda.",
+  alternates: {
+    canonical: "/shop",
+  },
 };
 
 export const dynamic = "auto";
