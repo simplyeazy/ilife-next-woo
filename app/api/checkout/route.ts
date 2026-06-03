@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createOrder } from "@/lib/woocommerce";
 import type { CreateOrderInput } from "@/lib/woocommerce.d";
+import { featureFlags } from "@/site.config";
 
 export async function POST(request: NextRequest) {
+  // CUSTOM: online payment/order creation disabled via feature flag
+  if (!featureFlags.ENABLE_ONLINE_PAYMENT) {
+    return NextResponse.json({ error: "Online checkout is currently disabled." }, { status: 503 });
+  }
+
   try {
     const body = await request.json();
 

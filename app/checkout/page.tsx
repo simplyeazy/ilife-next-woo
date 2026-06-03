@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { AddressSelector, EMPTY_WILAYAH, type WilayahAddress } from "@/components/shop/address-selector";
+import { featureFlags, siteConfig } from "@/site.config";
 
 interface ShippingRate {
   method_id: string;
@@ -55,7 +56,9 @@ export default function CheckoutPage() {
   });
 
   // Fetch JNE shipping rates whenever a complete address is provided
+  // CUSTOM: gated by ENABLE_JNE_SHIPPING feature flag
   const fetchShippingRates = useCallback(async (wilayah: WilayahAddress) => {
+    if (!featureFlags.ENABLE_JNE_SHIPPING) return;
     if (!wilayah.cityName || !wilayah.postcode) return;
 
     setLoadingRates(true);
@@ -89,6 +92,36 @@ export default function CheckoutPage() {
       setLoadingRates(false);
     }
   }, [cart.items]);
+
+  // CUSTOM: checkout disabled — show WhatsApp ordering info (hooks kept above to satisfy React rules)
+  if (!featureFlags.ENABLE_CHECKOUT) {
+    const waUrl = `https://wa.me/${siteConfig.whatsapp_number.replace(/\D/g, "")}?text=${encodeURIComponent("Halo, saya ingin memesan produk iLife. Mohon bantuannya.")}`;
+    return (
+      <Section>
+        <Container>
+          <div className="flex flex-col items-center justify-center py-16 space-y-6 text-center">
+            <div className="space-y-2">
+              <h1 className="text-2xl font-bold">Pesan via WhatsApp</h1>
+              <p className="text-muted-foreground max-w-md">
+                Saat ini pemesanan dilakukan melalui WhatsApp. Tim kami siap membantu Anda.
+              </p>
+            </div>
+            <a
+              href={waUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-[#25D366] hover:bg-[#1ebe5d] text-white font-medium transition-colors"
+            >
+              Hubungi via WhatsApp
+            </a>
+            <a href="/shop" className="text-sm text-muted-foreground hover:underline">
+              ← Kembali ke toko
+            </a>
+          </div>
+        </Container>
+      </Section>
+    );
+  }
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

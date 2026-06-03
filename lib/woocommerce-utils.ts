@@ -41,17 +41,17 @@ export function isProductInStock(product: Product): boolean {
 export function getProductStockMessage(product: Product): string {
   if (!isProductInStock(product)) {
     if (product.stock_status === "onbackorder") {
-      return "Available on backorder";
+      return "Tersedia untuk pre-order";
     }
-    return "Out of stock";
+    return "Habis";
   }
 
   if (product.manage_stock && product.stock_quantity !== null) {
     if (product.stock_quantity <= (product.low_stock_amount || 3)) {
-      return `Only ${product.stock_quantity} left in stock`;
+      return `Hanya ${product.stock_quantity} tersisa`;
     }
-    return "In stock";
+    return "Stok tersedia";
   }
 
-  return "In stock";
+  return "Stok tersedia";
 }

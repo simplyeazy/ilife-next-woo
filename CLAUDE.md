@@ -94,9 +94,21 @@ Headless WordPress starter using Next.js 16 App Router with TypeScript.
 - Cart cleared on success page load
 
 ### Configuration Files
-- `site.config.ts` - Site metadata (domain, name, description)
+- `site.config.ts` - Site metadata (domain, name, description) **and feature flags**
 - `menu.config.ts` - Navigation menu structure
 - `next.config.ts` - Image remotePatterns, /admin redirect to WordPress
+
+### Feature Flags (`site.config.ts` → `featureFlags`)
+These are compile-time constants that gate major capabilities. Flip them to `true` when the customer is ready:
+
+| Flag | Default | Controls |
+|------|---------|----------|
+| `ENABLE_CART` | `false` | Cart icon in nav, CartDrawer, AddToCart buttons on shop pages |
+| `ENABLE_CHECKOUT` | `false` | `/cart` and `/checkout` pages (shows WhatsApp CTA instead) |
+| `ENABLE_JNE_SHIPPING` | `false` | JNE shipping-rate lookup at checkout + `/api/shipping-rates` |
+| `ENABLE_ONLINE_PAYMENT` | `false` | WooCommerce order creation + payment gateway redirect (`/api/checkout`) |
+
+While all flags are `false`, every product page shows a **"Pesan via WhatsApp"** button pointing to `NEXT_PUBLIC_WA_NUMBER`.
 
 ## Code Style
 

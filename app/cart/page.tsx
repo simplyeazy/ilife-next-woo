@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ShoppingCart, Plus, Minus, Trash2, ArrowLeft } from "lucide-react";
+import { ShoppingCart, Plus, Minus, Trash2, ArrowLeft, MessageCircle } from "lucide-react";
 
 import { useCart } from "@/components/shop/cart-provider";
 import { formatPrice } from "@/lib/woocommerce";
 import { Section, Container } from "@/components/craft";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { featureFlags, siteConfig } from "@/site.config";
 
 export default function CartPage() {
   const {
@@ -18,6 +19,38 @@ export default function CartPage() {
     updateQuantity,
     clearCart,
   } = useCart();
+
+  // CUSTOM: cart/checkout disabled — redirect to WhatsApp ordering (hooks kept above to satisfy React rules)
+  if (!featureFlags.ENABLE_CHECKOUT) {
+    const waUrl = `https://wa.me/${siteConfig.whatsapp_number.replace(/\D/g, "")}?text=${encodeURIComponent("Halo, saya ingin memesan produk iLife. Mohon bantuannya.")}`;
+    return (
+      <Section>
+        <Container>
+          <div className="flex flex-col items-center justify-center py-16 space-y-6 text-center">
+            <MessageCircle className="h-20 w-20 text-[#25D366]" />
+            <div className="space-y-2">
+              <h1 className="text-2xl font-bold">Pesan via WhatsApp</h1>
+              <p className="text-muted-foreground max-w-md">
+                Saat ini pemesanan dilakukan melalui WhatsApp. Tim kami siap membantu Anda.
+              </p>
+            </div>
+            <Button asChild size="lg" className="bg-[#25D366] hover:bg-[#1ebe5d] text-white">
+              <a href={waUrl} target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="mr-2 h-4 w-4" />
+                Hubungi via WhatsApp
+              </a>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/shop">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Lihat Produk
+              </Link>
+            </Button>
+          </div>
+        </Container>
+      </Section>
+    );
+  }
 
   if (isLoading) {
     return (

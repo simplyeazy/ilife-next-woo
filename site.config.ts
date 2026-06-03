@@ -11,6 +11,18 @@ type SiteConfig = {
   shopee?: string;
 };
 
+// CUSTOM: Feature flags — set to true when ready to re-enable each capability
+export const featureFlags = {
+  /** Show cart icon, CartDrawer, and AddToCart buttons site-wide */
+  ENABLE_CART: false,
+  /** Allow users to reach /cart and /checkout pages */
+  ENABLE_CHECKOUT: false,
+  /** Fetch JNE shipping rates during checkout */
+  ENABLE_JNE_SHIPPING: false,
+  /** Submit orders and redirect to WooCommerce payment gateway (Midtrans, etc.) */
+  ENABLE_ONLINE_PAYMENT: false,
+};
+
 export const siteConfig: SiteConfig = {
   site_name: "iLife",
   site_description: "Solusi videotron & layar LED terpercaya untuk periklanan dan pertunjukan publik.",
