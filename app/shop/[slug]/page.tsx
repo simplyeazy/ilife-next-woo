@@ -111,7 +111,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
           {/* Product Details */}
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Gallery */}
-            <ProductGallery images={product.images} productName={product.name} />
+            <ProductGallery
+              images={product.images}
+              productName={product.name}
+              videoUrl={
+                (product.meta_data.find((m) => m.key === "video_url")?.value as string | undefined) ?? undefined
+              }
+            />
 
             {/* Info */}
             <div className="space-y-6">
