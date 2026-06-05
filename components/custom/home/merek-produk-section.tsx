@@ -9,8 +9,8 @@ export async function MerekProdukSection() {
   return (
     <Section>
       <Container>
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-2">Merek Produk</h2>
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-normal text-gray-800 mb-4">Merek Produk</h2>
           <p className="text-muted-foreground">
             Merek-merek layar LED beserta komponen pendukungnya yang kami pakai
             dan jual.
