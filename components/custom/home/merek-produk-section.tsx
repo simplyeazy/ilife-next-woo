@@ -12,7 +12,7 @@ export async function MerekProdukSection() {
         <div className="text-center mb-10">
           <h2 className="text-3xl font-normal text-gray-800 mb-4">Merek Produk</h2>
           <p className="text-muted-foreground">
-            Merek-merek layar LED beserta komponen pendukungnya yang kami pakai
+            Merek-merek Videotron beserta komponen pendukungnya yang kami pakai
             dan jual.
           </p>
         </div>
