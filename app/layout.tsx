@@ -28,6 +28,12 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+    openGraph: {
+    title: "iLife Advertising | Jasa Videotron, Huruf Timbul, Neonbox, Signage",
+    description: siteConfig.site_description,
+    url: siteConfig.site_domain,
+    siteName: siteConfig.site_name,
+  },
 };
 
 export default function RootLayout({
