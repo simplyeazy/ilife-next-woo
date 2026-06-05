@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { CartProvider } from "@/components/shop";
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
+import { LiveChatWidget } from "@/components/custom/live-chat";
 
 import { siteConfig } from "@/site.config";
 import { cn } from "@/lib/utils";
@@ -48,6 +49,7 @@ export default function RootLayout({
             <Nav />
             {children}
             <Footer />
+            <LiveChatWidget />
           </CartProvider>
         </ThemeProvider>
       </body>
