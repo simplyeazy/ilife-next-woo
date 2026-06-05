@@ -6,13 +6,13 @@ import { getLogo } from "@/lib/custom/logo";
 const tautan = [
   { label: "Beranda", href: "/" },
   { label: "Tentang Kami", href: "/tentang-kami" },
-  { label: "Layanan", href: "/penyewaan" },
+  { label: "Sertifikat Kami", href: "/sertifikat" },
   { label: "Kebijakan Privasi", href: "/kebijakan-privasi" },
 ];
 
 const layanan = [
-  { label: "Videotron", href: "/produk" },
-  { label: "Running Text", href: "/produk" },
+  { label: "Videotron", href: "/produk?category=videotron" },
+  { label: "Neonbox", href: "/produk?category=neonbox" },
   { label: "Penyewaan", href: "/penyewaan" },
 ];
 

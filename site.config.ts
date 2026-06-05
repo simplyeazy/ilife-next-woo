@@ -24,8 +24,8 @@ export const featureFlags = {
 };
 
 export const siteConfig: SiteConfig = {
-  site_name: "iLife",
-  site_description: "Solusi videotron & layar LED terpercaya untuk periklanan dan pertunjukan publik.",
+  site_name: "iLife Advertising | Jasa Videotron, Huruf Timbul, Neonbox, Signage",
+  site_description: "Spesialis jasa pembuatan videotron, huruf timbul, neonbox, dan signage profesional. Melayani custom running text, neonflex, totem SPBU & laser cut.",
   site_domain: "https://ilife.co.id",
   telephone: process.env.NEXT_PUBLIC_PHONE_OFFICE ?? "",
   // CUSTOM: WhatsApp number for product inquiry CTAs on /produk page
