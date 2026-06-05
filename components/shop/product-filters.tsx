@@ -183,7 +183,7 @@ export function ProductFilters({
           />
           <Input
             type="number"
-            placeholder="Max"
+            placeholder="Maks"
             min={0}
             defaultValue={currentMaxPrice}
             onChange={(e) => updateFilters({ max_price: e.target.value || undefined })}
