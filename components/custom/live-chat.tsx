@@ -1,6 +1,7 @@
 "use client";
 
 import Script from "next/script";
+import { useEffect } from "react";
 
 /**
  * Tawk.to live chat widget.
@@ -19,6 +20,39 @@ import Script from "next/script";
 export function LiveChatWidget() {
   const propertyId = process.env.NEXT_PUBLIC_TAWKTO_PROPERTY_ID;
   const widgetId = process.env.NEXT_PUBLIC_TAWKTO_WIDGET_ID ?? "default";
+
+  // Accessibility fix: Tawk.to dynamically injects/removes iframes without a
+  // title attribute, failing Lighthouse. A MutationObserver patches them as
+  // they are added so there is no polling overhead.
+  useEffect(() => {
+    if (!propertyId) return;
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (
+            node.nodeName === "IFRAME" &&
+            !(node as HTMLIFrameElement).hasAttribute("title")
+          ) {
+            (node as HTMLIFrameElement).setAttribute(
+              "title",
+              "Tawk.to Live Chat Widget"
+            );
+          } else if (node.nodeType === 1) {
+            (node as HTMLElement)
+              .querySelectorAll("iframe:not([title])")
+              .forEach((iframe) =>
+                iframe.setAttribute("title", "Tawk.to Live Chat Widget")
+              );
+          }
+        });
+      });
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [propertyId]);
 
   if (!propertyId) return null;
 
