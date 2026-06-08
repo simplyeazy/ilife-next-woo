@@ -120,6 +120,13 @@ export async function POST(request: NextRequest) {
       } else if (contentType === "merek_produk") {
         revalidateTag("merek", { expire: 0 });
         revalidatePath("/");
+      } else if (contentType === "layanan") {
+        revalidateTag("layanan", { expire: 0 });
+        // Revalidate individual layanan page if slug is available
+        if (contentId) {
+          revalidateTag(`layanan-${contentId}`, { expire: 0 });
+        }
+        revalidatePath("/produk", "layout");
       }
 
       // Also revalidate the entire layout for safety

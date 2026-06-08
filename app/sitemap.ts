@@ -2,13 +2,15 @@ import { MetadataRoute } from "next";
 import { getAllPostsForSitemap } from "@/lib/wordpress";
 import { getAllProductSlugs } from "@/lib/woocommerce";
 import { getPortofolioItems } from "@/lib/custom/portofolio";
+import { getAllLayananItems } from "@/lib/custom/layanan";
 import { siteConfig } from "@/site.config";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [posts, productSlugs, portofolioItems] = await Promise.all([
+  const [posts, productSlugs, portofolioItems, layananItems] = await Promise.all([
     getAllPostsForSitemap(),
     getAllProductSlugs(),
     getPortofolioItems(),
+    getAllLayananItems(),
   ]);
 
   const staticUrls: MetadataRoute.Sitemap = [
@@ -83,5 +85,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticUrls, ...postUrls, ...productUrls, ...portofolioUrls];
+  const layananUrls: MetadataRoute.Sitemap = layananItems.map((item) => ({
+    url: `${siteConfig.site_domain}/produk/${item.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.9,
+  }));
+
+  return [...staticUrls, ...postUrls, ...productUrls, ...portofolioUrls, ...layananUrls];
 }

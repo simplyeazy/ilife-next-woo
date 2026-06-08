@@ -20,10 +20,10 @@ import {
 } from "@/components/ui/pagination";
 
 export const metadata: Metadata = {
-  title: "Produk",
+  title: "Produk & Layanan",
   description: "Temukan produk LED display, videotron, neonbox dan signage terbaik dari iLife. Kualitas premium untuk kebutuhan periklanan dan pertunjukan publik Anda.",
   alternates: {
-    canonical: "/shop",
+    canonical: "/produk",
   },
 };
 
@@ -119,7 +119,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     return `/shop${urlParams.toString() ? `?${urlParams.toString()}` : ""}`;
   };
 
-  const pageTitle = categoryData?.name || "Toko";
+  const pageTitle = categoryData?.name || "Produk & Layanan";
 
   return (
     <Section>
