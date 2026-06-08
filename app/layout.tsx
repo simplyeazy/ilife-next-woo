@@ -43,7 +43,65 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id" suppressHydrationWarning>
-      <head />
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              name: siteConfig.site_name,
+              description: siteConfig.site_description,
+              url: siteConfig.site_domain,
+              telephone: siteConfig.telephone,
+              email: siteConfig.email,
+              image: `${siteConfig.site_domain}/og-image.jpg`,
+              logo: `${siteConfig.site_domain}/logo.png`,
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Jl. Kol. Sunandar",
+                addressLocality: "Blora",
+                addressRegion: "Jawa Tengah",
+                postalCode: "58211",
+                addressCountry: "ID",
+              },
+              geo: {
+                "@type": "GeoCoordinates",
+                latitude: -6.9727629,
+                longitude: 111.41185,
+              },
+              areaServed: [
+                // Primary — Central Java cities
+                "Blora", "Sragen", "Sukoharjo", "Solo", "Surakarta",
+                "Salatiga", "Semarang", "Kudus", "Pati", "Rembang",
+                "Grobogan", "Demak", "Jepara", "Boyolali", "Klaten",
+                "Wonogiri", "Karanganyar", "Purwodadi", "Jawa Tengah",
+                // Broader reach
+                "Indonesia",
+              ],
+              serviceType: [
+                "Videotron", "Huruf Timbul", "Neonbox", "Running Text",
+                "Neonflex", "Totem SPBU", "Laser Cut", "Signage",
+              ],
+              sameAs: [
+                siteConfig.instagram
+                  ? `https://instagram.com/${siteConfig.instagram.replace(/^@/, "")}`
+                  : undefined,
+                siteConfig.facebook ?? undefined,
+                siteConfig.tiktok ?? undefined,
+              ].filter(Boolean),
+              openingHoursSpecification: [
+                {
+                  "@type": "OpeningHoursSpecification",
+                  dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+                  opens: "08:00",
+                  closes: "17:00",
+                },
+              ],
+            }),
+          }}
+        />
+      </head>
       <body className={cn("min-h-screen font-sans antialiased", font.variable)}>
         <ThemeProvider
           attribute="class"

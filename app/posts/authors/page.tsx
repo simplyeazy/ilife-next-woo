@@ -5,8 +5,8 @@ import type { Metadata } from "next";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "All Authors",
-  description: "Browse all authors of our blog posts",
+  title: "Semua Penulis",
+  description: "Jelajahi semua penulis dari postingan artikel kami",
   alternates: { canonical: "/posts/authors" },
 };
 
@@ -15,8 +15,8 @@ export default async function Page() {
   return (
     <ArchiveList
       items={authors}
-      title="All Authors"
-      emptyMessage="No authors available yet."
+      title="Semua Penulis"
+      emptyMessage="Belum ada penulis tersedia."
       getHref={(author) => `/posts/?author=${author.id}`}
     />
   );

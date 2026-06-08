@@ -5,8 +5,8 @@ import type { Metadata } from "next";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "All Tags",
-  description: "Browse all tags of our blog posts",
+  title: "Semua label",
+  description: "Jelajahi semua label dari postingan artikel kami",
   alternates: { canonical: "/posts/tags" },
 };
 
@@ -15,8 +15,8 @@ export default async function Page() {
   return (
     <ArchiveList
       items={tags}
-      title="All Tags"
-      emptyMessage="No tags available yet."
+      title="Semua label"
+      emptyMessage="Belum ada label tersedia."
       getHref={(tag) => `/posts/?tag=${tag.id}`}
     />
   );
