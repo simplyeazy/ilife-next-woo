@@ -1,4 +1,5 @@
 // CUSTOM: using original ilife.co.id horizontal card layout
+import { Container, Section } from "@/components/craft";
 import {
   Activity,
   BadgeCheck,
@@ -31,10 +32,10 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-5xl mx-auto px-6">
+    <Section>
+      <Container>
         {/* Centered heading matching original */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-10">
           <h2 className="text-3xl font-normal text-gray-800 mb-4">Fitur</h2>
           <hr className="w-12 border-t-2 border-gray-400 mx-auto mb-4" />
           <p className="text-gray-600">Kenapa anda perlu menggunakan produk kami?</p>
@@ -53,7 +54,7 @@ export function FeaturesSection() {
             </div>
           ))}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

@@ -20,7 +20,7 @@ const font = FontSans({
 
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.site_name,
+    default: 'iLife Advertising | Jasa Videotron, Huruf Timbul & Neonbox',
     template: `%s | ${siteConfig.site_name}`,
   },
   description: siteConfig.site_description,

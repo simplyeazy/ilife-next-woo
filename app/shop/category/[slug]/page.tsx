@@ -82,7 +82,7 @@ export default async function CategoryPage({
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-muted-foreground">
             <Link href="/shop" className="hover:text-foreground">
-              Shop
+              Produk
             </Link>
             <span>/</span>
             <span className="text-foreground">{category.name}</span>

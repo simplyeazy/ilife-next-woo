@@ -91,7 +91,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-muted-foreground">
             <Link href="/shop" className="hover:text-foreground">
-              Shop
+              Produk
             </Link>
             <span>/</span>
             {product.categories[0] && (
