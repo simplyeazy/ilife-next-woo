@@ -21,7 +21,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Produk",
-  description: "Temukan produk LED display, videotron, dan signage terbaik dari iLife. Kualitas premium untuk kebutuhan periklanan dan pertunjukan publik Anda.",
+  description: "Temukan produk LED display, videotron, neonbox dan signage terbaik dari iLife. Kualitas premium untuk kebutuhan periklanan dan pertunjukan publik Anda.",
   alternates: {
     canonical: "/shop",
   },
