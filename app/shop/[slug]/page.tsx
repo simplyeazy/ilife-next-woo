@@ -9,6 +9,9 @@ import {
   getRelatedProducts,
   getAllProductSlugs,
 } from "@/lib/woocommerce";
+import { getLayananBySlug, getAllLayananSlugs } from "@/lib/custom/layanan";
+import { LandingPageTemplate } from "@/components/custom/produk/landing-page-template";
+import { siteConfig } from "@/site.config";
 
 import { Section, Container, Prose } from "@/components/craft";
 import {
@@ -28,8 +31,14 @@ interface ProductPageProps {
 }
 
 export async function generateStaticParams() {
-  const slugs = await getAllProductSlugs();
-  return slugs;
+  const [productSlugs, layananSlugs] = await Promise.all([
+    getAllProductSlugs(),
+    getAllLayananSlugs(),
+  ]);
+  // Layanan slugs take lower precedence; dedup in case of overlap
+  const seen = new Set(productSlugs.map((s) => s.slug));
+  const unique = layananSlugs.filter((s) => !seen.has(s.slug));
+  return [...productSlugs, ...unique];
 }
 
 export async function generateMetadata({
@@ -39,9 +48,24 @@ export async function generateMetadata({
   const product = await getProductBySlug(slug);
 
   if (!product) {
-    return {
-      title: "Product Not Found",
-    };
+    // Fallback: check layanan CPT
+    const layanan = await getLayananBySlug(slug);
+    if (layanan) {
+      const description = layanan.excerpt.slice(0, 160);
+      return {
+        title: `${layanan.title} | ${siteConfig.site_name}`,
+        description,
+        alternates: { canonical: `/produk/${slug}` },
+        openGraph: {
+          title: layanan.title,
+          description,
+          ...(layanan.imageUrl && {
+            images: [{ url: layanan.imageUrl, width: 1200, height: 630, alt: layanan.imageAlt }],
+          }),
+        },
+      };
+    }
+    return { title: "Halaman Tidak Ditemukan" };
   }
 
   const description = product.short_description.replace(/<[^>]*>/g, "").slice(0, 160);
@@ -74,6 +98,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const product = await getProductBySlug(slug);
 
   if (!product) {
+    // Fallback: check layanan CPT before returning 404
+    const layanan = await getLayananBySlug(slug);
+    if (layanan) {
+      return <LandingPageTemplate item={layanan} />;
+    }
     notFound();
   }
 
