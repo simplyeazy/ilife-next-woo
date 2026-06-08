@@ -6,7 +6,6 @@ import { MessageCircle } from "lucide-react";
 import { Section, Container, Prose } from "@/components/craft";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/site.config";
-import { getPortofolioItems } from "@/lib/custom/portofolio";
 import type { LayananItem } from "@/lib/custom/layanan";
 
 interface LandingPageTemplateProps {
@@ -18,15 +17,6 @@ export async function LandingPageTemplate({ item }: LandingPageTemplateProps) {
   const waMessage = item.waMessage ||
     `Halo iLife, saya ingin konsultasi mengenai layanan: ${item.title}. Mohon informasi lebih lanjut.`;
   const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
-
-  // Fetch portfolio items filtered by this service's kategori
-  const allPortofolio = item.portofolioKategori
-    ? await getPortofolioItems()
-    : [];
-  const relatedPortofolio = allPortofolio.filter(
-    (p) =>
-      p.kategori.toLowerCase() === item.portofolioKategori.toLowerCase()
-  );
 
   return (
     <Section>
@@ -92,43 +82,18 @@ export async function LandingPageTemplate({ item }: LandingPageTemplateProps) {
             </div>
           </div>
 
-          {/* Related portfolio */}
-          {relatedPortofolio.length > 0 && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold">Proyek yang Telah Kami Kerjakan</h2>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {relatedPortofolio.map((porto) => (
-                  <Link
-                    key={porto.id}
-                    href={`/portofolio/${porto.slug}`}
-                    className="group block rounded-xl overflow-hidden border bg-card hover:shadow-md transition-shadow"
-                  >
-                    <div className="relative aspect-[4/3] bg-muted overflow-hidden">
-                      {porto.imageUrl ? (
-                        <Image
-                          src={porto.imageUrl}
-                          alt={porto.imageAlt}
-                          fill
-                          className="object-cover transition-transform duration-300 group-hover:scale-105"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        />
-                      ) : (
-                        <div className="flex items-center justify-center w-full h-full text-muted-foreground text-sm">
-                          Tidak ada gambar
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-3 space-y-1">
-                      <p className="font-medium text-sm leading-snug group-hover:text-primary transition-colors">
-                        {porto.title}
-                      </p>
-                      {porto.clientName && (
-                        <p className="text-xs text-muted-foreground">{porto.clientName}</p>
-                      )}
-                    </div>
-                  </Link>
-                ))}
-              </div>
+          {/* Product catalog link */}
+          {item.wcCategory && (
+            <div className="space-y-4">
+              <h2 className="text-2xl font-bold">Lihat Katalog Produk</h2>
+              <p className="text-muted-foreground">
+                Temukan pilihan produk {item.title} kami dengan spesifikasi lengkap dan harga terjangkau.
+              </p>
+              <Button asChild variant="outline" size="lg">
+                <Link href={`/produk?category=${item.wcCategory}`}>
+                  Lihat Semua Produk →
+                </Link>
+              </Button>
             </div>
           )}
         </div>

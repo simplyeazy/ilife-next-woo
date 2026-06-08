@@ -35,8 +35,8 @@ add_action('init', function () {
 // Register meta fields exposed to REST API
 add_action('init', function () {
     $meta_fields = [
-        'portofolio_kategori' => ['type' => 'string', 'default' => ''],
-        'wa_message'          => ['type' => 'string', 'default' => ''],
+        'wc_category' => ['type' => 'string', 'default' => ''],
+        'wa_message'  => ['type' => 'string', 'default' => ''],
     ];
 
     foreach ($meta_fields as $key => $args) {
@@ -64,16 +64,16 @@ add_action('add_meta_boxes', function () {
 
 function layanan_meta_box_callback($post) {
     wp_nonce_field('layanan_meta_nonce', 'layanan_meta_nonce');
-    $portofolio_kategori = get_post_meta($post->ID, 'portofolio_kategori', true);
-    $wa_message          = get_post_meta($post->ID, 'wa_message', true);
+    $wc_category = get_post_meta($post->ID, 'wc_category', true);
+    $wa_message  = get_post_meta($post->ID, 'wa_message', true);
     ?>
     <table class="form-table">
         <tr>
-            <th><label for="portofolio_kategori">Kategori Portofolio</label></th>
+            <th><label for="wc_category">Kategori WooCommerce</label></th>
             <td>
-                <input type="text" id="portofolio_kategori" name="portofolio_kategori"
-                       value="<?php echo esc_attr($portofolio_kategori); ?>" class="widefat" />
-                <p class="description">Nama kategori portofolio yang ditampilkan di halaman ini, misal: <em>Totem SPBU</em>, <em>Huruf Timbul</em>. Harus sama persis dengan field Kategori di Portofolio.</p>
+                <input type="text" id="wc_category" name="wc_category"
+                       value="<?php echo esc_attr($wc_category); ?>" class="widefat" />
+                <p class="description">Slug kategori produk WooCommerce, misal: <em>videotron</em>, <em>neonbox</em>, <em>huruf-timbul</em>. Digunakan untuk tombol "Lihat Semua Produk".</p>
             </td>
         </tr>
         <tr>
@@ -99,8 +99,8 @@ add_action('save_post_layanan', function ($post_id) {
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if (!current_user_can('edit_post', $post_id)) return;
 
-    if (isset($_POST['portofolio_kategori'])) {
-        update_post_meta($post_id, 'portofolio_kategori', sanitize_text_field($_POST['portofolio_kategori']));
+    if (isset($_POST['wc_category'])) {
+        update_post_meta($post_id, 'wc_category', sanitize_text_field($_POST['wc_category']));
     }
     if (isset($_POST['wa_message'])) {
         update_post_meta($post_id, 'wa_message', sanitize_textarea_field($_POST['wa_message']));

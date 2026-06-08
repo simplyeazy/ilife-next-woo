@@ -8,7 +8,7 @@ export interface LayananItem {
   excerpt: string; // used as meta description
   imageUrl: string | null;
   imageAlt: string;
-  portofolioKategori: string; // matches PortofolioItem.kategori
+  wcCategory: string; // WooCommerce category slug, e.g. "videotron" → /produk?category=videotron
   waMessage: string;
 }
 
@@ -23,7 +23,7 @@ function mapLayananItem(p: any): LayananItem {
     imageUrl: p._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? null,
     imageAlt:
       p._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || p.title.rendered,
-    portofolioKategori: p.meta?.portofolio_kategori ?? "",
+    wcCategory: p.meta?.wc_category ?? "",
     waMessage: p.meta?.wa_message ?? "",
   };
 }
