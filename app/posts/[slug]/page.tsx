@@ -67,11 +67,11 @@ export default async function Page({
           </h1>
           <div className="flex justify-between items-center gap-4 text-sm mb-4">
             <h5>
-              Published {date}
+              Terbit {date}
               {author?.name && (
                 <span>
                   {" "}
-                  by <a href={`/posts/?author=${author.id}`}>{author.name}</a>
+                  oleh <a href={`/posts/?author=${author.id}`}>{author.name}</a>
                 </span>
               )}
             </h5>

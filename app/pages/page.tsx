@@ -7,8 +7,8 @@ import Link from "next/link";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "All Pages",
-  description: "Browse all pages of our blog posts",
+  title: "Semua Halaman",
+  description: "Jelajahi semua halaman dari postingan artikel kami",
   alternates: {
     canonical: "/posts/pages",
   },
@@ -21,7 +21,7 @@ export default async function Page() {
     <Section>
       <Container className="space-y-6">
         <Prose className="mb-8">
-          <h2>All Pages</h2>
+          <h2>Semua Halaman</h2>
           {pages.length > 0 ? (
             <ul className="grid">
               {pages.map((page: any) => (
@@ -31,7 +31,7 @@ export default async function Page() {
               ))}
             </ul>
           ) : (
-            <p className="text-muted-foreground">No pages available yet.</p>
+            <p className="text-muted-foreground">Belum ada halaman tersedia.</p>
           )}
         </Prose>
         <BackButton />
