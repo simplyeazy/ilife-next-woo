@@ -95,11 +95,15 @@ export function HeroCarouselClient({ slides }: { slides: SlideData[] }) {
           <button
             key={i}
             onClick={() => api?.scrollTo(i)}
-            className={`w-2.5 h-2.5 rounded-full transition-all ${
-              i === current ? "bg-white w-6" : "bg-white/50"
-            }`}
+            className="p-2 flex items-center justify-center"
             aria-label={`Go to slide ${i + 1}`}
-          />
+          >
+            <span
+              className={`block h-2.5 rounded-full transition-all ${
+                i === current ? "bg-white w-6" : "bg-white/50 w-2.5"
+              }`}
+            />
+          </button>
         ))}
       </div>
     </div>
