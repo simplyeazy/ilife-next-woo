@@ -21,16 +21,18 @@ import { Separator } from "@/components/ui/separator";
 
 import { iLifeMenu, tentangKamiSubMenu } from "@/menu.config";
 import { ILifeLogo } from "@/components/custom/ilife-logo";
+import type { LayananItem } from "@/lib/custom/layanan";
 
 // Labels that should be replaced with their sub-items in mobile nav
-const DROPDOWN_LABELS = new Set(["Tentang Kami"]);
+const DROPDOWN_LABELS = new Set(["Tentang Kami", "Produk & Layanan"]);
 
 interface MobileNavProps {
   logoSrc?: string;
   logoAlt?: string;
+  layananItems?: LayananItem[];
 }
 
-export function MobileNav({ logoSrc, logoAlt }: MobileNavProps = {}) {
+export function MobileNav({ logoSrc, logoAlt, layananItems = [] }: MobileNavProps = {}) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -59,7 +61,37 @@ export function MobileNav({ logoSrc, logoAlt }: MobileNavProps = {}) {
             </h3>
             <Separator />
             {iLifeMenu.map(({ label, href }) => {
-              if (DROPDOWN_LABELS.has(label)) {
+              if (label === "Produk & Layanan") {
+                return (
+                  <div key={href}>
+                    <MobileLink
+                      href="/produk"
+                      onOpenChange={setOpen}
+                      className="text-lg font-medium text-gray-800"
+                    >
+                      Produk &amp; Layanan
+                    </MobileLink>
+                    {layananItems.length > 0 && (
+                      <div className="flex flex-col space-y-1 pl-4 border-l border-gray-200 mt-1">
+                        <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">
+                          Layanan
+                        </p>
+                        {layananItems.map((item) => (
+                          <MobileLink
+                            key={item.slug}
+                            href={`/layanan/${item.slug}`}
+                            onOpenChange={setOpen}
+                            className="text-base text-gray-600"
+                          >
+                            {item.title}
+                          </MobileLink>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+              if (label === "Tentang Kami") {
                 return (
                   <div key={href}>
                     <p className="text-lg font-medium text-gray-700 mb-1">

@@ -9,7 +9,7 @@ export const mainMenu = {
 // CUSTOM: iLife main navigation
 export const iLifeMenu = [
   { label: "Beranda", href: "/" },
-  { label: "Produk", href: "/produk" },
+  { label: "Produk & Layanan", href: "/produk" },
   { label: "Portofolio", href: "/portofolio" },
   { label: "Tentang Kami", href: "/tentang-kami" },
 ];
