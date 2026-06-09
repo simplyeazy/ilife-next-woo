@@ -69,7 +69,13 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
 
         {/* Price */}
         <div className="flex items-center gap-2 mt-auto">
-          {product.on_sale ? (
+          {product.type === "variable" && product.price_html ? (
+            // CUSTOM: Variable products should display WooCommerce range pricing.
+            <div
+              className="font-semibold [&_del]:text-muted-foreground [&_del]:font-normal [&_del]:mr-2"
+              dangerouslySetInnerHTML={{ __html: product.price_html }}
+            />
+          ) : product.on_sale ? (
             <>
               <span className="font-semibold text-destructive">
                 {formatPrice(product.sale_price)}
