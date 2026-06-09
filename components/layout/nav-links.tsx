@@ -5,17 +5,28 @@ import { usePathname } from "next/navigation";
 import { iLifeMenu } from "@/menu.config";
 import { cn } from "@/lib/utils";
 import { TentangKamiNavItem } from "@/components/custom/nav/tentang-kami-nav-item";
+import { ProdukLayananNavItem } from "@/components/custom/nav/produk-layanan-nav-item";
+import type { LayananItem } from "@/lib/custom/layanan";
 
-// CUSTOM: "Tentang Kami" entry is replaced with a dropdown component
-const DROPDOWN_LABELS = new Set(["Tentang Kami"]);
+// CUSTOM: these labels are replaced with dropdown components
+const DROPDOWN_LABELS = new Set(["Tentang Kami", "Produk & Layanan"]);
 
-export function NavLinks() {
+interface NavLinksProps {
+  layananItems?: LayananItem[];
+}
+
+export function NavLinks({ layananItems = [] }: NavLinksProps) {
   const pathname = usePathname();
 
   return (
     <div className="hidden md:flex items-center">
       {iLifeMenu.map(({ label, href }) => {
-        if (DROPDOWN_LABELS.has(label)) {
+        if (label === "Produk & Layanan") {
+          return (
+            <ProdukLayananNavItem key={href} layananItems={layananItems} />
+          );
+        }
+        if (label === "Tentang Kami") {
           return <TentangKamiNavItem key={href} />;
         }
         const isActive =
