@@ -49,17 +49,25 @@ export function PriceDisplay({
   }
 
   // CUSTOM: WooCommerce variable products expose range pricing in price_html.
+  // We strip the HTML and extract raw numeric amounts rather than rendering
+  // the raw HTML (which includes WooCommerce's hidden aria-label spans).
   if (!onSale && priceHtml) {
-    return (
-      <div
-        className={cn(
-          "font-bold",
-          sizeClasses[size].price,
-          "[&_del]:text-muted-foreground [&_del]:font-normal [&_del]:mr-2"
-        )}
-        dangerouslySetInnerHTML={{ __html: priceHtml }}
-      />
-    );
+    const amounts = priceHtml.match(/[\d.,]+/g)?.map((n) => n.replace(/\./g, "").replace(",", ".")) ?? [];
+    const [minRaw, maxRaw] = amounts;
+    if (minRaw && maxRaw && minRaw !== maxRaw) {
+      return (
+        <span className={cn("font-bold", sizeClasses[size].price)}>
+          {formatPrice(minRaw)} – {formatPrice(maxRaw)}
+        </span>
+      );
+    }
+    if (minRaw) {
+      return (
+        <span className={cn("font-bold", sizeClasses[size].price)}>
+          {formatPrice(minRaw)}
+        </span>
+      );
+    }
   }
 
   return (

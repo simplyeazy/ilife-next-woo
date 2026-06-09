@@ -70,11 +70,15 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
         {/* Price */}
         <div className="flex items-center gap-2 mt-auto">
           {product.type === "variable" && product.price_html ? (
-            // CUSTOM: Variable products should display WooCommerce range pricing.
-            <div
-              className="font-semibold [&_del]:text-muted-foreground [&_del]:font-normal [&_del]:mr-2"
-              dangerouslySetInnerHTML={{ __html: product.price_html }}
-            />
+            // CUSTOM: Parse range from price_html to avoid rendering WC aria spans.
+            (() => {
+              const amounts = product.price_html.match(/[\d.,]+/g)?.map((n) => n.replace(/\./g, "").replace(",", ".")) ?? [];
+              const [minRaw, maxRaw] = amounts;
+              const label = minRaw && maxRaw && minRaw !== maxRaw
+                ? `${formatPrice(minRaw)} – ${formatPrice(maxRaw)}`
+                : minRaw ? formatPrice(minRaw) : "Hubungi kami untuk harga";
+              return <span className="font-semibold">{label}</span>;
+            })()
           ) : product.on_sale ? (
             <>
               <span className="font-semibold text-destructive">
