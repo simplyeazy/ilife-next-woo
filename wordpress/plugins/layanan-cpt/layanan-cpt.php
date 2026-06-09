@@ -21,7 +21,11 @@ add_action('init', function () {
             'not_found'          => 'Layanan tidak ditemukan',
             'not_found_in_trash' => 'Tidak ada layanan di trash',
         ],
-        'public'       => false,
+        // CUSTOM: keep admin permalink/slug UX while routing public pages via Next.js only
+        'public'             => true,
+        'publicly_queryable' => false,
+        'exclude_from_search' => true,
+        'has_archive'        => false,
         'show_ui'      => true,
         'show_in_rest' => true, // enables Gutenberg full editor
         'rest_base'    => 'layanan',
