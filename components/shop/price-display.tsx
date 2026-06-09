@@ -7,6 +7,7 @@ interface PriceDisplayProps {
   regularPrice: string;
   salePrice: string;
   onSale: boolean;
+  priceHtml?: string;
   size?: "sm" | "md" | "lg";
   showBadge?: boolean;
 }
@@ -16,6 +17,7 @@ export function PriceDisplay({
   regularPrice,
   salePrice,
   onSale,
+  priceHtml,
   size = "md",
   showBadge = true,
 }: PriceDisplayProps) {
@@ -43,6 +45,20 @@ export function PriceDisplay({
       <span className={cn("font-semibold", sizeClasses[size].price)}>
         Hubungi kami untuk harga 
       </span>
+    );
+  }
+
+  // CUSTOM: WooCommerce variable products expose range pricing in price_html.
+  if (!onSale && priceHtml) {
+    return (
+      <div
+        className={cn(
+          "font-bold",
+          sizeClasses[size].price,
+          "[&_del]:text-muted-foreground [&_del]:font-normal [&_del]:mr-2"
+        )}
+        dangerouslySetInnerHTML={{ __html: priceHtml }}
+      />
     );
   }
 

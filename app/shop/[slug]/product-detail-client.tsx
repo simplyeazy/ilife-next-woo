@@ -35,28 +35,28 @@ export function ProductDetailClient({
     selectedVariation?.regular_price || product.regular_price;
   const displaySalePrice = selectedVariation?.sale_price || product.sale_price;
   const isOnSale = selectedVariation?.on_sale ?? product.on_sale;
+  const displayPriceHtml = selectedVariation ? undefined : product.price_html;
 
   return (
     <div className="space-y-6">
+      {/* Price: show range first, then exact selected variation price */}
+      <div className="space-y-2">
+        <PriceDisplay
+          price={displayPrice}
+          regularPrice={displayRegularPrice}
+          salePrice={displaySalePrice}
+          onSale={isOnSale}
+          priceHtml={displayPriceHtml}
+          size="md"
+        />
+      </div>
+
       {/* Variation Selector */}
       <VariationSelector
         product={product}
         variations={variations}
         onVariationChange={handleVariationChange}
       />
-
-      {/* Updated Price Display */}
-      {selectedVariation && (
-        <div className="space-y-2">
-          <PriceDisplay
-            price={displayPrice}
-            regularPrice={displayRegularPrice}
-            salePrice={displaySalePrice}
-            onSale={isOnSale}
-            size="md"
-          />
-        </div>
-      )}
 
       {/* CUSTOM: show WhatsApp + Email CTAs when cart is disabled, otherwise AddToCart */}
       {featureFlags.ENABLE_CART ? (

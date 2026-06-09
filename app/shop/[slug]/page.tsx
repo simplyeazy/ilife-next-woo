@@ -196,6 +196,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 regularPrice={product.regular_price}
                 salePrice={product.sale_price}
                 onSale={product.on_sale}
+                priceHtml={product.price_html}
                 size="lg"
               />
 
