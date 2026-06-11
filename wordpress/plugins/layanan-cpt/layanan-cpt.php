@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: iLife Layanan
- * Description: Registers the 'layanan' CPT for CMS-managed SEO landing pages at /produk/[slug]. Admin dapat membuat halaman layanan baru tanpa perlu mengubah kode.
+ * Description: Registers the 'layanan' CPT for CMS-managed SEO landing pages at /produk-dan-layanan/[slug]. Admin dapat membuat halaman layanan baru tanpa perlu mengubah kode.
  * Version: 1.0.0
  * Author: <a href="https://lundy.dev">lundy.dev</a>
  * Author URI: https://lundy.dev
@@ -89,7 +89,7 @@ function layanan_meta_box_callback($post) {
         </tr>
     </table>
     <p style="margin-top:12px;color:#666;font-size:12px;">
-        <strong>URL halaman:</strong> <code>/produk/<?php echo esc_html($post->post_name ?: 'slug-layanan'); ?></code>
+        <strong>URL halaman:</strong> <code>/produk-dan-layanan/<?php echo esc_html($post->post_name ?: 'slug-layanan'); ?></code>
     </p>
     <?php
 }

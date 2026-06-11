@@ -86,7 +86,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const layananUrls: MetadataRoute.Sitemap = layananItems.map((item) => ({
-    url: `${siteConfig.site_domain}/produk/${item.slug}`,
+    url: `${siteConfig.site_domain}/produk-dan-layanan/${item.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.9,

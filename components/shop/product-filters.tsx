@@ -56,7 +56,7 @@ export function ProductFilters({
       params.delete("page");
 
       startTransition(() => {
-        router.push(`/shop?${params.toString()}`);
+        router.push(`/produk-dan-layanan?${params.toString()}`);
       });
     },
     [router, searchParams]
@@ -64,7 +64,7 @@ export function ProductFilters({
 
   const clearFilters = () => {
     startTransition(() => {
-      router.push("/shop");
+      router.push("/produk-dan-layanan");
     });
   };
 

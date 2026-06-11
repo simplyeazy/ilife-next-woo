@@ -8,7 +8,7 @@ export interface LayananItem {
   excerpt: string; // used as meta description
   imageUrl: string | null;
   imageAlt: string;
-  wcCategory: string; // WooCommerce category slug, e.g. "videotron" → /produk?category=videotron
+  wcCategory: string; // WooCommerce category slug, e.g. "videotron" → /produk-dan-layanan?category=videotron
   waMessage: string;
 }
 

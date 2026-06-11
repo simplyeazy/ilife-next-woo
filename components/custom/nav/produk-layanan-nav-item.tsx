@@ -21,7 +21,7 @@ export function ProdukLayananNavItem({
   const ref = React.useRef<HTMLDivElement>(null);
 
   const isActive =
-    pathname.startsWith("/produk") || pathname.startsWith("/layanan");
+    pathname.startsWith("/produk-dan-layanan");
 
   // Close dropdown when clicking outside
   React.useEffect(() => {
@@ -65,11 +65,11 @@ export function ProdukLayananNavItem({
         <div className="absolute left-0 top-full z-50 mt-1.5 w-64 overflow-hidden rounded-md border border-gray-100 bg-white shadow-lg">
           {/* Semua Produk */}
           <Link
-            href="/produk"
+            href="/produk-dan-layanan"
             onClick={() => setOpen(false)}
             className={cn(
               "flex items-center gap-2.5 px-4 py-3 text-sm font-semibold transition-colors border-b border-gray-100",
-              pathname === "/produk"
+              pathname === "/produk-dan-layanan"
                 ? "bg-blue-50 text-[#1565C0]"
                 : "text-gray-800 hover:bg-gray-50 hover:text-[#1565C0]"
             )}

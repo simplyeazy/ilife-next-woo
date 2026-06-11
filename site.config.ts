@@ -28,7 +28,7 @@ export const siteConfig: SiteConfig = {
   site_description: "Spesialis jasa pembuatan videotron, huruf timbul, neonbox, dan signage profesional. Melayani custom running text, neonflex, totem SPBU & laser cut di Blora, Sragen, Solo Raya dan seluruh Indonesia.",
   site_domain: "https://ilife.co.id",
   telephone: process.env.NEXT_PUBLIC_PHONE_OFFICE ?? "",
-  // CUSTOM: WhatsApp number for product inquiry CTAs on /produk page
+  // CUSTOM: WhatsApp number for product inquiry CTAs on /produk-dan-layanan page
   whatsapp_number: process.env.NEXT_PUBLIC_WA_NUMBER ?? "",
   email: process.env.NEXT_PUBLIC_EMAIL ?? "",
   instagram: process.env.NEXT_PUBLIC_INSTAGRAM ?? "",

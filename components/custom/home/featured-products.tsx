@@ -22,7 +22,7 @@ export async function FeaturedProductsSection() {
           <h2 className="text-3xl font-normal text-gray-800 mb-4">
             Produk-produk
           </h2>
-          <hr className="w-12 border-t-2 border-gray-400 mx-auto mb-4"/ >
+          <hr className="w-12 border-t-2 border-gray-400 mx-auto mb-4" />
         </div>
 
         {/* Masonry grid: first 2 items at half-width, rest at one-third */}
@@ -37,7 +37,7 @@ export async function FeaturedProductsSection() {
             return (
               <Link
                 key={product.id}
-                href={`/produk/${product.slug}`}
+                href={`/produk-dan-layanan/${product.slug}`}
                 className={[
                   "relative overflow-hidden group block",
                   isWide ? "sm:col-span-3 aspect-[16/10]" : "sm:col-span-2 aspect-[4/3]",
@@ -79,7 +79,7 @@ export async function FeaturedProductsSection() {
 
         <div className="mt-8 text-center">
           <Link
-            href="/produk"
+            href="/produk-dan-layanan"
             className="inline-block border border-[#17a2b8] text-[#17a2b8] hover:bg-[#17a2b8] hover:text-white px-8 py-2.5 rounded-full text-sm font-medium transition-colors duration-200"
           >
             Lihat Semua

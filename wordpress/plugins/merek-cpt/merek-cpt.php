@@ -43,7 +43,7 @@ add_action( 'init', function () {
 
     register_post_meta( 'merek_produk', 'wc_brand_slug', [
         'type'              => 'string',
-        'description'       => 'Slug brand WooCommerce (untuk filter /produk?brand=<slug>)',
+        'description'       => 'Slug brand WooCommerce (untuk filter /produk-dan-layanan?brand=<slug>)',
         'single'            => true,
         'show_in_rest'      => true,
         'sanitize_callback' => 'sanitize_text_field',
@@ -84,7 +84,7 @@ function merek_cpt_meta_box_html( $post ) {
                 <input type="text" id="wc_brand_slug" name="wc_brand_slug"
                        value="<?php echo esc_attr( $wc_brand_slug ); ?>"
                        style="width:100%" placeholder="novastar" />
-                <p class="description">Slug brand dari WooCommerce. Klik logo akan filter ke <code>/produk?brand=&lt;slug&gt;</code>.</p>
+                <p class="description">Slug brand dari WooCommerce. Klik logo akan filter ke <code>/produk-dan-layanan?brand=&lt;slug&gt;</code>.</p>
             </td>
         </tr>
     </table>

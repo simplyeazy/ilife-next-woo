@@ -56,7 +56,7 @@ export function CartDrawer() {
 
         {isLoading ? (
           <div className="flex-1 flex items-center justify-center">
-            <div className="animate-pulse text-muted-foreground">Loading...</div>
+            <div className="animate-pulse text-muted-foreground">Memuat...</div>
           </div>
         ) : cart.items.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center gap-4">
@@ -64,7 +64,7 @@ export function CartDrawer() {
             <p className="text-muted-foreground">Keranjang Anda kosong</p>
             <SheetClose asChild>
               <Button asChild>
-                <Link href="/shop">Lanjutkan belanja</Link>
+                <Link href="/produk-dan-layanan">Lanjutkan belanja</Link>
               </Button>
             </SheetClose>
           </div>
@@ -181,7 +181,7 @@ export function CartDrawer() {
                 </div>
                 {parseFloat(cart.totals.shipping) > 0 && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Shipping</span>
+                    <span className="text-muted-foreground">Ongkos Kirim</span>
                     <span>{formatPrice(cart.totals.shipping)}</span>
                   </div>
                 )}

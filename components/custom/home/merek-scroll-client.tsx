@@ -44,7 +44,7 @@ export function MerekScrollClient({ brands, autoScroll }: Props) {
         {items.map((brand, i) => {
           // Primary: filter WC products by brand; fallback: manufacturer site
           const href = brand.wcBrandSlug
-            ? `/produk?brand=${brand.wcBrandSlug}`
+            ? `/produk-dan-layanan?brand=${brand.wcBrandSlug}`
             : (brand.brandUrl ?? "#");
           const isExternal = !brand.wcBrandSlug && !!brand.brandUrl;
 

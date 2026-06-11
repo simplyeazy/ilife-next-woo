@@ -1,7 +1,7 @@
 // Define the menu items
 export const mainMenu = {
   home: "/",
-  shop: "/produk", // CUSTOM: /shop redirects to /produk
+  shop: "/produk-dan-layanan", // CUSTOM: /shop redirects to /produk-dan-layanan
   blog: "/posts",
   about: "https://github.com/9d8dev/next-wp",
 };
@@ -9,7 +9,7 @@ export const mainMenu = {
 // CUSTOM: iLife main navigation
 export const iLifeMenu = [
   { label: "Beranda", href: "/" },
-  { label: "Produk & Layanan", href: "/produk" },
+  { label: "Produk & Layanan", href: "/produk-dan-layanan" },
   { label: "Portofolio", href: "/portofolio" },
   { label: "Tentang Kami", href: "/tentang-kami" },
 ];
@@ -27,7 +27,7 @@ export const contentMenu = {
 };
 
 export const shopMenu = {
-  products: "/produk", // CUSTOM: /shop redirects to /produk
+  products: "/produk-dan-layanan", // CUSTOM: /shop redirects to /produk-dan-layanan
   cart: "/cart",
   account: "/account",
 };

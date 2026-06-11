@@ -65,7 +65,7 @@ export function MobileNav({ logoSrc, logoAlt, layananItems = [] }: MobileNavProp
                 return (
                   <div key={href}>
                     <MobileLink
-                      href="/produk"
+                      href="/produk-dan-layanan"
                       onOpenChange={setOpen}
                       className="text-lg font-medium text-gray-800"
                     >

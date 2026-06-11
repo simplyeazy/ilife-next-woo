@@ -7,7 +7,7 @@ export interface MerekItem {
   name: string;
   logoUrl: string | null;
   brandUrl: string | null;    // manufacturer website (external link)
-  wcBrandSlug: string | null; // WooCommerce brand slug → /produk?brand=<slug>
+  wcBrandSlug: string | null; // WooCommerce brand slug → /produk-dan-layanan?brand=<slug>
 }
 
 /** Fetch brands from WooCommerce Brands API (primary source). */
