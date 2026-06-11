@@ -47,16 +47,19 @@ export function BrandsScrollClient({ clients, autoScroll }: Props) {
       >
         {items.map((client, i) => {
           const inner = client.logoUrl ? (
-            <Image
-              src={client.logoUrl}
-              alt={client.name}
-              width={120}
-              height={80}
-              sizes="120px"
-              quality={60}
-              unoptimized={wcImagesUnoptimized}
-              className="object-contain grayscale hover:grayscale-0 transition-all duration-300 max-h-[80px] w-auto"
-            />
+            // 1. Lock the bounding box size using a relative wrapper
+            <div className="relative w-[120px] h-[80px] flex items-center justify-center">
+              <Image
+                src={client.logoUrl}
+                alt={client.name}
+                fill // 2. Switch from fixed width/height to fill
+                sizes="(max-width: 768px) 100px, 120px" // 3. Provide accurate breakpoint hints
+                quality={60}
+                unoptimized={wcImagesUnoptimized}
+                // 4. Removed w-auto and max-h. object-contain handles the aspect ratio natively inside the wrapper.
+                className="object-contain grayscale hover:grayscale-0 transition-all duration-300"
+              />
+            </div>
           ) : (
             <div className="w-[120px] h-[80px] flex items-center justify-center text-center text-xs font-semibold text-gray-500 border border-gray-200 rounded px-2">
               {client.name}
@@ -70,7 +73,7 @@ export function BrandsScrollClient({ clients, autoScroll }: Props) {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={client.name}
-              className="flex-shrink-0"
+              className="flex-shrink-0 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
             >
               {inner}
             </a>
