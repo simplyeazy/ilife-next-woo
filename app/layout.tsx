@@ -1,5 +1,3 @@
-import "./globals.css";
-
 import { Inter as FontSans } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { ThemeProvider } from "@/components/theme/theme-provider";
@@ -12,6 +10,8 @@ import { siteConfig } from "@/site.config";
 import { cn } from "@/lib/utils";
 
 import type { Metadata } from "next";
+
+import "./globals.css";
 
 const font = FontSans({
   subsets: ["latin"],
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-    openGraph: {
+  openGraph: {
     title: "iLife Advertising | Jasa Videotron, Huruf Timbul, Neonbox, Signage",
     description: siteConfig.site_description,
     url: siteConfig.site_domain,
@@ -77,11 +77,11 @@ export default function RootLayout({
                 "Grobogan", "Demak", "Jepara", "Boyolali", "Klaten",
                 "Wonogiri", "Karanganyar", "Purwodadi", "Jawa Tengah",
                 // Broader reach
-                "Indonesia",
+                "Indonesia", "Kalimantan", "Sulawesi", "Sumatera", "Bali", "Nusa Tenggara"
               ],
               serviceType: [
                 "Videotron", "Huruf Timbul", "Neonbox", "Running Text",
-                "Neonflex", "Totem SPBU", "Laser Cut", "Signage",
+                "Neonflex", "Totem SPBU", "Laser Cut", "Signage", "Print UV", "Sticker"
               ],
               sameAs: [
                 siteConfig.instagram
@@ -93,7 +93,7 @@ export default function RootLayout({
               openingHoursSpecification: [
                 {
                   "@type": "OpeningHoursSpecification",
-                  dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+                  dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
                   opens: "08:00",
                   closes: "17:00",
                 },
@@ -116,10 +116,10 @@ export default function RootLayout({
             <LiveChatWidget />
           </CartProvider>
         </ThemeProvider>
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+        )}
       </body>
-      {process.env.NEXT_PUBLIC_GA_ID && (
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
-      )}
     </html>
   );
 }
