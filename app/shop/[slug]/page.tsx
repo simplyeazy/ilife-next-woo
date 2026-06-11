@@ -55,7 +55,7 @@ export async function generateMetadata({
       return {
         title: `${layanan.title} | ${siteConfig.site_name}`,
         description,
-        alternates: { canonical: `/produk/${slug}` },
+        alternates: { canonical: `/produk-dan-layanan/${slug}` },
         openGraph: {
           title: layanan.title,
           description,

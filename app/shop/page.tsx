@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   title: "Produk & Layanan",
   description: "Temukan produk LED display, videotron, neonbox dan signage terbaik dari iLife. Kualitas premium untuk kebutuhan periklanan dan pertunjukan publik Anda.",
   alternates: {
-    canonical: "/produk",
+    canonical: "/produk-dan-layanan",
   },
 };
 
@@ -116,7 +116,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     if (sort) urlParams.set("sort", sort);
     if (min_price) urlParams.set("min_price", min_price);
     if (max_price) urlParams.set("max_price", max_price);
-    return `/shop${urlParams.toString() ? `?${urlParams.toString()}` : ""}`;
+    return `/produk-dan-layanan${urlParams.toString() ? `?${urlParams.toString()}` : ""}`;
   };
 
   const pageTitle = categoryData?.name || "Produk & Layanan";

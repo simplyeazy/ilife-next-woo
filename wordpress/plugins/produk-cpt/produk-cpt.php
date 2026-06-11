@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: iLife Produk Showcase
- * Description: Registers the 'produk' CPT for the /produk showcase page. Admins can choose which product images and info appear on the public produk page.
+ * Description: Registers the 'produk' CPT for the /produk-dan-layanan showcase page. Admins can choose which product images and info appear on the public produk page.
  * Version: 1.0.0
  * Author: <a href="https://lundy.dev">lundy.dev</a>
  * Author URI: https://lundy.dev

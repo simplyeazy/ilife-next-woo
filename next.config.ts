@@ -33,18 +33,21 @@ const nextConfig: NextConfig = {
           },
         ],
   },
-  // CUSTOM: /produk is the public-facing URL; /shop is kept for upstream compat
+  // CUSTOM: /produk-dan-layanan is the public-facing URL; /shop is kept for upstream compat
   async rewrites() {
     return [
-      { source: "/produk", destination: "/shop" },
-      { source: "/produk/:path*", destination: "/shop/:path*" },
+      { source: "/produk-dan-layanan", destination: "/shop" },
+      { source: "/produk-dan-layanan/:path*", destination: "/shop/:path*" },
     ];
   },
   async redirects() {
     const rules: { source: string; destination: string; permanent: boolean }[] = [
-      // CUSTOM: redirect legacy /shop URLs to /produk
-      { source: "/shop", destination: "/produk", permanent: true },
-      { source: "/shop/:path*", destination: "/produk/:path*", permanent: true },
+      // CUSTOM: redirect legacy /shop, /produk, and /layanan URLs to /produk-dan-layanan
+      { source: "/shop", destination: "/produk-dan-layanan", permanent: true },
+      { source: "/shop/:path*", destination: "/produk-dan-layanan/:path*", permanent: true },
+      { source: "/produk", destination: "/produk-dan-layanan", permanent: true },
+      { source: "/produk/:path*", destination: "/produk-dan-layanan/:path*", permanent: true },
+      { source: "/layanan/:path*", destination: "/produk-dan-layanan/:path*", permanent: true },
     ];
     if (wordpressUrl) {
       rules.push({

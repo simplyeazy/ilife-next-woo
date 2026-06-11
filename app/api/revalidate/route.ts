@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
       // CUSTOM: iLife CPT types
       else if (contentType === "produk") {
         revalidateTag("produk", { expire: 0 });
-        revalidatePath("/produk");
+        revalidatePath("/produk-dan-layanan");
       } else if (contentType === "portofolio") {
         revalidateTag("portofolio", { expire: 0 });
         revalidatePath("/portofolio");
@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
         if (contentId) {
           revalidateTag(`layanan-${contentId}`, { expire: 0 });
         }
-        revalidatePath("/produk", "layout");
+        revalidatePath("/produk-dan-layanan", "layout");
       }
 
       // Also revalidate the entire layout for safety

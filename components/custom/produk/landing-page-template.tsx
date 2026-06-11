@@ -1,4 +1,4 @@
-// CUSTOM: Server component for layanan (CMS-managed SEO landing pages) under /produk/[slug]
+// CUSTOM: Server component for layanan (CMS-managed SEO landing pages) under /produk-dan-layanan/[slug]
 import Image from "next/image";
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
@@ -24,8 +24,8 @@ export async function LandingPageTemplate({ item }: LandingPageTemplateProps) {
         <div className="space-y-16">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Link href="/produk" className="hover:text-foreground">
-              Produk
+            <Link href="/produk-dan-layanan" className="hover:text-foreground">
+              Produk dan Layanan
             </Link>
             <span>/</span>
             <span className="text-foreground">{item.title}</span>
@@ -90,8 +90,8 @@ export async function LandingPageTemplate({ item }: LandingPageTemplateProps) {
                 Temukan pilihan produk {item.title} kami dengan spesifikasi lengkap dan harga terjangkau.
               </p>
               <Button asChild variant="outline" size="lg">
-                <Link href={`/produk?category=${item.wcCategory}`}>
-                  Lihat Semua Produk →
+                <Link href={`/produk-dan-layanan?category=${item.wcCategory}`}>
+                  Lihat Semua Produk dan Layanan →
                 </Link>
               </Button>
             </div>

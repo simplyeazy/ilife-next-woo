@@ -20,7 +20,7 @@ export function ProdukCard({ item, waNumber, priority = false }: ProdukCardProps
     `Halo, saya tertarik dengan produk: ${item.title}. Mohon informasi lebih lanjut.`;
   const waUrl = `https://wa.me/${waNumber.replace(/\D/g, "")}?text=${encodeURIComponent(waMessage)}`;
 
-  const productUrl = item.wcProductSlug ? `/produk/${item.wcProductSlug}` : "/produk";
+  const productUrl = item.wcProductSlug ? `/produk-dan-layanan/${item.wcProductSlug}` : "/produk-dan-layanan";
 
   return (
     <div className="group flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
