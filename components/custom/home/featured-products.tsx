@@ -80,7 +80,7 @@ export async function FeaturedProductsSection() {
         <div className="mt-8 text-center">
           <Link
             href="/produk-dan-layanan"
-            className="inline-block border border-[#17a2b8] text-[#17a2b8] hover:bg-[#17a2b8] hover:text-white px-8 py-2.5 rounded-full text-sm font-medium transition-colors duration-200"
+            className="inline-block border border-[#1565C0] text-[#1565C0] hover:bg-[#1565C0] hover:text-white px-8 py-2.5 rounded-full text-sm font-medium transition-colors duration-200"
           >
             Lihat Semua
           </Link>
