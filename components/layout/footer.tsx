@@ -43,7 +43,7 @@ export async function Footer() {
 
         {/* Tautan */}
         <div className="flex flex-col gap-2">
-          <h5 className="font-semibold text-[#1565C0] text-base mb-1">Tautan</h5>
+          <h3 className="font-semibold text-[#1565C0] text-base mb-1">Tautan</h3>
           {tautan.map(({ label, href }) => (
             <Link key={label} href={href} className="text-sm text-gray-700 hover:text-[#1565C0] flex items-center gap-1">
               <span className="text-gray-400">›</span> {label}
@@ -53,7 +53,7 @@ export async function Footer() {
 
         {/* Layanan Kami */}
         <div className="flex flex-col gap-2">
-          <h5 className="font-semibold text-[#1565C0] text-base mb-1">Layanan Kami</h5>
+          <h3 className="font-semibold text-[#1565C0] text-base mb-1">Layanan Kami</h3>
           {layanan.map(({ label, href }) => (
             <Link key={label} href={href} className="text-sm text-gray-700 hover:text-[#1565C0] flex items-center gap-1">
               <span className="text-gray-400">›</span> {label}
@@ -64,7 +64,7 @@ export async function Footer() {
         {/* TODO */}
         {/* Bergabung buletin */}
         {/* <div className="flex flex-col gap-2">
-          <h5 className="font-semibold text-[#1565C0] text-base mb-1">Bergabung buletin kami</h5>
+          <h3 className="font-semibold text-[#1565C0] text-base mb-1">Bergabung buletin kami</h3>
           <p className="text-sm text-gray-600 leading-relaxed">
             Mari berlangganan buletin promosi kami dengan menghubungi kami untuk mendapatkan tawaran terbaik
           </p>
