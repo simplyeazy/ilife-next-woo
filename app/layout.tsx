@@ -4,7 +4,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { CartProvider } from "@/components/shop";
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
-import dynamic from "next/dynamic";
+
 
 import { siteConfig } from "@/site.config";
 import { cn } from "@/lib/utils";
@@ -13,12 +13,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 
-const LiveChatWidget = dynamic(
-  () => import("@/components/custom/live-chat").then((mod) => mod.LiveChatWidget),
-  {
-    ssr: false, // Disables Server-Side Rendering for this component
-  }
-);
+import { LiveChatWidget } from "@/components/custom/live-chat-wrapper";
 
 const font = FontSans({
   subsets: ["latin"],
