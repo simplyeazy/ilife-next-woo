@@ -1,3 +1,5 @@
+import { decodeHtmlEntities } from "@/lib/utils";
+
 const baseUrl = process.env.WORDPRESS_URL;
 
 export interface LayananItem {
@@ -14,19 +16,22 @@ export interface LayananItem {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapLayananItem(p: any): LayananItem {
+  const decodedTitle = decodeHtmlEntities(p.title.rendered);
   return {
     id: p.id,
     slug: p.slug,
-    title: p.title.rendered,
+    title: decodedTitle,
     content: p.content?.rendered ?? "",
     excerpt: p.excerpt?.rendered?.replace(/<[^>]+>/g, "").trim() ?? "",
     imageUrl: p._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? null,
-    imageAlt:
-      p._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || p.title.rendered,
+    imageAlt: decodeHtmlEntities(
+      p._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || p.title.rendered
+    ),
     wcCategory: p.meta?.wc_category ?? "",
     waMessage: p.meta?.wa_message ?? "",
   };
 }
+
 
 export async function getLayananBySlug(
   slug: string

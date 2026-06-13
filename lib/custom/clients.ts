@@ -1,3 +1,5 @@
+import { decodeHtmlEntities } from "@/lib/utils";
+
 const baseUrl = process.env.WORDPRESS_URL;
 
 export interface ClientData {
@@ -21,7 +23,7 @@ export async function getClients(): Promise<ClientData[]> {
     const posts = await res.json();
     return posts.map((p: any) => ({
       id: p.id,
-      name: p.title.rendered,
+      name: decodeHtmlEntities(p.title.rendered),
       logoUrl: p._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? null,
       clientUrl: p.meta?.client_url || null,
     }));
