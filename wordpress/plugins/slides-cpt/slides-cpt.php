@@ -2,7 +2,7 @@
 /**
  * Plugin Name: iLife Hero Slides
  * Description: Registers the 'slides' CPT with WooCommerce product picker for the hero carousel
- * Version: 1.1.0
+ * Version: 1.1.1
  * Author: <a href="https://lundy.dev">lundy.dev</a>
  * Author URI: https://lundy.dev
  */
@@ -27,7 +27,7 @@ add_action('init', function () {
             'single'        => true,
             'type'          => 'string',
             'default'       => $key === 'cta_text' ? 'Lihat Produk' : ($key === 'cta_url' ? '/shop' : ''),
-            'auth_callback' => fn() => current_user_can('edit_posts'),
+            'auth_callback' => '__return_true',
         ]);
     }
 });
@@ -135,3 +135,30 @@ add_action('save_post_slides', function ($post_id) {
         update_post_meta($post_id, 'cta_url', sanitize_text_field($_POST['cta_url']));
     }
 });
+
+// Handle meta updates via REST API (Gutenberg)
+function handle_slide_meta_update_or_add($meta_id, $object_id, $meta_key, $_meta_value) {
+    if (get_post_type($object_id) !== 'slides') {
+        return;
+    }
+
+    if ($meta_key === 'cta_product_id') {
+        $product_id = $_meta_value;
+        if (!empty($product_id) && class_exists('WooCommerce')) {
+            $product = wc_get_product($product_id);
+            if ($product) {
+                $slug = $product->get_slug();
+                // Temporarily remove actions to avoid recursion
+                remove_action('updated_post_meta', 'handle_slide_meta_update_or_add', 10);
+                remove_action('added_post_meta', 'handle_slide_meta_update_or_add', 10);
+                
+                update_post_meta($object_id, 'cta_url', '/shop/' . $slug);
+                
+                add_action('updated_post_meta', 'handle_slide_meta_update_or_add', 10, 4);
+                add_action('added_post_meta', 'handle_slide_meta_update_or_add', 10, 4);
+            }
+        }
+    }
+}
+add_action('updated_post_meta', 'handle_slide_meta_update_or_add', 10, 4);
+add_action('added_post_meta', 'handle_slide_meta_update_or_add', 10, 4);
