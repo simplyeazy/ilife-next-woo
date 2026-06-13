@@ -38,6 +38,7 @@ add_action('init', function () {
         'client_name' => ['type' => 'string', 'default' => ''],
         'project_url' => ['type' => 'string', 'default' => ''],
         'tahun'       => ['type' => 'string', 'default' => ''],
+        'is_featured' => ['type' => 'boolean', 'default' => false],
     ];
 
     foreach ($meta_fields as $key => $args) {
@@ -69,6 +70,7 @@ function portofolio_meta_box_callback($post) {
     $client_name = get_post_meta($post->ID, 'client_name', true);
     $project_url = get_post_meta($post->ID, 'project_url', true);
     $tahun       = get_post_meta($post->ID, 'tahun', true);
+    $is_featured  = get_post_meta($post->ID, 'is_featured', true);
     ?>
     <table class="form-table">
         <tr>
@@ -103,6 +105,13 @@ function portofolio_meta_box_callback($post) {
                 <p class="description">Tahun pelaksanaan proyek</p>
             </td>
         </tr>
+        <tr>
+            <th><label for="is_featured">Featured</label></th>
+            <td>
+                <input type="checkbox" id="is_featured" name="is_featured" value="1" <?php checked($is_featured, '1'); ?> />
+                <p class="description">Tandai jika proyek ini ingin ditampilkan sebagai proyek unggulan</p>
+            </td>
+        </tr>
     </table>
     <?php
 }
@@ -119,4 +128,6 @@ add_action('save_post_portofolio', function ($post_id) {
             update_post_meta($post_id, $field, sanitize_text_field($_POST[$field]));
         }
     }
+    $is_featured = isset($_POST['is_featured']) ? '1' : '0';
+    update_post_meta($post_id, 'is_featured', $is_featured);
 });
