@@ -15,7 +15,7 @@ add_action('init', function () {
         'show_ui'      => true,
         'show_in_rest' => true,
         'rest_base'    => 'slides',
-        'supports'     => ['title', 'excerpt', 'thumbnail', 'page-attributes'],
+         'supports'     => ['title', 'excerpt', 'thumbnail', 'page-attributes', 'custom-fields'],
         'menu_icon'    => 'dashicons-images-alt2',
     ]);
 });
