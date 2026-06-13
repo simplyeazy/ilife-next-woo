@@ -14,6 +14,7 @@ export interface PortofolioItem {
   clientName: string;
   projectUrl: string;
   tahun: string;
+  isFeatured?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -33,6 +34,7 @@ function mapPortofolioItem(p: any): PortofolioItem {
     clientName: p.meta?.client_name ?? "",
     projectUrl: p.meta?.project_url ?? "",
     tahun: p.meta?.tahun ?? "",
+    isFeatured: p.meta?.is_featured ?? false,
   };
 }
 
