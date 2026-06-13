@@ -1,3 +1,5 @@
+import { decodeHtmlEntities } from "@/lib/utils";
+
 const baseUrl = process.env.WORDPRESS_URL;
 const consumerKey = process.env.WC_CONSUMER_KEY;
 const consumerSecret = process.env.WC_CONSUMER_SECRET;
@@ -28,7 +30,7 @@ export async function getWCBrands(): Promise<MerekItem[]> {
     const brands = await res.json();
     return (brands as Record<string, any>[]).map((b) => ({
       id: b.id,
-      name: b.name,
+      name: decodeHtmlEntities(b.name),
       logoUrl: b.image?.src ?? null,
       brandUrl: null,
       wcBrandSlug: b.slug,
@@ -53,7 +55,7 @@ export async function getMerekItems(): Promise<MerekItem[]> {
     const posts = await res.json();
     return posts.map((p: Record<string, any>) => ({
       id: p.id,
-      name: p.title.rendered,
+      name: decodeHtmlEntities(p.title.rendered),
       logoUrl: p._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? null,
       brandUrl: p.meta?.brand_url || null,
       wcBrandSlug: p.meta?.wc_brand_slug || null,
@@ -62,3 +64,4 @@ export async function getMerekItems(): Promise<MerekItem[]> {
     return [];
   }
 }
+

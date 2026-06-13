@@ -1,3 +1,5 @@
+import { decodeHtmlEntities } from "@/lib/utils";
+
 const baseUrl = process.env.WORDPRESS_URL;
 
 export interface PortofolioItem {
@@ -16,21 +18,24 @@ export interface PortofolioItem {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapPortofolioItem(p: any): PortofolioItem {
+  const decodedTitle = decodeHtmlEntities(p.title.rendered);
   return {
     id: p.id,
     slug: p.slug,
-    title: p.title.rendered,
+    title: decodedTitle,
     excerpt: p.excerpt?.rendered?.replace(/<[^>]+>/g, "").trim() ?? "",
     content: p.content?.rendered ?? "",
     imageUrl: p._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? null,
-    imageAlt:
-      p._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || p.title.rendered,
+    imageAlt: decodeHtmlEntities(
+      p._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || p.title.rendered
+    ),
     kategori: p.meta?.kategori ?? "",
     clientName: p.meta?.client_name ?? "",
     projectUrl: p.meta?.project_url ?? "",
     tahun: p.meta?.tahun ?? "",
   };
 }
+
 
 export async function getPortofolioItems(): Promise<PortofolioItem[]> {
   if (!baseUrl) return [];

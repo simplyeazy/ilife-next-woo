@@ -1,3 +1,5 @@
+import { decodeHtmlEntities } from "@/lib/utils";
+
 const baseUrl = process.env.WORDPRESS_URL;
 
 export interface ProdukItem {
@@ -25,20 +27,24 @@ export async function getProdukItems(): Promise<ProdukItem[]> {
     if (!res.ok) return [];
     const posts = await res.json();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return posts.map((p: any) => ({
-      id: p.id,
-      title: p.title.rendered,
-      excerpt: p.excerpt?.rendered?.replace(/<[^>]+>/g, "").trim() ?? "",
-      imageUrl: p._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? null,
-      imageAlt:
-        p._embedded?.["wp:featuredmedia"]?.[0]?.alt_text ||
-        p.title.rendered,
-      badgeLabel: p.meta?.badge_label ?? "",
-      priceLabel: p.meta?.price_label ?? "",
-      wcProductSlug: p.meta?.wc_product_slug ?? "",
-      whatsappMessage: p.meta?.whatsapp_message ?? "",
-    }));
+    return posts.map((p: any) => {
+      const decodedTitle = decodeHtmlEntities(p.title.rendered);
+      return {
+        id: p.id,
+        title: decodedTitle,
+        excerpt: p.excerpt?.rendered?.replace(/<[^>]+>/g, "").trim() ?? "",
+        imageUrl: p._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? null,
+        imageAlt: decodeHtmlEntities(
+          p._embedded?.["wp:featuredmedia"]?.[0]?.alt_text || p.title.rendered
+        ),
+        badgeLabel: p.meta?.badge_label ?? "",
+        priceLabel: p.meta?.price_label ?? "",
+        wcProductSlug: p.meta?.wc_product_slug ?? "",
+        whatsappMessage: p.meta?.whatsapp_message ?? "",
+      };
+    });
   } catch {
     return [];
   }
 }
+

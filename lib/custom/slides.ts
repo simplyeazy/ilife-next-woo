@@ -1,3 +1,5 @@
+import { decodeHtmlEntities } from "@/lib/utils";
+
 const baseUrl = process.env.WORDPRESS_URL;
 
 export interface SlideData {
@@ -23,7 +25,7 @@ export async function getSlides(): Promise<SlideData[]> {
     const posts = await res.json();
     return posts.map((p: any) => ({
       id: p.id,
-      title: p.title.rendered,
+      title: decodeHtmlEntities(p.title.rendered),
       subtitle: p.excerpt?.rendered?.replace(/<[^>]+>/g, "").trim() ?? "",
       imageUrl: p._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? null,
       ctaText: p.meta?.cta_text || "Lihat Produk",
