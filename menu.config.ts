@@ -2,7 +2,7 @@
 export const mainMenu = {
   home: "/",
   shop: "/produk-dan-layanan", // CUSTOM: /shop redirects to /produk-dan-layanan
-  blog: "/posts",
+  blog: "/artikel", // CUSTOM: /posts redirects to /artikel
   about: "https://github.com/9d8dev/next-wp",
 };
 
@@ -21,9 +21,9 @@ export const tentangKamiSubMenu = [
 ];
 
 export const contentMenu = {
-  categories: "/posts/categories",
-  tags: "/posts/tags",
-  authors: "/posts/authors",
+  categories: "/artikel/categories",
+  tags: "/artikel/tags",
+  authors: "/artikel/authors",
 };
 
 export const shopMenu = {
