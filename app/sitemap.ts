@@ -21,7 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: `${siteConfig.site_domain}/posts`,
+      url: `${siteConfig.site_domain}/artikel`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
@@ -33,19 +33,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     },
     {
-      url: `${siteConfig.site_domain}/posts/authors`,
+      url: `${siteConfig.site_domain}/artikel/authors`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.5,
     },
     {
-      url: `${siteConfig.site_domain}/posts/categories`,
+      url: `${siteConfig.site_domain}/artikel/categories`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.5,
     },
     {
-      url: `${siteConfig.site_domain}/posts/tags`,
+      url: `${siteConfig.site_domain}/artikel/tags`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.5,
@@ -65,7 +65,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   const postUrls: MetadataRoute.Sitemap = posts.map((post) => ({
-    url: `${siteConfig.site_domain}/posts/${post.slug}`,
+    url: `${siteConfig.site_domain}/artikel/${post.slug}`,
     lastModified: new Date(post.modified),
     changeFrequency: "weekly",
     priority: 0.5,

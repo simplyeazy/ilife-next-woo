@@ -77,10 +77,10 @@ export default async function Page({
       <Container>
         <div className="space-y-8">
           <Prose>
-            <h2>All Posts</h2>
+            <h2>Semua artikel</h2>
             <p className="text-muted-foreground">
-              {total} {total === 1 ? "post" : "posts"} found
-              {search && " matching your search"}
+              {total} {total === 1 ? "post" : "posts"} ditemukan
+              {search && " sesuai dengan pencarian Anda"}
             </p>
           </Prose>
 
@@ -105,7 +105,7 @@ export default async function Page({
             </div>
           ) : (
             <div className="h-24 w-full border rounded-lg bg-accent/25 flex items-center justify-center">
-              <p>No posts found</p>
+              <p>Tidak ada artikel ditemukan</p>
             </div>
           )}
 

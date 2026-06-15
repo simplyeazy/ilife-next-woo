@@ -54,10 +54,10 @@ export function FilterPosts({
         onValueChange={(value) => handleFilterChange("tag", value)}
       >
         <SelectTrigger disabled={!hasTags}>
-          {hasTags ? <SelectValue placeholder="All Tags" /> : "No tags found"}
+          {hasTags ? <SelectValue placeholder="Semua Tag" /> : "Tidak ada tag ditemukan"}
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All Tags</SelectItem>
+          <SelectItem value="all">Semua Tag</SelectItem>
           {tags.map((tag) => (
             <SelectItem key={tag.id} value={tag.id.toString()}>
               {tag.name}
@@ -72,13 +72,13 @@ export function FilterPosts({
       >
         <SelectTrigger disabled={!hasCategories}>
           {hasCategories ? (
-            <SelectValue placeholder="All Categories" />
+            <SelectValue placeholder="Semua Kategori" />
           ) : (
-            "No categories found"
+            "Tidak ada kategori ditemukan"
           )}
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All Categories</SelectItem>
+          <SelectItem value="all">Semua Kategori</SelectItem>
           {categories.map((category) => (
             <SelectItem key={category.id} value={category.id.toString()}>
               {category.name}
@@ -93,13 +93,13 @@ export function FilterPosts({
       >
         <SelectTrigger disabled={!hasAuthors} className="text-center">
           {hasAuthors ? (
-            <SelectValue placeholder="All Authors" />
+            <SelectValue placeholder="Semua Penulis" />
           ) : (
-            "No authors found"
+            "Tidak ada penulis ditemukan"
           )}
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">All Authors</SelectItem>
+          <SelectItem value="all">Semua Penulis</SelectItem>
           {authors.map((author) => (
             <SelectItem key={author.id} value={author.id.toString()}>
               {author.name}
@@ -109,7 +109,7 @@ export function FilterPosts({
       </Select>
 
       <Button variant="outline" onClick={handleResetFilters}>
-        Reset Filters
+        Reset Filter
       </Button>
     </div>
   );

@@ -33,11 +33,14 @@ const nextConfig: NextConfig = {
           },
         ],
   },
-  // CUSTOM: /produk-dan-layanan is the public-facing URL; /shop is kept for upstream compat
+  // CUSTOM: /produk-dan-layanan is the public-facing URL; /shop is kept for upstream compatibility
   async rewrites() {
     return [
       { source: "/produk-dan-layanan", destination: "/shop" },
       { source: "/produk-dan-layanan/:path*", destination: "/shop/:path*" },
+      // CUSTOM: /artikel is the public-facing URL; /posts is kept for upstream compatibility
+      { source: "/artikel", destination: "/posts" },
+      { source: "/artikel/:path*", destination: "/posts/:path*" },
     ];
   },
   async redirects() {
@@ -48,6 +51,11 @@ const nextConfig: NextConfig = {
       { source: "/produk", destination: "/produk-dan-layanan", permanent: true },
       { source: "/produk/:path*", destination: "/produk-dan-layanan/:path*", permanent: true },
       { source: "/layanan/:path*", destination: "/produk-dan-layanan/:path*", permanent: true },
+      // CUSTOM: redirect legacy /post and /posts URLs to /artikel
+      { source: "/post", destination: "/artikel", permanent: true },
+      { source: "/post/:path*", destination: "/artikel/:path*", permanent: true },
+      { source: "/posts", destination: "/artikel", permanent: true },
+      { source: "/posts/:path*", destination: "/artikel/:path*", permanent: true },
     ];
     if (wordpressUrl) {
       rules.push({
