@@ -33,12 +33,12 @@ const nextConfig: NextConfig = {
           },
         ],
   },
-  // CUSTOM: /produk-dan-layanan is the public-facing URL; /shop is kept for upstream compat
+  // CUSTOM: /produk-dan-layanan is the public-facing URL; /shop is kept for upstream compatibility
   async rewrites() {
     return [
       { source: "/produk-dan-layanan", destination: "/shop" },
       { source: "/produk-dan-layanan/:path*", destination: "/shop/:path*" },
-      // CUSTOM: /artikel is the public-facing URL; /posts is kept for upstream compat
+      // CUSTOM: /artikel is the public-facing URL; /posts is kept for upstream compatibility
       { source: "/artikel", destination: "/posts" },
       { source: "/artikel/:path*", destination: "/posts/:path*" },
     ];
