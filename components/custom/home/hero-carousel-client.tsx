@@ -68,7 +68,7 @@ export function HeroCarouselClient({ slides }: { slides: SlideData[] }) {
                   </p>
                   <Link
                     href={slide.ctaUrl}
-                    className="inline-block border border-[#1565C0] text-[#1565C0] hover:bg-[#1565C0] hover:text-white px-8 py-2.5 rounded-full text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-950"
+                    className="inline-block bg-[#1565C0] text-white border border-[#1565C0] hover:bg-blue-800 hover:border-blue-800 px-8 py-2.5 rounded-full text-sm font-medium shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-950"
                   >
                     {slide.ctaText}
                   </Link>
