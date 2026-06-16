@@ -25,11 +25,15 @@ export async function getLogo(): Promise<LogoData | null> {
     const post = posts[0];
     if (!post) return null;
     const src: string | undefined =
+      post.logo_roles?.frontend?.src ??
       post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
     if (!src) return null;
     return {
       src,
-      alt: post.title?.rendered?.replace(/<[^>]+>/g, "").trim() || "Logo",
+      alt:
+        post.logo_roles?.frontend?.alt ??
+        post.title?.rendered?.replace(/<[^>]+>/g, "").trim() ??
+        "Logo",
     };
   } catch {
     return null;

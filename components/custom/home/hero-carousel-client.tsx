@@ -68,8 +68,7 @@ export function HeroCarouselClient({ slides }: { slides: SlideData[] }) {
                   </p>
                   <Link
                     href={slide.ctaUrl}
-                    // Added focus rings for better keyboard navigation accessibility
-                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-950"
+                    className="inline-block border border-[#1565C0] text-[#1565C0] hover:bg-[#1565C0] hover:text-white px-8 py-2.5 rounded-full text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-950"
                   >
                     {slide.ctaText}
                   </Link>
