@@ -57,7 +57,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
-      url: `${siteConfig.site_domain}/shop`,
+      url: `${siteConfig.site_domain}/produk-dan-layanan`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
@@ -72,7 +72,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const productUrls: MetadataRoute.Sitemap = productSlugs.map(({ slug }) => ({
-    url: `${siteConfig.site_domain}/shop/${slug}`,
+    url: `${siteConfig.site_domain}/produk-dan-layanan/${slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly",
     priority: 0.7,
