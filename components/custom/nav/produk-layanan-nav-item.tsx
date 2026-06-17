@@ -72,6 +72,19 @@ export function ProdukLayananNavItem({
               <p className="px-4 pt-1.5 pb-1 text-[10px] font-semibold uppercase tracking-widest text-gray-400">
                 Produk
               </p>
+              <Link
+                href="/produk-dan-layanan"
+                onClick={() => setOpen(false)}
+                className={cn(
+                  "flex items-center gap-2.5 px-4 py-2.5 text-sm font-semibold transition-colors",
+                  pathname === "/produk-dan-layanan"
+                    ? "bg-blue-50 text-[#1565C0]"
+                    : "text-gray-800 hover:bg-gray-50 hover:text-[#1565C0]"
+                )}
+              >
+                <Package className="h-4 w-4 shrink-0 text-[#1565C0]" />
+                <span>Lihat Semua Produk</span>
+              </Link>
               {productCategories.map((category) => {
                 const href = `/produk-dan-layanan?category=${category.slug}`;
                 const itemActive = false;
