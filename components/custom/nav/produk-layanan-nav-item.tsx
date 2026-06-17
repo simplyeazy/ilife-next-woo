@@ -3,22 +3,27 @@
 // CUSTOM: "Produk & Layanan" nav item with dynamic layanan dropdown.
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { ChevronDown, Package, Wrench } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import type { LayananItem } from "@/lib/custom/layanan";
+import type { ProductCategory } from "@/lib/woocommerce.d";
 
 interface ProdukLayananNavItemProps {
   layananItems?: LayananItem[];
+  productCategories?: ProductCategory[];
 }
 
 export function ProdukLayananNavItem({
   layananItems = [],
+  productCategories = [],
 }: ProdukLayananNavItemProps) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [open, setOpen] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
+  const currentCategory = searchParams.get("category");
 
   const isActive =
     pathname.startsWith("/produk-dan-layanan");
@@ -63,20 +68,51 @@ export function ProdukLayananNavItem({
 
       {open && (
         <div className="absolute left-0 top-full z-50 mt-1.5 w-64 overflow-hidden rounded-md border border-gray-100 bg-white shadow-lg">
-          {/* Semua Produk */}
-          <Link
-            href="/produk-dan-layanan"
-            onClick={() => setOpen(false)}
-            className={cn(
-              "flex items-center gap-2.5 px-4 py-3 text-sm font-semibold transition-colors border-b border-gray-100",
-              pathname === "/produk-dan-layanan"
-                ? "bg-blue-50 text-[#1565C0]"
-                : "text-gray-800 hover:bg-gray-50 hover:text-[#1565C0]"
-            )}
-          >
-            <Package className="h-4 w-4 shrink-0 text-[#1565C0]" />
-            <span>Semua Produk</span>
-          </Link>
+          {/* Kategori produk induk dari WooCommerce */}
+          {productCategories.length > 0 ? (
+            <div className="border-b border-gray-100 py-1">
+              <p className="px-4 pt-1.5 pb-1 text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+                Produk
+              </p>
+              {productCategories.map((category) => {
+                const href = `/produk-dan-layanan?category=${category.slug}`;
+                const itemActive =
+                  pathname === "/produk-dan-layanan" &&
+                  currentCategory === category.slug;
+
+                return (
+                  <Link
+                    key={category.id}
+                    href={href}
+                    onClick={() => setOpen(false)}
+                    className={cn(
+                      "flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium transition-colors",
+                      itemActive
+                        ? "bg-blue-50 text-[#1565C0]"
+                        : "text-gray-800 hover:bg-gray-50 hover:text-[#1565C0]"
+                    )}
+                  >
+                    <Package className="h-4 w-4 shrink-0 text-[#1565C0]" />
+                    <span>{category.name}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          ) : (
+            <Link
+              href="/produk-dan-layanan"
+              onClick={() => setOpen(false)}
+              className={cn(
+                "flex items-center gap-2.5 px-4 py-3 text-sm font-semibold transition-colors border-b border-gray-100",
+                pathname === "/produk-dan-layanan" && !currentCategory
+                  ? "bg-blue-50 text-[#1565C0]"
+                  : "text-gray-800 hover:bg-gray-50 hover:text-[#1565C0]"
+              )}
+            >
+              <Package className="h-4 w-4 shrink-0 text-[#1565C0]" />
+              <span>Produk</span>
+            </Link>
+          )}
 
           {/* Layanan dinamis dari WP CPT */}
           {layananItems.length > 0 && (
