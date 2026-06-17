@@ -83,6 +83,13 @@ export function MobileNav({
                         <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">
                           Produk
                         </p>
+                        <MobileLink
+                          href="/produk-dan-layanan"
+                          onOpenChange={setOpen}
+                          className="text-base font-medium text-gray-700"
+                        >
+                          See Produk
+                        </MobileLink>
                         {productCategories.map((category) => (
                           <MobileLink
                             key={category.id}
