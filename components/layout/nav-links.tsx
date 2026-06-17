@@ -7,15 +7,20 @@ import { cn } from "@/lib/utils";
 import { TentangKamiNavItem } from "@/components/custom/nav/tentang-kami-nav-item";
 import { ProdukLayananNavItem } from "@/components/custom/nav/produk-layanan-nav-item";
 import type { LayananItem } from "@/lib/custom/layanan";
+import type { ProductCategory } from "@/lib/woocommerce.d";
 
 // CUSTOM: these labels are replaced with dropdown components
 const DROPDOWN_LABELS = new Set(["Tentang Kami", "Produk & Layanan"]);
 
 interface NavLinksProps {
   layananItems?: LayananItem[];
+  productCategories?: ProductCategory[];
 }
 
-export function NavLinks({ layananItems = [] }: NavLinksProps) {
+export function NavLinks({
+  layananItems = [],
+  productCategories = [],
+}: NavLinksProps) {
   const pathname = usePathname();
 
   return (
@@ -23,7 +28,11 @@ export function NavLinks({ layananItems = [] }: NavLinksProps) {
       {iLifeMenu.map(({ label, href }) => {
         if (label === "Produk & Layanan") {
           return (
-            <ProdukLayananNavItem key={href} layananItems={layananItems} />
+            <ProdukLayananNavItem
+              key={href}
+              layananItems={layananItems}
+              productCategories={productCategories}
+            />
           );
         }
         if (label === "Tentang Kami") {

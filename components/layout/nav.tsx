@@ -7,6 +7,7 @@ import { ILifeLogo } from "@/components/custom/ilife-logo";
 import { NavLinks } from "@/components/layout/nav-links";
 import { getLogo } from "@/lib/custom/logo";
 import { getAllLayananItems } from "@/lib/custom/layanan";
+import { getAllProductCategories } from "@/lib/woocommerce";
 import { featureFlags } from "@/site.config";
 
 interface NavProps {
@@ -16,10 +17,15 @@ interface NavProps {
 }
 
 export async function Nav({ className, children, id }: NavProps) {
-  const [logo, layananItems] = await Promise.all([
+  const [logo, layananItems, productCategories] = await Promise.all([
     getLogo(),
     getAllLayananItems(),
+    getAllProductCategories(),
   ]);
+
+  const parentProductCategories = productCategories
+    .filter((category) => category.parent === 0)
+    .sort((a, b) => a.menu_order - b.menu_order || a.name.localeCompare(b.name));
 
   return (
     <nav
@@ -42,9 +48,17 @@ export async function Nav({ className, children, id }: NavProps) {
         </Link>
         {children}
         <div className="flex items-center gap-1">
-          <NavLinks layananItems={layananItems} />
+          <NavLinks
+            layananItems={layananItems}
+            productCategories={parentProductCategories}
+          />
           {featureFlags.ENABLE_CART && <CartDrawer />}
-          <MobileNav logoSrc={logo?.src} logoAlt={logo?.alt} layananItems={layananItems} />
+          <MobileNav
+            logoSrc={logo?.src}
+            logoAlt={logo?.alt}
+            layananItems={layananItems}
+            productCategories={parentProductCategories}
+          />
         </div>
       </div>
     </nav>

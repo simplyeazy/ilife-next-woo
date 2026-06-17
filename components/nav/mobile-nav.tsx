@@ -22,6 +22,7 @@ import { Separator } from "@/components/ui/separator";
 import { iLifeMenu, tentangKamiSubMenu } from "@/menu.config";
 import { ILifeLogo } from "@/components/custom/ilife-logo";
 import type { LayananItem } from "@/lib/custom/layanan";
+import type { ProductCategory } from "@/lib/woocommerce.d";
 
 // Labels that should be replaced with their sub-items in mobile nav
 const DROPDOWN_LABELS = new Set(["Tentang Kami", "Produk & Layanan"]);
@@ -30,9 +31,15 @@ interface MobileNavProps {
   logoSrc?: string;
   logoAlt?: string;
   layananItems?: LayananItem[];
+  productCategories?: ProductCategory[];
 }
 
-export function MobileNav({ logoSrc, logoAlt, layananItems = [] }: MobileNavProps = {}) {
+export function MobileNav({
+  logoSrc,
+  logoAlt,
+  layananItems = [],
+  productCategories = [],
+}: MobileNavProps = {}) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -71,6 +78,23 @@ export function MobileNav({ logoSrc, logoAlt, layananItems = [] }: MobileNavProp
                     >
                       Produk &amp; Layanan
                     </MobileLink>
+                    {productCategories.length > 0 && (
+                      <div className="flex flex-col space-y-1 pl-4 border-l border-gray-200 mt-1">
+                        <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">
+                          Produk
+                        </p>
+                        {productCategories.map((category) => (
+                          <MobileLink
+                            key={category.id}
+                            href={`/produk-dan-layanan?category=${category.slug}`}
+                            onOpenChange={setOpen}
+                            className="text-base text-gray-600"
+                          >
+                            {category.name}
+                          </MobileLink>
+                        ))}
+                      </div>
+                    )}
                     {layananItems.length > 0 && (
                       <div className="flex flex-col space-y-1 pl-4 border-l border-gray-200 mt-1">
                         <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">
