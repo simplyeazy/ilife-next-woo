@@ -3,7 +3,7 @@
 // CUSTOM: "Produk & Layanan" nav item with dynamic layanan dropdown.
 import * as React from "react";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { ChevronDown, Package, Wrench } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -20,10 +20,8 @@ export function ProdukLayananNavItem({
   productCategories = [],
 }: ProdukLayananNavItemProps) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [open, setOpen] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
-  const currentCategory = searchParams.get("category");
 
   const isActive =
     pathname.startsWith("/produk-dan-layanan");
@@ -76,9 +74,7 @@ export function ProdukLayananNavItem({
               </p>
               {productCategories.map((category) => {
                 const href = `/produk-dan-layanan?category=${category.slug}`;
-                const itemActive =
-                  pathname === "/produk-dan-layanan" &&
-                  currentCategory === category.slug;
+                const itemActive = false;
 
                 return (
                   <Link
@@ -104,7 +100,7 @@ export function ProdukLayananNavItem({
               onClick={() => setOpen(false)}
               className={cn(
                 "flex items-center gap-2.5 px-4 py-3 text-sm font-semibold transition-colors border-b border-gray-100",
-                pathname === "/produk-dan-layanan" && !currentCategory
+                pathname === "/produk-dan-layanan"
                   ? "bg-blue-50 text-[#1565C0]"
                   : "text-gray-800 hover:bg-gray-50 hover:text-[#1565C0]"
               )}
