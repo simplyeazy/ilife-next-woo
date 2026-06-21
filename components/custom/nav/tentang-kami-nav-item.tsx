@@ -58,7 +58,8 @@ export function TentangKamiNavItem() {
       </button>
 
       {open && (
-        <div className="absolute left-0 top-full z-50 mt-1.5 w-56 overflow-hidden rounded-md border bg-white shadow-lg">
+        <div className="absolute left-0 top-full z-50 pt-1.5 w-56">
+        <div className="overflow-hidden rounded-md border bg-white shadow-lg">
           {tentangKamiSubMenu.map((item) => {
             const itemActive = pathname.startsWith(item.href);
             return (
@@ -80,6 +81,7 @@ export function TentangKamiNavItem() {
               </Link>
             );
           })}
+        </div>
         </div>
       )}
     </div>

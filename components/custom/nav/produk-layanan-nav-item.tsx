@@ -65,7 +65,8 @@ export function ProdukLayananNavItem({
       </button>
 
       {open && (
-        <div className="absolute left-0 top-full z-50 mt-1.5 w-64 overflow-hidden rounded-md border border-gray-100 bg-white shadow-lg">
+        <div className="absolute left-0 top-full z-50 pt-1.5 w-64">
+        <div className="overflow-hidden rounded-md border border-gray-100 bg-white shadow-lg">
           {/* Kategori produk induk dari WooCommerce */}
           {productCategories.length > 0 ? (
             <div className="border-b border-gray-100 py-1">
@@ -151,6 +152,7 @@ export function ProdukLayananNavItem({
               })}
             </div>
           )}
+        </div>
         </div>
       )}
     </div>
