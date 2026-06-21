@@ -256,17 +256,17 @@ export const Prose = ({
   id,
   dangerouslySetInnerHTML,
 }: BaseProps & HTMLProps) => {
-  // Cek apakah komponen ini sedang membungkus konten WordPress
+  // CUSTOM: Skip all Tailwind typography styles for WordPress/Gutenberg content —
+  // gutenberg.css handles all styling for .wp-content blocks.
   const isWordPress = className?.includes("wp-content");
 
   return (
     <div
       dangerouslySetInnerHTML={dangerouslySetInnerHTML}
       className={cn(
-        // KUNCI PERBAIKAN: Hanya terapkan Tailwind Typography jika ini BUKAN konten WordPress
         !isWordPress && "prose prose-slate max-w-none dark:prose-invert",
-        baseTypographyStyles,
-        styles.layout.spacing,
+        !isWordPress && baseTypographyStyles,
+        !isWordPress && styles.layout.spacing,
         className
       )}
       id={id}
