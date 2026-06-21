@@ -54,8 +54,11 @@ export default async function Page({
       <Container>
         <Prose>
           <h2>{page.title.rendered}</h2>
-          <div dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
         </Prose>
+        <div
+          className="wp-content"
+          dangerouslySetInnerHTML={{ __html: page.content.rendered }}
+        />
       </Container>
     </Section>
   );
