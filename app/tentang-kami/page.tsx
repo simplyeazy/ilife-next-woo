@@ -32,8 +32,11 @@ export default async function TentangKamiPage() {
       <Container>
         <Prose>
           <h1 dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
-          <div dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
         </Prose>
+        <div
+          className="wp-content"
+          dangerouslySetInnerHTML={{ __html: page.content.rendered }}
+        />
       </Container>
     </Section>
   );

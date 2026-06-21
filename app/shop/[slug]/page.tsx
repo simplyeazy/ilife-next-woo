@@ -205,12 +205,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
               {/* Short Description */}
               {product.short_description && (
-                <Prose>
-                  <div
-                    className="text-muted-foreground"
-                    dangerouslySetInnerHTML={{ __html: product.short_description }}
-                  />
-                </Prose>
+                <div
+                  className="wp-content text-muted-foreground"
+                  dangerouslySetInnerHTML={{ __html: product.short_description }}
+                />
               )}
 
               <Separator />
@@ -256,12 +254,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
           {product.description && (
             <div className="space-y-4">
               <h2 className="text-2xl font-bold">Description</h2>
-              <Prose>
-                <div
-                  className="text-muted-foreground"
-                  dangerouslySetInnerHTML={{ __html: product.description }}
-                />
-              </Prose>
+              <div
+                className="wp-content text-muted-foreground"
+                dangerouslySetInnerHTML={{ __html: product.description }}
+              />
             </div>
           )}
 
