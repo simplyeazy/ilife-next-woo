@@ -1,0 +1,57 @@
+/* Core Gutenberg block structural styles. 
+  Import this into your globals.css or directly into the page layout.
+*/
+
+.wp-content {
+  width: 100%;
+}
+
+/* --- COLUMNS --- */
+.wp-content .wp-block-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem; /* Spacing between columns */
+  margin-bottom: 2rem;
+}
+
+.wp-content .wp-block-column {
+  flex: 1; /* Makes columns equal width */
+  min-width: 0; /* Prevents flex blowouts */
+}
+
+/* Force stacked columns on mobile */
+@media (max-width: 768px) {
+  .wp-content .wp-block-column {
+    flex-basis: 100%;
+  }
+}
+
+/* --- TEXT ALIGNMENT --- */
+.wp-content .has-text-align-center { text-align: center; }
+.wp-content .has-text-align-right { text-align: right; }
+.wp-content .has-text-align-left { text-align: left; }
+
+/* --- IMAGES & MEDIA --- */
+.wp-content .wp-block-image {
+  margin: 2rem 0;
+}
+.wp-content .wp-block-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem; /* Match your Next.js theme */
+}
+.wp-content .aligncenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- WORDPRESS TYPOGRAPHY UTILITIES --- */
+/* Gutenberg often adds inline styles or classes for massive text, let's normalize it */
+.wp-content .has-large-font-size { font-size: 1.5rem; line-height: 2rem; }
+.wp-content .has-huge-font-size { font-size: 2.25rem; line-height: 2.5rem; }
+
+/* Fix WordPress List spacing */
+.wp-content ul, .wp-content ol {
+  padding-left: 1.5rem;
+}
