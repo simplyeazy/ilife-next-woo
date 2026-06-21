@@ -255,15 +255,26 @@ export const Prose = ({
   className,
   id,
   dangerouslySetInnerHTML,
-}: BaseProps & HTMLProps) => (
-  <div
-    dangerouslySetInnerHTML={dangerouslySetInnerHTML}
-    className={cn("prose prose-slate max-w-none dark:prose-invert", baseTypographyStyles, styles.layout.spacing, className)}
-    id={id}
-  >
-    {children}
-  </div>
-);
+}: BaseProps & HTMLProps) => {
+  // Cek apakah komponen ini sedang membungkus konten WordPress
+  const isWordPress = className?.includes("wp-content");
+
+  return (
+    <div
+      dangerouslySetInnerHTML={dangerouslySetInnerHTML}
+      className={cn(
+        // KUNCI PERBAIKAN: Hanya terapkan Tailwind Typography jika ini BUKAN konten WordPress
+        !isWordPress && "prose prose-slate max-w-none dark:prose-invert",
+        baseTypographyStyles,
+        styles.layout.spacing,
+        className
+      )}
+      id={id}
+    >
+      {children}
+    </div>
+  );
+};
 
 // Utility function for responsive classes
 const getResponsiveClass = <T extends string | number>(
