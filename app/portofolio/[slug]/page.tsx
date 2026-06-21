@@ -100,12 +100,10 @@ export default async function PortofolioDetailPage({
 
         {/* Content — admin writes in WP block editor, images/gallery blocks rendered here */}
         {item.content ? (
-          <Prose>
-            <div
-              className="wp-content"
-              dangerouslySetInnerHTML={{ __html: item.content }}
-            />
-          </Prose>
+          <Prose
+            className="wp-content"
+            dangerouslySetInnerHTML={{ __html: item.content }}
+          />
         ) : item.excerpt ? (
           <p className="text-muted-foreground">{item.excerpt}</p>
         ) : null}
