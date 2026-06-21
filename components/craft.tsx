@@ -258,7 +258,7 @@ export const Prose = ({
 }: BaseProps & HTMLProps) => (
   <div
     dangerouslySetInnerHTML={dangerouslySetInnerHTML}
-    className={cn(baseTypographyStyles, styles.layout.spacing, className)}
+    className={cn("prose prose-slate max-w-none dark:prose-invert", baseTypographyStyles, styles.layout.spacing, className)}
     id={id}
   >
     {children}

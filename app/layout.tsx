@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 
 import "./globals.css";
+import "./gutenberg.css";
 
 import { LiveChatWidget } from "@/components/custom/live-chat-wrapper";
 
