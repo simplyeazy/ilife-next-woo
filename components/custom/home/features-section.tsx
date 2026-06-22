@@ -13,6 +13,8 @@ import {
   Earth,
   Gauge,
   Gem,
+  Headset,
+  History,
   PaintbrushVertical,
   Palette,
   PlugZap,
@@ -20,26 +22,30 @@ import {
   SlidersHorizontal,
   Smile,
   Sprout,
+  Star,
   Tv2,
 } from "lucide-react";
 
 const features = [
   { icon: Component, label: "Suku Cadang Terjamin", color: "text-red-500 bg-red-50" },
-  { icon: PlugZap, label: "Tahan Brownouts", color: "text-orange-500 bg-orange-50" },
+  { icon: PlugZap, label: "Tahan Tegangan Rendah", color: "text-orange-500 bg-orange-50" },
   { icon: Gem, label: "Berkualitas", color: "text-amber-500 bg-amber-50" },
   { icon: Gauge, label: "Pengerjaan Cepat", color: "text-yellow-500 bg-yellow-50" },
   { icon: Sprout, label: "Ramah Lingkungan", color: "text-lime-500 bg-lime-50" },
   { icon: Banknote, label: "Harga Terjangkau", color: "text-green-500 bg-green-50" },
   { icon: Activity, label: "IC PWM Berkualitas", color: "text-emerald-500 bg-emerald-50" },
-  { icon: CheckSquare, label: "Bebas Cacat Pixel", color: "text-teal-500 bg-teal-50" },
+  { icon: CheckSquare, label: "Bebas Cacat Piksel", color: "text-teal-500 bg-teal-50" },
   { icon: CloudSunRain, label: "Tahan Cuaca", color: "text-cyan-500 bg-cyan-50" },
   { icon: BadgeCheck, label: "Produk Bergaransi", color: "text-sky-500 bg-sky-50" },
   { icon: Tv2, label: "Gambar Jernih", color: "text-blue-500 bg-blue-50" },
   { icon: SlidersHorizontal, label: "Dapat Dikustomisasi", color: "text-indigo-500 bg-indigo-50" },
-  { icon: PaintbrushVertical, label: "Cetakan Premium", color: "text-violet-500 bg-violet-50" },
+  { icon: PaintbrushVertical, label: "Printer Premium", color: "text-violet-500 bg-violet-50" },
   { icon: Palette, label: "Warna Cetak Akurat", color: "text-purple-500 bg-purple-50" },
-  { icon: ScissorsLineDashed, label: "Potongan Rapi", color: "text-fuchsia-500 bg-fuchsia-50" },
+  { icon: ScissorsLineDashed, label: "Potongan dan Finishing Rapi", color: "text-fuchsia-500 bg-fuchsia-50" },
   { icon: Smile, label: "Lebih dari 1000 pelanggan puas", color: "text-pink-500 bg-pink-50" },
+  { icon: Star, label: "Berpengalaman lebih dari 10 tahun", color: "text-rose-500 bg-rose-50" },
+  { icon: Headset, label: "Purnajual yang baik", color: "text-slate-500 bg-slate-50" },
+  { icon: History, label: "Sejarah dan Reputasi yang Baik", color: "text-gray-500 bg-gray-50" },
   { icon: Earth, label: "Melayani seluruh Indonesia", color: "text-olive-500 bg-olive-50" }
 ];
 
