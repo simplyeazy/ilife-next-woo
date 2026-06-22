@@ -40,16 +40,7 @@ const features = [
   { icon: Palette, label: "Warna Cetak Akurat", color: "text-purple-500 bg-purple-50" },
   { icon: ScissorsLineDashed, label: "Potongan Rapi", color: "text-fuchsia-500 bg-fuchsia-50" },
   { icon: Smile, label: "Lebih dari 1000 pelanggan puas", color: "text-pink-500 bg-pink-50" },
-  { icon: Earth, label: "Melayani seluruh Indonesia", color: "text-rose-500 bg-rose-50" },
-  { icon: Gauge, label: "Pengerjaan Cepat", color: "text-slate-500 bg-slate-50" },
-  { icon: BadgeCheck, label: "Produk Bergaransi", color: "text-gray-500 bg-gray-50" },
-  { icon: Gem, label: "Berkualitas", color: "text-zinc-500 bg-zinc-50" },
-  { icon: Banknote, label: "Harga Terjangkau", color: "text-neutral-500 bg-neutral-50" },
-  { icon: CloudSunRain, label: "Tahan Cuaca", color: "text-stone-500 bg-stone-50" },
-  { icon: PlugZap, label: "Tahan Brownouts", color: "text-taupe-500 bg-taupe-50" },
-  { icon: CheckSquare, label: "Bebas Cacat Pixel", color: "text-mauve-500 bg-mauve-50" },
-  { icon: Tv2, label: "Gambar Jernih", color: "text-mist-500 bg-mist-50" },
-  { icon: Activity, label: "IC PWM Berkualitas", color: "text-olive-500 bg-olive-50" }
+  { icon: Earth, label: "Melayani seluruh Indonesia", color: "text-olive-500 bg-olive-50" }
 ];
 
 const containerVariants: Variants = {
