@@ -59,10 +59,10 @@ const containerVariants: Variants = {
 
 const itemVariants: Variants = {
   hidden: { y: 15, opacity: 0 },
-  visible: { 
-    y: 0, 
-    opacity: 1, 
-    transition: { type: "spring", stiffness: 120, damping: 14 } 
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { type: "spring", stiffness: 120, damping: 14 }
   },
   hover: {
     scale: 1.02,
@@ -73,10 +73,10 @@ const itemVariants: Variants = {
 
 // Menambahkan anotasi tipe Variants untuk validasi objek translasi spring
 const iconVariants: Variants = {
-  hover: { 
-    scale: 1.15, 
-    rotate: 15, 
-    transition: { type: "spring", stiffness: 300, damping: 10 } 
+  hover: {
+    scale: 1.15,
+    rotate: 15,
+    transition: { type: "spring", stiffness: 300, damping: 10 }
   }
 };
 
@@ -84,7 +84,7 @@ export function FeaturesSection() {
   return (
     <Section>
       <Container>
-        <motion.div 
+        <motion.div
           className="text-center mb-10"
           initial={{ opacity: 0, y: -10 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -96,12 +96,13 @@ export function FeaturesSection() {
           <p className="text-gray-600">Kenapa anda perlu menggunakan produk kami?</p>
         </motion.div>
 
-        <motion.div 
+        {/* Grid pembungkus kartu dengan Framer Motion */}
+        <motion.div
           className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"
           variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
+          initial="hidden"          // Ensure this matches your variants definition
+          whileInView="visible"     // Triggers the opacity switch
+          viewport={{ once: true, amount: 0.1 }} // Triggers as soon as 10% of the grid enters the screen
         >
           {features.map(({ icon: Icon, label, color }, index) => (
             <motion.div
@@ -112,7 +113,7 @@ export function FeaturesSection() {
               style={{ backfaceVisibility: "hidden" }}
             >
               {/* Box Ikon menggunakan konfigurasi iconVariants berkualifikasi tipe */}
-              <motion.div 
+              <motion.div
                 variants={iconVariants}
                 className={`${color} rounded-md p-2 shrink-0 flex items-center justify-center`}
               >
