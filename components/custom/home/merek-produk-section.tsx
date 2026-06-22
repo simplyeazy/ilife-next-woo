@@ -10,10 +10,10 @@ export async function MerekProdukSection() {
     <Section>
       <Container>
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-normal text-gray-800 mb-4">Merek Produk</h2>
+          <h2 className="text-3xl font-normal text-gray-800 mb-4">Merek & Peralatan Produksi</h2>
           <p className="text-muted-foreground">
-            Merek-merek Videotron beserta komponen pendukungnya yang kami pakai
-            dan jual.
+            Dukungan teknologi terbaik dari merek Videotron global serta jajaran mesin produksi signage 
+            berteknologi tinggi yang kami gunakan untuk menjamin kualitas setiap proyek.
           </p>
         </div>
         <MerekScrollClient brands={brands} autoScroll={false} />
