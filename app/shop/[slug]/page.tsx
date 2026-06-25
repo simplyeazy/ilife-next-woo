@@ -77,7 +77,8 @@ export async function generateMetadata({
     title: product.name,
     description,
     alternates: {
-      canonical: `/shop/${slug}`,
+      // CUSTOM: public-facing URL is /produk-dan-layanan, /shop is internal only
+      canonical: `/produk-dan-layanan/${slug}`,
     },
     openGraph: {
       title: product.name,
