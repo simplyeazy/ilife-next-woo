@@ -14,3 +14,12 @@ overrides:
   brace-expansion@^2: ">=2.0.3"
   js-yaml: ">=4.2.0"
   ajv: ">=6.14.0"
+  # Path-based overrides for pinned transitive deps
+  "next>postcss": ">=8.5.10"
+  "micromatch>picomatch": ">=4.0.4"
+  "@eslint/config-array>minimatch": ">=9.0.7"
+  "eslint-plugin-import>minimatch": ">=9.0.7"
+  "eslint-plugin-jsx-a11y>minimatch": ">=9.0.7"
+  "eslint-plugin-react>minimatch": ">=9.0.7"
+  "@eslint/eslintrc>minimatch": ">=9.0.7"
+  "eslint>minimatch": ">=9.0.7"
