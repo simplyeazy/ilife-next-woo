@@ -66,6 +66,19 @@ const nextConfig: NextConfig = {
     }
     return rules;
   },
+  // CUSTOM: tell crawlers not to index /shop/* (internal-only path; public URL is /produk-dan-layanan)
+  async headers() {
+    return [
+      {
+        source: "/shop",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, follow" }],
+      },
+      {
+        source: "/shop/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, follow" }],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
