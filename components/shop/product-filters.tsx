@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useTransition } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import { Filter, Search, X } from "lucide-react";
 
 import type { ProductCategory, ProductTag } from "@/lib/woocommerce.d";
@@ -30,6 +30,15 @@ interface ProductFiltersProps {
   absoluteMaxPrice?: number;
 }
 
+const formatRupiah = (value: number) => {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
+};
+
 export function ProductFilters({
   categories,
   tags,
@@ -45,6 +54,16 @@ export function ProductFilters({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
+
+  const initialMin = currentMinPrice ? parseInt(currentMinPrice, 10) : absoluteMinPrice;
+  const initialMax = currentMaxPrice ? parseInt(currentMaxPrice, 10) : absoluteMaxPrice;
+
+  const [priceRange, setPriceRange] = useState<[number, number]>([initialMin, initialMax]);
+
+  // Sync state with url search params (e.g. on clear filters)
+  useEffect(() => {
+    setPriceRange([initialMin, initialMax]);
+  }, [initialMin, initialMax]);
 
   const updateFilters = useCallback(
     (updates: Record<string, string | undefined>) => {
@@ -194,15 +213,17 @@ export function ProductFilters({
 
         {/* Price Range */}
         <div className="space-y-4">
-          <Label className="text-slate-700 font-medium">Rentang Harga</Label>
+          <div className="flex justify-between items-center">
+            <Label className="text-slate-700 font-medium">Rentang Harga</Label>
+          </div>
           <Slider
-            value={[
-              currentMinPrice ? parseInt(currentMinPrice, 10) : absoluteMinPrice,
-              currentMaxPrice ? parseInt(currentMaxPrice, 10) : absoluteMaxPrice,
-            ]}
+            value={priceRange}
             min={absoluteMinPrice}
             max={absoluteMaxPrice}
             step={Math.max(1000, Math.floor((absoluteMaxPrice - absoluteMinPrice) / 100))}
+            onValueChange={([min, max]: number[]) => {
+              setPriceRange([min, max]);
+            }}
             onValueCommit={([min, max]: number[]) => {
               updateFilters({
                 min_price: min > absoluteMinPrice ? min.toString() : undefined,
@@ -210,30 +231,10 @@ export function ProductFilters({
               });
             }}
           />
-          <div className="flex gap-3 items-center">
-            <div className="relative w-full">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400">Rp</span>
-              <Input
-                type="number"
-                placeholder="Min"
-                min={0}
-                defaultValue={currentMinPrice}
-                onChange={(e) => updateFilters({ min_price: e.target.value || undefined })}
-                className="pl-8 focus-visible:ring-[#1565C0] border-slate-200"
-              />
-            </div>
-            <span className="text-slate-400">-</span>
-            <div className="relative w-full">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400">Rp</span>
-              <Input
-                type="number"
-                placeholder="Maks"
-                min={0}
-                defaultValue={currentMaxPrice}
-                onChange={(e) => updateFilters({ max_price: e.target.value || undefined })}
-                className="pl-8 focus-visible:ring-[#1565C0] border-slate-200"
-              />
-            </div>
+          <div className="flex justify-between items-center text-xs font-semibold text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+            <span>{formatRupiah(priceRange[0])}</span>
+            <span className="text-slate-300">|</span>
+            <span>{formatRupiah(priceRange[1])}</span>
           </div>
         </div>
       </div>
