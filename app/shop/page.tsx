@@ -6,6 +6,7 @@ import {
   getAllProductTags,
   getProductCategoryBySlug,
   getProductTagBySlug,
+  getProductPriceExtreme,
 } from "@/lib/woocommerce";
 
 import { Section, Container, Prose } from "@/components/craft";
@@ -105,8 +106,10 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     }),
     getAllProductCategories(),
     getAllProductTags(),
-    getProducts(1, 1, { ...baseParams, orderby: "price", order: "asc" }),
-    getProducts(1, 1, { ...baseParams, orderby: "price", order: "desc" }),
+    // lowest price overall (ignores any min/max query)
+    getProductPriceExtreme("asc", baseParams),
+    // highest price overall (ignores any min/max query)
+    getProductPriceExtreme("desc", baseParams),
   ]);
 
   const { data: products, headers } = productsResponse;
