@@ -381,26 +381,39 @@ export async function getAbsolutePriceRange(): Promise<{ min: number; max: numbe
   if (!isConfigured) return { min: 0, max: 10_000_000 };
 
   try {
-    // Fetch all published in-stock products in one request.
-    // For small catalogs (< 100 items) this is a single API call.
-    const response = await woocommerceFetchPaginatedGraceful<Product>(
-      "products",
-      { per_page: 100, status: "publish", stock_status: "instock" },
-      ["woocommerce", "products", "price-range"]
-    );
+    // Paginate through ALL published products — handles catalogs with > 100 items.
+    // We intentionally do NOT filter by stock_status at the product level because
+    // many variable products have stock managed per-variation; the product itself
+    // may not be "instock" even though purchasable variations are.
+    const allProducts: Product[] = [];
+    let productPage = 1;
+    let hasMore = true;
 
-    const products = response.data;
-    if (products.length === 0) return { min: 0, max: 10_000_000 };
+    while (hasMore) {
+      const batch = await woocommerceFetchPaginatedGraceful<Product>(
+        "products",
+        { per_page: 100, page: productPage, status: "publish" },
+        ["woocommerce", "products", "price-range"]
+      );
+      allProducts.push(...batch.data);
+      hasMore = productPage < batch.headers.totalPages;
+      productPage++;
+    }
 
-    // Collect prices from simple / external products directly.
-    const prices: number[] = products
+    if (allProducts.length === 0) return { min: 0, max: 10_000_000 };
+
+    // Collect prices from non-variable products directly.
+    const prices: number[] = allProducts
       .filter((p) => p.type !== "variable")
       .map((p) => parseFloat(p.price || "0"))
-      .filter((p) => p > 0);
+      // 10_000 IDR floor filters out test/junk variations (e.g., price = "1500")
+      // while keeping the real cheapest items (typical min for this shop is ~1M IDR).
+      .filter((p) => p >= 10_000);
 
-    // For variable products the `price` field is only the minimum variation
-    // price. Fetch all variations in parallel to get the true price spread.
-    const variableProducts = products.filter(
+    // For variable products the `price` field only holds the minimum variation
+    // price. Fetch all variations in parallel (no stock_status filter here either
+    // — we want every priced variation so the slider reflects what customers see).
+    const variableProducts = allProducts.filter(
       (p) => p.type === "variable" && p.variations.length > 0
     );
 
@@ -410,7 +423,7 @@ export async function getAbsolutePriceRange(): Promise<{ min: number; max: numbe
           woocommerceFetchGraceful<ProductVariation[]>(
             `products/${p.id}/variations`,
             [],
-            { per_page: 100, stock_status: "instock" },
+            { per_page: 100, status: "publish" },
             ["woocommerce", "products", `product-${p.id}`, "variations"]
           )
         )
@@ -419,7 +432,7 @@ export async function getAbsolutePriceRange(): Promise<{ min: number; max: numbe
       for (const variations of variationResults) {
         for (const v of variations) {
           const price = parseFloat(v.price || "0");
-          if (price > 0) prices.push(price);
+          if (price >= 10_000) prices.push(price);
         }
       }
     }
