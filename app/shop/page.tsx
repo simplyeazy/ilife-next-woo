@@ -106,10 +106,11 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     }),
     getAllProductCategories(),
     getAllProductTags(),
-    // lowest price overall (ignores any min/max query)
-    getProductPriceExtreme("asc", baseParams),
-    // highest price overall (ignores any min/max query)
-    getProductPriceExtreme("desc", baseParams),
+    // Absolute lowest price across ALL products (no category/tag/search filter)
+    // so the slider always reflects the full catalog range, not just the filtered view
+    getProductPriceExtreme("asc"),
+    // Absolute highest price across ALL products
+    getProductPriceExtreme("desc"),
   ]);
 
   const { data: products, headers } = productsResponse;
