@@ -39,6 +39,15 @@ git push origin main
 - `pnpm start` - Start production server
 - `pnpm lint` - Run ESLint
 
+## Dependency Management & Docker
+
+**CRITICAL RULE:** The host environment (WSL) must remain clean of Node.js and other dependencies.
+- **NEVER** run `pnpm`, `npm`, `npx`, or `node` directly on the host machine.
+- **ALWAYS** use Docker to run package management commands.
+- Example: `docker compose run --rm -w /app nextjs pnpm add <package>`
+- **Cache Issues:** If `pnpm add` fails inside Docker due to an unexpected store location or cache mismatch, chain the commands to rebuild the store in the same container:
+  `docker compose run --rm -w /app nextjs sh -c "pnpm install && pnpm add <package>"`
+
 ## Architecture Overview
 
 Headless WordPress starter using Next.js 16 App Router with TypeScript.
