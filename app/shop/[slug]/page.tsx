@@ -120,14 +120,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <div className="space-y-12">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Link href="/shop" className="hover:text-foreground">
+            <Link href="/produk-dan-layanan" className="hover:text-foreground">
               Produk
             </Link>
             <span>/</span>
             {product.categories[0] && (
               <>
                 <Link
-                  href={`/shop?category=${product.categories[0].slug}`}
+                  href={`/produk-dan-layanan?category=${product.categories[0].slug}`}
                   className="hover:text-foreground"
                 >
                   {product.categories[0].name}
@@ -157,7 +157,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   {product.categories.map((cat) => (
                     <Link
                       key={cat.id}
-                      href={`/shop?category=${cat.slug}`}
+                      href={`/produk-dan-layanan?category=${cat.slug}`}
                     >
                       <Badge variant="secondary">{cat.name}</Badge>
                     </Link>
@@ -237,7 +237,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     {product.tags.map((tag, i) => (
                       <span key={tag.id}>
                         <Link
-                          href={`/shop?tag=${tag.slug}`}
+                          href={`/produk-dan-layanan?tag=${tag.slug}`}
                           className="hover:underline"
                         >
                           {tag.name}
