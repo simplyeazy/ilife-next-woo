@@ -362,24 +362,31 @@ export async function getAllProductSlugs(): Promise<{ slug: string }[]> {
 }
 
 // ============================================================================
-// Product Price
+// Product Price Extremes (for slider min/max)
 // ============================================================================
+
+/**
+ * Returns the single product with the lowest or highest price across ALL
+ * published in-stock products. Pass `order: "asc"` for the cheapest product,
+ * `order: "desc"` for the most expensive.
+ *
+ * Do NOT pass category/tag/search params here — the slider should always
+ * reflect the full catalog price range, not just the current filtered view.
+ */
 export async function getProductPriceExtreme(
   order: "asc" | "desc",
   params: Record<string, any> = {}
 ) {
-  // Remove any price‑filter keys that might be present.
+  // Strip any price-filter keys so they don't constrain the extremes.
   const { min_price, max_price, ...cleanParams } = params;
-  // WooCommerce API: orderby=price, per_page=1, order=asc|desc
   return await getProducts(1, 1, {
     ...cleanParams,
     orderby: "price",
     order,
-    // Ensure we only look at published, in‑stock items.
-
     stock_status: "instock",
   });
 }
+
 
 // ============================================================================
 // Product Variations
