@@ -6,7 +6,7 @@ import {
   getAllProductTags,
   getProductCategoryBySlug,
   getProductTagBySlug,
-  getProductPriceExtreme,
+  getAbsolutePriceRange,
 } from "@/lib/woocommerce";
 
 import { Section, Container, Prose } from "@/components/craft";
@@ -95,34 +95,25 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     search,
   };
 
-  // Fetch products and filter options
-  const [productsResponse, categories, tags, minPriceProducts, maxPriceProducts] = await Promise.all([
-    getProducts(page, productsPerPage, {
-      ...baseParams,
-      orderby,
-      order,
-      min_price: min_price ? parseFloat(min_price) : undefined,
-      max_price: max_price ? parseFloat(max_price) : undefined,
-    }),
-    getAllProductCategories(),
-    getAllProductTags(),
-    // Absolute lowest price across ALL products (no category/tag/search filter)
-    // so the slider always reflects the full catalog range, not just the filtered view
-    getProductPriceExtreme("asc"),
-    // Absolute highest price across ALL products
-    getProductPriceExtreme("desc"),
-  ]);
+  // Fetch products and price range in parallel.
+  // getAbsolutePriceRange scans ALL products + variations so the slider always
+  // reflects the true catalog-wide min/max regardless of active filters.
+  const [productsResponse, categories, tags, { min: absoluteMinPrice, max: absoluteMaxPrice }] =
+    await Promise.all([
+      getProducts(page, productsPerPage, {
+        ...baseParams,
+        orderby,
+        order,
+        min_price: min_price ? parseFloat(min_price) : undefined,
+        max_price: max_price ? parseFloat(max_price) : undefined,
+      }),
+      getAllProductCategories(),
+      getAllProductTags(),
+      getAbsolutePriceRange(),
+    ]);
 
   const { data: products, headers } = productsResponse;
   const { total, totalPages } = headers;
-
-  const absoluteMinPrice = minPriceProducts.data.length > 0 && minPriceProducts.data[0].price
-    ? parseFloat(minPriceProducts.data[0].price)
-    : 0;
-
-  const absoluteMaxPrice = maxPriceProducts.data.length > 0 && maxPriceProducts.data[0].price
-    ? parseFloat(maxPriceProducts.data[0].price)
-    : 10_000_000;
 
   // Create pagination URL helper
   const createPaginationUrl = (newPage: number) => {

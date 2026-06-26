@@ -362,29 +362,78 @@ export async function getAllProductSlugs(): Promise<{ slug: string }[]> {
 }
 
 // ============================================================================
-// Product Price Extremes (for slider min/max)
+// Product Price Range (for slider min/max)
 // ============================================================================
 
 /**
- * Returns the single product with the lowest or highest price across ALL
- * published in-stock products. Pass `order: "asc"` for the cheapest product,
- * `order: "desc"` for the most expensive.
+ * Computes the true absolute minimum and maximum purchasable price across the
+ * entire product catalog, correctly handling variable products.
  *
- * Do NOT pass category/tag/search params here — the slider should always
- * reflect the full catalog price range, not just the current filtered view.
+ * Why not just orderby=price&order=desc ?
+ * WooCommerce stores the MINIMUM variation price in a product's `price` field.
+ * So sorting by price desc returns the product with the highest *minimum*
+ * variation price — not the product whose *maximum* variation price is highest.
+ * A variable product with variations at [100k, 5M] would rank below a simple
+ * product at 700k. This function fetches all variations for variable products
+ * to compute the real max.
  */
-export async function getProductPriceExtreme(
-  order: "asc" | "desc",
-  params: Record<string, any> = {}
-) {
-  // Strip any price-filter keys so they don't constrain the extremes.
-  const { min_price, max_price, ...cleanParams } = params;
-  return await getProducts(1, 1, {
-    ...cleanParams,
-    orderby: "price",
-    order,
-    stock_status: "instock",
-  });
+export async function getAbsolutePriceRange(): Promise<{ min: number; max: number }> {
+  if (!isConfigured) return { min: 0, max: 10_000_000 };
+
+  try {
+    // Fetch all published in-stock products in one request.
+    // For small catalogs (< 100 items) this is a single API call.
+    const response = await woocommerceFetchPaginatedGraceful<Product>(
+      "products",
+      { per_page: 100, status: "publish", stock_status: "instock" },
+      ["woocommerce", "products", "price-range"]
+    );
+
+    const products = response.data;
+    if (products.length === 0) return { min: 0, max: 10_000_000 };
+
+    // Collect prices from simple / external products directly.
+    const prices: number[] = products
+      .filter((p) => p.type !== "variable")
+      .map((p) => parseFloat(p.price || "0"))
+      .filter((p) => p > 0);
+
+    // For variable products the `price` field is only the minimum variation
+    // price. Fetch all variations in parallel to get the true price spread.
+    const variableProducts = products.filter(
+      (p) => p.type === "variable" && p.variations.length > 0
+    );
+
+    if (variableProducts.length > 0) {
+      const variationResults = await Promise.all(
+        variableProducts.map((p) =>
+          woocommerceFetchGraceful<ProductVariation[]>(
+            `products/${p.id}/variations`,
+            [],
+            { per_page: 100, stock_status: "instock" },
+            ["woocommerce", "products", `product-${p.id}`, "variations"]
+          )
+        )
+      );
+
+      for (const variations of variationResults) {
+        for (const v of variations) {
+          const price = parseFloat(v.price || "0");
+          if (price > 0) prices.push(price);
+        }
+      }
+    }
+
+    if (prices.length === 0) return { min: 0, max: 10_000_000 };
+
+    return {
+      min: Math.min(...prices),
+      max: Math.max(...prices),
+    };
+  } catch {
+    console.warn("getAbsolutePriceRange failed, using defaults");
+    return { min: 0, max: 10_000_000 };
+  }
 }
 
 
