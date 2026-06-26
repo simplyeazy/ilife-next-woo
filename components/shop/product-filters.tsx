@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
 
 interface ProductFiltersProps {
   categories: ProductCategory[];
@@ -25,6 +26,8 @@ interface ProductFiltersProps {
   currentSort?: string;
   currentMinPrice?: string;
   currentMaxPrice?: string;
+  absoluteMinPrice?: number;
+  absoluteMaxPrice?: number;
 }
 
 export function ProductFilters({
@@ -36,6 +39,8 @@ export function ProductFilters({
   currentSort,
   currentMinPrice,
   currentMaxPrice,
+  absoluteMinPrice = 0,
+  absoluteMaxPrice = 10000000,
 }: ProductFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -188,8 +193,23 @@ export function ProductFilters({
         </div>
 
         {/* Price Range */}
-        <div className="space-y-2">
+        <div className="space-y-4">
           <Label className="text-slate-700 font-medium">Rentang Harga</Label>
+          <Slider
+            value={[
+              currentMinPrice ? parseInt(currentMinPrice, 10) : absoluteMinPrice,
+              currentMaxPrice ? parseInt(currentMaxPrice, 10) : absoluteMaxPrice,
+            ]}
+            min={absoluteMinPrice}
+            max={absoluteMaxPrice}
+            step={Math.max(1000, Math.floor((absoluteMaxPrice - absoluteMinPrice) / 100))}
+            onValueCommit={([min, max]: number[]) => {
+              updateFilters({
+                min_price: min > absoluteMinPrice ? min.toString() : undefined,
+                max_price: max < absoluteMaxPrice ? max.toString() : undefined,
+              });
+            }}
+          />
           <div className="flex gap-3 items-center">
             <div className="relative w-full">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400">Rp</span>
