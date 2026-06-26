@@ -88,12 +88,16 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     tag ? getProductTagBySlug(tag) : undefined,
   ]);
 
+  const baseParams = {
+    category: categoryData?.id,
+    tag: tagData?.id,
+    search,
+  };
+
   // Fetch products and filter options
-  const [productsResponse, categories, tags] = await Promise.all([
+  const [productsResponse, categories, tags, minPriceProducts, maxPriceProducts] = await Promise.all([
     getProducts(page, productsPerPage, {
-      category: categoryData?.id,
-      tag: tagData?.id,
-      search,
+      ...baseParams,
       orderby,
       order,
       min_price: min_price ? parseFloat(min_price) : undefined,
@@ -101,10 +105,20 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     }),
     getAllProductCategories(),
     getAllProductTags(),
+    getProducts(1, 1, { ...baseParams, orderby: "price", order: "asc" }),
+    getProducts(1, 1, { ...baseParams, orderby: "price", order: "desc" }),
   ]);
 
   const { data: products, headers } = productsResponse;
   const { total, totalPages } = headers;
+
+  const absoluteMinPrice = minPriceProducts.data.length > 0 && minPriceProducts.data[0].price
+    ? parseFloat(minPriceProducts.data[0].price)
+    : 0;
+
+  const absoluteMaxPrice = maxPriceProducts.data.length > 0 && maxPriceProducts.data[0].price
+    ? parseFloat(maxPriceProducts.data[0].price)
+    : 10000000;
 
   // Create pagination URL helper
   const createPaginationUrl = (newPage: number) => {
@@ -145,6 +159,8 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                 currentSort={sort}
                 currentMinPrice={min_price}
                 currentMaxPrice={max_price}
+                absoluteMinPrice={absoluteMinPrice}
+                absoluteMaxPrice={absoluteMaxPrice}
               />
             </aside>
 
