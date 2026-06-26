@@ -246,6 +246,7 @@ export async function getProducts(
     min_price?: number;
     max_price?: number;
     stock_status?: "instock" | "outofstock" | "onbackorder";
+
   }
 ): Promise<WooCommerceResponse<Product[]>> {
   const query: Record<string, any> = {
@@ -358,6 +359,26 @@ export async function getAllProductSlugs(): Promise<{ slug: string }[]> {
     console.warn("WooCommerce unavailable, skipping static generation for products");
     return [];
   }
+}
+
+// ============================================================================
+// Product Price
+// ============================================================================
+export async function getProductPriceExtreme(
+  order: "asc" | "desc",
+  params: Record<string, any> = {}
+) {
+  // Remove any price‑filter keys that might be present.
+  const { min_price, max_price, ...cleanParams } = params;
+  // WooCommerce API: orderby=price, per_page=1, order=asc|desc
+  return await getProducts(1, 1, {
+    ...cleanParams,
+    orderby: "price",
+    order,
+    // Ensure we only look at published, in‑stock items.
+
+    stock_status: "instock",
+  });
 }
 
 // ============================================================================

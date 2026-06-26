@@ -121,7 +121,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
   const absoluteMaxPrice = maxPriceProducts.data.length > 0 && maxPriceProducts.data[0].price
     ? parseFloat(maxPriceProducts.data[0].price)
-    : 10000000;
+    : 10_000_000;
 
   // Create pagination URL helper
   const createPaginationUrl = (newPage: number) => {
