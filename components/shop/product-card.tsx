@@ -20,8 +20,9 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
   const primaryImage = product.images[0];
 
   return (
+    // CUSTOM: public-facing URL is /produk-dan-layanan, not /shop
     <Link
-      href={`/shop/${product.slug}`}
+      href={`/produk-dan-layanan/${product.slug}`}
       className={cn(
         "group flex flex-col border rounded-lg overflow-hidden bg-accent/30",
         "hover:bg-accent/75 transition-all"
