@@ -74,7 +74,7 @@ export function ProductDetailClient({
 
         const emailSubject = encodeURIComponent(`Pertanyaan produk: ${productLabel}`);
         const emailBody = encodeURIComponent(
-          `Halo tim iLife,\n\nSaya tertarik dengan produk: ${productLabel}.\n\nMohon informasi lebih lanjut mengenai ketersediaan dan harga.\n\nTerima kasih.`
+          `Halo iLife,\n\nSaya tertarik dengan produk: ${productLabel}.\n\nMohon informasi lebih lanjut mengenai ketersediaan dan harga.\n\nTerima kasih.`
         );
         const emailUrl = `mailto:${SALES_EMAIL}?subject=${emailSubject}&body=${emailBody}`;
 
