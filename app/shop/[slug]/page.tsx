@@ -214,13 +214,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
               <Separator />
 
-              {/* Variable Product Handler (Client Component) */}
-              {product.type === "variable" && variations.length > 0 ? (
-                <ProductDetailClient product={product} variations={variations} />
-              ) : (
-                <AddToCartButton product={product} />
-              )}
-
+              {/* Product Action Buttons (Client Component) - renders WhatsApp & Email for all product types */}
+              <ProductDetailClient
+                product={product}
+                variations={product.type === "variable" ? variations : []}
+              />
               <Separator />
 
               {/* Product Meta */}
@@ -317,3 +315,4 @@ export default async function ProductPage({ params }: ProductPageProps) {
     </Section>
   );
 }
+
