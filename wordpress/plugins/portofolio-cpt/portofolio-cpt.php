@@ -1,8 +1,9 @@
 <?php
 /**
  * Plugin Name: iLife Portofolio
- * Description: Registers the 'portofolio' CPT for the /portofolio gallery page. Admin dapat mengelola proyek-proyek iLife untuk ditampilkan di halaman /portofolio.
- * Version: 1.1.1
+ * Description: Registers the 'portofolio' CPT for the /portofolio gallery page. 
+ * Admin dapat mengelola proyek-proyek iLife untuk ditampilkan di halaman /portofolio.
+ * Version: 1.1.2
  * Author: <a href="https://lundy.dev">lundy.dev</a>
  * Author URI: https://lundy.dev
  */
@@ -21,13 +22,14 @@ add_action('init', function () {
             'not_found'          => 'Proyek tidak ditemukan',
             'not_found_in_trash' => 'Tidak ada proyek di trash',
         ],
-        'public'       => false,
-        'show_ui'      => true,
-        'show_in_rest' => true,
-        'rest_base'    => 'portofolio',
-        'supports'     => ['title', 'editor', 'excerpt', 'thumbnail', 'page-attributes', 'custom-fields'],
-        'menu_icon'    => 'dashicons-portfolio',
-        'menu_position' => 6,
+        'public'                => false,
+        'publicly_queryable'    => true,
+        'show_ui'               => true,
+        'show_in_rest'          => true,
+        'rest_base'             => 'portofolio',
+        'supports'              => ['title', 'editor', 'excerpt', 'thumbnail', 'page-attributes', 'custom-fields'],
+        'menu_icon'             => 'dashicons-portfolio',
+        'menu_position'         => 6,
     ]);
 });
 
@@ -66,6 +68,18 @@ add_action('add_meta_boxes', function () {
 
 function portofolio_meta_box_callback($post) {
     wp_nonce_field('portofolio_meta_nonce', 'portofolio_meta_nonce');
+
+    // Instruction note about permalink slug
+    ?>
+    <p class="description" style="margin-bottom:12px;">
+        <strong>Tips SEO:</strong> Setelah dipublikasikan, jika Anda mengubah judul,
+        <a href="#edit-slug-box" onclick="document.getElementById('edit-slug-box').scrollIntoView({behavior:'smooth'}); return false;">
+            perbarui slug Permalink
+        </a>
+        (di bawah kolom judul) agar sesuai dengan judul baru untuk visibilitas SEO Google yang lebih baik.
+    </p>
+    <?php
+
     $kategori    = get_post_meta($post->ID, 'kategori', true);
     $client_name = get_post_meta($post->ID, 'client_name', true);
     $project_url = get_post_meta($post->ID, 'project_url', true);
@@ -78,7 +92,7 @@ function portofolio_meta_box_callback($post) {
             <td>
                 <input type="text" id="kategori" name="kategori"
                        value="<?php echo esc_attr($kategori); ?>" class="regular-text" />
-                <p class="description">Kategori proyek, misal: LED Display, Signage, Videotron, Event</p>
+                <p class="description">Kategori proyek, misal: LED Display, Signage, Neon Box, huruf Timbul, Videotron, Event</p>
             </td>
         </tr>
         <tr>
@@ -131,3 +145,4 @@ add_action('save_post_portofolio', function ($post_id) {
     $is_featured = isset($_POST['is_featured']) ? '1' : '0';
     update_post_meta($post_id, 'is_featured', $is_featured);
 });
+
