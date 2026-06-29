@@ -19,6 +19,8 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
+import { siteConfig } from "@/site.config";
+
 interface CategoryPageProps {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ page?: string }>;
@@ -41,9 +43,23 @@ export async function generateMetadata({
     };
   }
 
+  // CUSTOM: override canonical to public-facing URL with proper metadata
+  const description =
+    category.description?.replace(/<[^>]*>/g, "").slice(0, 160) ||
+    `Lihat koleksi produk ${category.name} dari iLife. Temukan LED display, videotron, neon box, dan signage berkualitas premium untuk kebutuhan bisnis Anda.`;
+
   return {
-    title: category.name,
-    description: category.description || `Browse ${category.name} products`,
+    title: `${category.name} - Produk & Layanan`,
+    description,
+    alternates: {
+      canonical: `/produk-dan-layanan?category=${encodeURIComponent(slug)}`,
+    },
+    openGraph: {
+      title: `${category.name} - Produk & Layanan`,
+      description,
+      url: `/produk-dan-layanan?category=${encodeURIComponent(slug)}`,
+      siteName: siteConfig.site_name,
+    },
   };
 }
 
@@ -158,3 +174,4 @@ export default async function CategoryPage({
     </Section>
   );
 }
+
