@@ -41,24 +41,28 @@ export function generateContentMetadata({
       : "";
 
   const ogUrl = new URL(`${siteConfig.site_domain}/api/og`);
-  ogUrl.searchParams.append("title", title);
+  ogUrl.searchParams.append("title", `${title} | ${siteConfig.site_name}`);
   ogUrl.searchParams.append("description", description);
 
-  const path = type === "post" ? "posts" : "pages";
+  // CUSTOM: Use correct path — pages are at root, posts under /posts/
+  const path = type === "post" ? `/posts/${slug}` : `/${slug}`;
 
   return {
-    title,
+    title: `${title} | ${siteConfig.site_name}`,
     description,
+    alternates: {
+      canonical: path,
+    },
     openGraph: {
-      title,
+      title: `${title} | ${siteConfig.site_name}`,
       description,
       type: "article",
-      url: `${siteConfig.site_domain}/${path}/${slug}`,
+      url: `${siteConfig.site_domain}${path}`,
       images: [{ url: ogUrl.toString(), width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: `${title} | ${siteConfig.site_name}`,
       description,
       images: [ogUrl.toString()],
     },
