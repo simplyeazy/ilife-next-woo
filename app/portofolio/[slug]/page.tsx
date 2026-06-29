@@ -1,6 +1,7 @@
 // CUSTOM: Halaman detail portofolio — slug dari CPT 'portofolio' di WordPress
 import {
   getPortofolioBySlug,
+  getPortofolioItems,
   getAllPortofolioSlugs,
 } from "@/lib/custom/portofolio";
 import { Section, Container, Prose } from "@/components/craft";
@@ -12,6 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import type { Metadata } from "next";
+import type { PortofolioItem } from "@/lib/custom/portofolio";
 
 export const revalidate = 3600;
 
@@ -28,13 +30,19 @@ export async function generateMetadata({
   const item = await getPortofolioBySlug(slug);
   if (!item) return {};
 
+  // Truncate excerpt to ~155 characters for SEO meta description
+  const rawDesc = item.excerpt || `Lihat proyek ${item.title} oleh ${siteConfig.site_name} – ${item.kategori || "portofolio"} terbaru kami.`;
+  const metaDescription = rawDesc.length > 155
+    ? rawDesc.slice(0, 152) + "..."
+    : rawDesc;
+
   return {
-    title: item.title,
-    description: item.excerpt || `Proyek portofolio ${item.title}`,
+    title: `${item.title} | ${siteConfig.site_name}`,
+    description: metaDescription,
     alternates: { canonical: `/portofolio/${slug}` },
     openGraph: {
-      title: item.title,
-      description: item.excerpt || `Proyek portofolio ${item.title}`,
+      title: `${item.title} | ${siteConfig.site_name}`,
+      description: metaDescription,
       type: "article",
       url: `${siteConfig.site_domain}/portofolio/${slug}`,
       ...(item.imageUrl && {
@@ -54,9 +62,49 @@ export default async function PortofolioDetailPage({
 
   if (!item) notFound();
 
+  // Fetch related projects (same kategori, excluding current)
+  const allItems = await getPortofolioItems();
+  const relatedItems: PortofolioItem[] = item.kategori
+    ? allItems.filter(
+        (i) => i.kategori === item.kategori && i.slug !== slug
+      ).slice(0, 3)
+    : [];
+
+  // breadcrumb structured data
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Beranda",
+        item: siteConfig.site_domain,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Portofolio",
+        item: `${siteConfig.site_domain}/portofolio`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: item.title,
+        item: `${siteConfig.site_domain}/portofolio/${slug}`,
+      },
+    ],
+  };
+
   return (
     <Section>
       <Container>
+        {/* Breadcrumb JSON‑LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        />
+
         {/* Back link */}
         <Link
           href="/portofolio"
@@ -119,6 +167,47 @@ export default async function PortofolioDetailPage({
             >
               Lihat referensi proyek →
             </a>
+          </div>
+        )}
+
+        {/* Related projects */}
+        {relatedItems.length > 0 && (
+          <div className="mt-16">
+            <Separator className="mb-8" />
+            <h2 className="text-2xl font-semibold tracking-tight mb-6">
+              Proyek Terkait
+            </h2>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {relatedItems.map((related) => (
+                <Link
+                  key={related.slug}
+                  href={`/portofolio/${related.slug}`}
+                  className="group relative flex flex-col gap-3 rounded-xl border bg-card p-3 shadow-sm transition-all hover:shadow-md"
+                >
+                  {related.imageUrl && (
+                    <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-muted">
+                      <Image
+                        src={related.imageUrl}
+                        alt={related.imageAlt}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    </div>
+                  )}
+                  <div>
+                    <h3 className="font-semibold leading-snug group-hover:text-primary transition-colors">
+                      {related.title}
+                    </h3>
+                    {related.clientName && (
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {related.clientName}
+                      </p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
         )}
       </Container>
