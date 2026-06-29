@@ -8,6 +8,7 @@ import {
   getProductTagBySlug,
   getAbsolutePriceRange,
 } from "@/lib/woocommerce";
+import { decodeHtmlEntities } from "@/lib/utils";
 
 import { Section, Container, Prose } from "@/components/craft";
 import { ProductGrid, ProductFilters } from "@/components/shop";
@@ -19,14 +20,88 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { siteConfig } from "@/site.config";
 
-export const metadata: Metadata = {
-  title: "Produk & Layanan",
-  description: "Temukan produk LED display, videotron, neonbox dan signage terbaik dari iLife. Kualitas premium untuk kebutuhan periklanan dan pertunjukan publik Anda.",
-  alternates: {
-    canonical: "/produk-dan-layanan",
-  },
-};
+// CUSTOM: replaced static metadata with dynamic generateMetadata for category/tag/search pages
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    category?: string;
+    tag?: string;
+    search?: string;
+  }>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const { category, tag, search } = params;
+
+  let title = "Produk & Layanan";
+  let description = "Temukan produk LED display, videotron, neonbox dan signage terbaik dari iLife. Kualitas premium untuk kebutuhan periklanan dan pertunjukan publik Anda.";
+  let canonical = "/produk-dan-layanan";
+
+  if (category) {
+    const categoryData = await getProductCategoryBySlug(category);
+    if (categoryData) {
+      const catName = decodeHtmlEntities(categoryData.name);
+      title = `${catName} - Produk & Layanan`;
+      description = `Lihat koleksi produk ${catName} dari iLife. Temukan LED display, videotron, neon box, dan signage berkualitas premium untuk kebutuhan bisnis Anda.`;
+    } else {
+      title = `Kategori: ${category} - Produk & Layanan`;
+    }
+    canonical = `/produk-dan-layanan?category=${encodeURIComponent(category)}`;
+  }
+
+  if (tag) {
+    const tagData = await getProductTagBySlug(tag);
+    if (tagData) {
+      const tagName = decodeHtmlEntities(tagData.name);
+      title = `Tag: ${tagName} - Produk & Layanan`;
+      description = `Jelajahi semua produk dengan tag ${tagName} dari iLife.`;
+    } else {
+      title = `Tag: ${tag} - Produk & Layanan`;
+    }
+    canonical = `/produk-dan-layanan?tag=${encodeURIComponent(tag)}`;
+  }
+
+  if (search) {
+    title = `Cari: ${search} - Produk & Layanan`;
+    description = `Hasil pencarian untuk "${search}" di katalog produk iLife. Temukan produk yang Anda butuhkan.`;
+    canonical = `/produk-dan-layanan?search=${encodeURIComponent(search)}`;
+  }
+
+  // If multiple filters active, combine them
+  if (category && tag) {
+    const categoryData = await getProductCategoryBySlug(category);
+    const tagData = await getProductTagBySlug(tag);
+    const catName = categoryData ? decodeHtmlEntities(categoryData.name) : category;
+    const tagName = tagData ? decodeHtmlEntities(tagData.name) : tag;
+    title = `${catName} - ${tagName} - Produk & Layanan`;
+    description = `Produk ${catName} dengan tag ${tagName} dari iLife. Kualitas premium untuk kebutuhan Anda.`;
+    canonical = `/produk-dan-layanan?category=${encodeURIComponent(category)}&tag=${encodeURIComponent(tag)}`;
+  }
+
+  if (search && category) {
+    const categoryData = await getProductCategoryBySlug(category);
+    const catName = categoryData ? decodeHtmlEntities(categoryData.name) : category;
+    title = `Cari: ${search} di ${catName} - Produk & Layanan`;
+    canonical = `/produk-dan-layanan?search=${encodeURIComponent(search)}&category=${encodeURIComponent(category)}`;
+  }
+
+  return {
+    title,
+    description: description.slice(0, 160),
+    alternates: {
+      canonical,
+    },
+    openGraph: {
+      title,
+      description: description.slice(0, 160),
+      url: canonical,
+      siteName: siteConfig.site_name,
+      type: "website",
+    },
+  };
+}
 
 export const dynamic = "auto";
 export const revalidate = 600;

@@ -131,7 +131,7 @@ export function ProdukLayananNavItem({
                 Layanan
               </p>
               {layananItems.map((item) => {
-                const href = `/layanan/${item.slug}`;
+                const href = `/produk-dan-layanan/${item.slug}`;
                 const itemActive = pathname === href;
                 return (
                   <Link
