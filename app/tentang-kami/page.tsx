@@ -27,9 +27,34 @@ export default async function TentangKamiPage() {
     notFound();
   }
 
+  // breadcrumb structured data
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Beranda",
+        item: "https://ilife.co.id",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Tentang Kami",
+        item: "https://ilife.co.id/tentang-kami",
+      },
+    ],
+  };
+
   return (
     <Section>
       <Container>
+        {/* Breadcrumb JSON‑LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        />
         <Prose>
           <h1 dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
         </Prose>
