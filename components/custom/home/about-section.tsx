@@ -21,10 +21,8 @@ export async function AboutSection() {
         <div className="grid md:grid-cols-2 gap-12">
           {/* Left: intro + checkmarks */}
           <div>
-            {/* Static lead-in text – you can also make this editable */}
             <p className="text-gray-700 mb-6">
-              Mengapa anda harus memilih kami sebagai mitra dalam kebutuhan
-              pertunjukan publik maupun periklanan videotron anda?
+             {data.paragraph_1}
             </p>
             <ul className="space-y-4">
               {data.highlights.map((line, index) => (
@@ -38,7 +36,6 @@ export async function AboutSection() {
 
           {/* Right: company description + CTA */}
           <div>
-            <p className="text-gray-700 mb-4">{data.paragraph_1}</p>
             <p className="text-gray-700 mb-8">{data.paragraph_2}</p>
             <Link
               href={data.button_url}
