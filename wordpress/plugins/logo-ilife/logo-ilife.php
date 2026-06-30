@@ -20,7 +20,7 @@ const ILIFE_LOGO_PERMISSION = 'manage-ilife_logo';
 register_activation_hook(__FILE__, 'ilife_logo_activate');
 function ilife_logo_activate() {
     $admin = get_role('administrator');
-    if ($admin && !$admin->has_cap(ILIFE_LOGO_CAP)) {
+    if ($admin && !$admin->has_cap(ILIFE_LOGO_PERMISSION)) {
         $admin->add_cap(ILIFE_LOGO_PERMISSION);
     }
 }
