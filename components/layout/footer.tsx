@@ -13,7 +13,7 @@ const tautan = [
 const layanan = [
   { label: "Videotron", href: "/produk-dan-layanan?category=videotron" },
   { label: "Neonbox", href: "/produk-dan-layanan?category=neonbox" },
-  { label: "Penyewaan", href: "/produk-dan-layanan?category=sewa" },
+  { label: "Penyewaan", href: "/produk-dan-layanan?category=sewa-videotron" },
 ];
 
 export async function Footer() {
