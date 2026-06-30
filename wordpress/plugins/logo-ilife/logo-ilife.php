@@ -1,8 +1,10 @@
 <?php
 /**
  * Plugin Name: iLife Logo
- * Description: Registers the 'logo' CPT so the site logo can be managed from WordPress. Assign dedicated logo assets for the frontend, wp-admin, and WordPress CMS branding.
- * Version: 1.1.0
+ * Description: Registers site‑wide logo assets so branding can be managed from WordPress. 
+ * Assign dedicated logos for the frontend, wp‑admin, and WordPress CMS.
+ * Require `manage_ilife_logo` permission for non administrator
+ * Version: 1.0.0
  * Author: <a href="https://lundy.dev">lundy.dev</a>
  * Author URI: https://lundy.dev
  * Plugin URI: https://lundy.dev
@@ -10,31 +12,55 @@
 
 if (!defined('ABSPATH')) exit;
 
-const ILIFE_LOGO_FRONTEND_META_KEY = '_ilife_logo_frontend_id';
-const ILIFE_LOGO_ADMIN_META_KEY = '_ilife_logo_admin_id';
-const ILIFE_LOGO_CMS_META_KEY = '_ilife_logo_cms_id';
+const ILIFE_LOGO_OPTION_KEY = 'ilife_logo_assets';
+const ILIFE_LOGO_PERMISSION = 'manage-ilife_logo';
 
+/**
+ * On plugin activation, grant the capability to the Administrator role
+ */
+register_activation_hook(__FILE__, 'ilife_logo_activate');
+function ilife_logo_activate() {
+    $admin = get_role('administrator');
+    if ($admin && !$admin->has_cap(ILIFE_LOGO_PERMISSION)) {
+        $admin->add_cap(ILIFE_LOGO_PERMISSION);
+    }
+}
+
+/**
+ * Optional: clean up on deactivation if you want
+ */
+register_deactivation_hook(__FILE__, 'ilife_logo_deactivate');
+function ilife_logo_deactivate() {
+    $admin = get_role('administrator');
+    if ($admin) {
+        $admin->remove_cap(ILIFE_LOGO_PERMISSION);
+    }
+}
+
+/**
+ * Return the field definitions for the three logo roles.
+ */
 function ilife_logo_fields()
 {
     return [
         'frontend' => [
-            'meta_key' => ILIFE_LOGO_FRONTEND_META_KEY,
-            'label' => 'Frontend Logo',
+            'label'       => 'Frontend Logo',
             'description' => 'Used by the headless Next.js frontend. Use your landscape logo here.',
         ],
-        'admin' => [
-            'meta_key' => ILIFE_LOGO_ADMIN_META_KEY,
-            'label' => 'WP Admin Logo',
+        'admin'    => [
+            'label'       => 'WP Admin Logo',
             'description' => 'Used on the WordPress login screen. Use your landscape admin logo here.',
         ],
-        'cms' => [
-            'meta_key' => ILIFE_LOGO_CMS_META_KEY,
-            'label' => 'WordPress CMS Icon',
+        'cms'      => [
+            'label'       => 'WordPress CMS Icon',
             'description' => 'Used as the WordPress admin favicon and toolbar icon. Use the simplified vertical mark here.',
         ],
     ];
 }
 
+/**
+ * Convert an attachment ID into a clean array (id, src, alt).
+ */
 function ilife_get_logo_attachment_payload($attachment_id)
 {
     $attachment_id = absint($attachment_id);
@@ -53,27 +79,30 @@ function ilife_get_logo_attachment_payload($attachment_id)
     }
 
     return [
-        'id' => $attachment_id,
+        'id'  => $attachment_id,
         'src' => $src,
         'alt' => $alt,
     ];
 }
 
-function ilife_get_active_logo_post_id()
+/**
+ * Get the currently saved logo assets (or defaults).
+ */
+function ilife_get_logo_assets()
 {
-    $posts = get_posts([
-        'post_type' => 'logo',
-        'post_status' => 'publish',
-        'posts_per_page' => 1,
-        'orderby' => 'date',
-        'order' => 'DESC',
-        'fields' => 'ids',
-        'no_found_rows' => true,
-    ]);
-
-    return isset($posts[0]) ? (int) $posts[0] : 0;
+    return wp_parse_args(
+        get_option(ILIFE_LOGO_OPTION_KEY, []),
+        [
+            'frontend' => 0,
+            'admin'    => 0,
+            'cms'      => 0,
+        ]
+    );
 }
 
+/**
+ * Retrieve a single logo asset payload for the given role.
+ */
 function ilife_get_active_logo_asset($role)
 {
     $fields = ilife_logo_fields();
@@ -81,95 +110,55 @@ function ilife_get_active_logo_asset($role)
         return null;
     }
 
-    $post_id = ilife_get_active_logo_post_id();
-    if (!$post_id) {
-        return null;
-    }
-
-    $attachment_id = (int) get_post_meta($post_id, $fields[$role]['meta_key'], true);
+    $assets = ilife_get_logo_assets();
+    $attachment_id = absint($assets[$role] ?? 0);
     if ($attachment_id) {
-        $asset = ilife_get_logo_attachment_payload($attachment_id);
-        if ($asset) {
-            return $asset;
-        }
-    }
-
-    if ($role === 'frontend') {
-        $fallback_id = get_post_thumbnail_id($post_id);
-        if ($fallback_id) {
-            return ilife_get_logo_attachment_payload($fallback_id);
-        }
+        return ilife_get_logo_attachment_payload($attachment_id);
     }
 
     return null;
 }
 
-add_action('init', function () {
-    register_post_type('logo', [
-        'labels'       => [
-            'name'          => 'Logo',
-            'singular_name' => 'Logo',
-            'add_new_item'  => 'Add New Logo',
-            'edit_item'     => 'Edit Logo',
-        ],
-        'public'       => false,
-        'show_ui'      => true,
-        'show_in_rest' => true,
-        'rest_base'    => 'logo',
-        'supports'     => ['title', 'thumbnail'],
-        'menu_icon'    => 'dashicons-format-image',
-        'description'  => 'Assign dedicated logo assets for frontend, wp-admin, and WordPress CMS branding. By lundy.dev',
-    ]);
-
-    foreach (ilife_logo_fields() as $field) {
-        register_post_meta('logo', $field['meta_key'], [
-            'single' => true,
-            'type' => 'integer',
-            'default' => 0,
-            'show_in_rest' => false,
-            'sanitize_callback' => 'absint',
-            'auth_callback' => function () {
-                return current_user_can('edit_posts');
-            },
-        ]);
-    }
-
-    register_rest_field('logo', 'logo_roles', [
-        'get_callback' => function ($post_arr) {
-            $post_id = isset($post_arr['id']) ? (int) $post_arr['id'] : 0;
-            if (!$post_id) {
-                return null;
-            }
-
-            $roles = [];
-            foreach (ilife_logo_fields() as $role => $field) {
-                $roles[$role] = ilife_get_logo_attachment_payload(
-                    (int) get_post_meta($post_id, $field['meta_key'], true)
-                );
-            }
-
-            return $roles;
-        },
-        'schema' => [
-            'description' => 'Role-based logo assets for frontend and WordPress admin branding.',
-            'type' => 'object',
-            'context' => ['view', 'edit'],
-            'readonly' => true,
-        ],
-    ]);
+// -------------------------------------------------------------------------
+// Admin page
+// -------------------------------------------------------------------------
+add_action('admin_menu', function () {
+    add_menu_page(
+        'iLife Logo',
+        'iLife Logo',
+        'manage_options',
+        'ilife-logo',
+        'ilife_logo_admin_page',
+        'dashicons-format-image',
+        31
+    );
 });
 
-add_action('add_meta_boxes', function () {
-    add_meta_box(
-        'ilife-logo-roles',
-        'Logo Assignments',
-        function ($post) {
-            wp_nonce_field('ilife_logo_roles_save', 'ilife_logo_roles_nonce');
-            ?>
-            <p>Select which uploaded image should be used in each part of the system. The most recently published Logo entry is treated as the active one.</p>
+function ilife_logo_admin_page()
+{
+    // Save logic
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        check_admin_referer('ilife_logo_settings');
+        $updated = [];
+        foreach (array_keys(ilife_logo_fields()) as $role) {
+            $updated[$role] = isset($_POST['ilife_logo_roles'][$role])
+                ? absint($_POST['ilife_logo_roles'][$role])
+                : 0;
+        }
+        update_option(ILIFE_LOGO_OPTION_KEY, $updated);
+        echo '<div class="notice notice-success"><p>Logo assignments saved.</p></div>';
+    }
+
+    $assets = ilife_get_logo_assets();
+    ?>
+    <div class="wrap">
+        <h1>iLife Logo</h1>
+        <form method="post">
+            <?php wp_nonce_field('ilife_logo_settings'); ?>
+            <p>Select which uploaded image should be used in each part of the system.</p>
             <div class="ilife-logo-fields">
                 <?php foreach (ilife_logo_fields() as $role => $field) :
-                    $attachment_id = (int) get_post_meta($post->ID, $field['meta_key'], true);
+                    $attachment_id = absint($assets[$role]);
                     $image = ilife_get_logo_attachment_payload($attachment_id);
                     ?>
                     <div class="ilife-logo-field" style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #dcdcde;">
@@ -198,22 +187,15 @@ add_action('add_meta_boxes', function () {
                     </div>
                 <?php endforeach; ?>
             </div>
-            <p><strong>Compatibility note:</strong> the featured image is still used as a fallback frontend logo if the Frontend Logo field is empty.</p>
-            <?php
-        },
-        'logo',
-        'normal',
-        'default'
-    );
-});
+            <?php submit_button(); ?>
+        </form>
+    </div>
+    <?php
+}
 
+// Enqueue media scripts on our admin page only
 add_action('admin_enqueue_scripts', function ($hook) {
-    if (!in_array($hook, ['post.php', 'post-new.php'], true)) {
-        return;
-    }
-
-    $screen = get_current_screen();
-    if (!$screen || $screen->post_type !== 'logo') {
+    if ($hook !== 'toplevel_page_ilife-logo') {
         return;
     }
 
@@ -275,37 +257,29 @@ JS
     );
 });
 
-add_action('save_post_logo', function ($post_id) {
-    if (!isset($_POST['ilife_logo_roles_nonce']) || !wp_verify_nonce($_POST['ilife_logo_roles_nonce'], 'ilife_logo_roles_save')) {
-        return;
-    }
-
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-        return;
-    }
-
-    if (!current_user_can('edit_post', $post_id)) {
-        return;
-    }
-
-    $submitted = isset($_POST['ilife_logo_roles']) && is_array($_POST['ilife_logo_roles'])
-        ? $_POST['ilife_logo_roles']
-        : [];
-
-    foreach (ilife_logo_fields() as $role => $field) {
-        $attachment_id = isset($submitted[$role]) ? absint($submitted[$role]) : 0;
-
-        if ($attachment_id) {
-            update_post_meta($post_id, $field['meta_key'], $attachment_id);
-        } else {
-            delete_post_meta($post_id, $field['meta_key']);
-        }
-    }
+// -------------------------------------------------------------------------
+// REST API endpoint for the Next.js frontend
+// -------------------------------------------------------------------------
+add_action('rest_api_init', function () {
+    register_rest_route('ilife/v1', '/logo', [
+        'methods'             => 'GET',
+        'callback'            => function () {
+            $result = [];
+            foreach (array_keys(ilife_logo_fields()) as $role) {
+                $result[$role] = ilife_get_active_logo_asset($role);
+            }
+            return $result;
+        },
+        'permission_callback' => '__return_true',
+    ]);
 });
 
+// -------------------------------------------------------------------------
+// WordPress login screen branding
+// -------------------------------------------------------------------------
 add_action('login_head', function () {
     $admin_logo = ilife_get_active_logo_asset('admin');
-    $cms_icon = ilife_get_active_logo_asset('cms');
+    $cms_icon   = ilife_get_active_logo_asset('cms');
 
     if ($admin_logo) {
         ?>
@@ -336,6 +310,9 @@ add_filter('login_headertext', function () {
     return get_bloginfo('name');
 });
 
+// -------------------------------------------------------------------------
+// WordPress admin bar & favicon branding
+// -------------------------------------------------------------------------
 add_action('admin_head', function () {
     $cms_icon = ilife_get_active_logo_asset('cms');
     if (!$cms_icon) {

@@ -6,35 +6,33 @@ export interface LogoData {
 }
 
 /**
- * Fetches the active site logo from the WordPress 'logo' CPT.
- * Returns null if no logo post with a featured image exists — the
- * component will fall back to the default SVG in that case.
+ * Fetches the frontend site logo from the iLife Logo Options API endpoint.
+ * Returns null if no logo has been assigned — the component will fall back
+ * to the default SVG in that case.
  */
 export async function getLogo(): Promise<LogoData | null> {
   if (!baseUrl) return null;
   try {
-    const res = await fetch(
-      `${baseUrl}/wp-json/wp/v2/logo?_embed&per_page=1&orderby=date&order=desc`,
-      {
-        headers: { "User-Agent": "Next.js WordPress Client" },
-        next: { tags: ["logo"], revalidate: 3600 },
-      }
-    );
+    const res = await fetch(`${baseUrl}/wp-json/ilife/v1/logo`, {
+      headers: { "User-Agent": "Next.js WordPress Client" },
+      next: { tags: ["logo"], revalidate: 3600 },
+    });
+
     if (!res.ok) return null;
-    const posts = await res.json();
-    const post = posts[0];
-    if (!post) return null;
-    const src: string | undefined =
-      post.logo_roles?.frontend?.src ??
-      post._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
-    if (!src) return null;
-    return {
-      src,
-      alt:
-        post.logo_roles?.frontend?.alt ??
-        post.title?.rendered?.replace(/<[^>]+>/g, "").trim() ??
-        "Logo",
-    };
+
+    const data = await res.json();
+
+    // The response shape: { frontend: { src, alt } | null, admin: …, cms: … }
+    const frontendLogo = data?.frontend;
+
+    if (frontendLogo?.src) {
+      return {
+        src: frontendLogo.src,
+        alt: frontendLogo.alt || "Logo",
+      };
+    }
+
+    return null;
   } catch {
     return null;
   }
