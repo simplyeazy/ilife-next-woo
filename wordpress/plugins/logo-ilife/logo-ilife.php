@@ -4,7 +4,7 @@
  * Description: Registers site‑wide logo assets so branding can be managed from WordPress. 
  * Assign dedicated logos for the frontend, wp‑admin, and WordPress CMS.
  * Require `manage_ilife_logo` permission for non administrator
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: <a href="https://lundy.dev">lundy.dev</a>
  * Author URI: https://lundy.dev
  * Plugin URI: https://lundy.dev
@@ -13,7 +13,7 @@
 if (!defined('ABSPATH')) exit;
 
 const ILIFE_LOGO_OPTION_KEY = 'ilife_logo_assets';
-const ILIFE_LOGO_PERMISSION = 'manage-ilife_logo';
+const ILIFE_LOGO_PERMISSION = 'manage_ilife_logo';
 
 /**
  * On plugin activation, grant the capability to the Administrator role
