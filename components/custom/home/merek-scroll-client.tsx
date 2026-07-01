@@ -57,7 +57,7 @@ export function MerekScrollClient({ brands, autoScroll }: Props) {
               sizes="200px"
               quality={60}
               unoptimized={wcImagesUnoptimized}
-              className="object-contain grayscale hover:grayscale-0 transition-all duration-300 max-h-[64px] w-auto"
+              className="object-contain grayscale hover:grayscale-0 dark:grayscale-0 dark:hover:brightness-110 transition-all duration-300 max-h-[64px] w-auto"
             />
           ) : (
             <div className="w-[120px] h-[64px] flex items-center justify-center text-center text-xs font-semibold text-muted-foreground border rounded px-2">

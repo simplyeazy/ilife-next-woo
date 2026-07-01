@@ -57,7 +57,7 @@ export function BrandsScrollClient({ clients, autoScroll }: Props) {
                 quality={60}
                 unoptimized={wcImagesUnoptimized}
                 // 4. Removed w-auto and max-h. object-contain handles the aspect ratio natively inside the wrapper.
-                className="object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                className="object-contain grayscale hover:grayscale-0 dark:grayscale-0 dark:hover:brightness-110 transition-all duration-300"
               />
             </div>
           ) : (
