@@ -10,7 +10,7 @@ export async function MerekProdukSection() {
     <Section>
       <Container>
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-normal text-gray-800 mb-4">Merek & Peralatan Produksi</h2>
+          <h2 className="text-3xl font-normal text-gray-800 dark:text-gray-200 mb-4">Merek & Peralatan Produksi</h2>
           <p className="text-muted-foreground">
             Dukungan teknologi terbaik dari merek Videotron global serta jajaran mesin produksi signage 
             berteknologi tinggi yang kami gunakan untuk menjamin kualitas setiap proyek.
