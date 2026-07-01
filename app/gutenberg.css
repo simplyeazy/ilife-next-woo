@@ -239,3 +239,12 @@
   margin-top: 0.75rem;
   font-style: italic;
 }
+
+/* --- WOOCOMMERCE TABLE DARK MODE --- */
+.dark .wp-content table,
+.dark .wp-content table td,
+.dark .wp-content table th {
+  background-color: hsl(var(--card)) !important;
+  color: hsl(var(--card-foreground)) !important;
+  border-color: hsl(var(--border)) !important;
+}
