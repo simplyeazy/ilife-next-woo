@@ -145,7 +145,7 @@
 }
 
 .wp-content h1 { font-size: 2.25rem; }
-.wp-content h2 { font-size: 1.875rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.5rem; }
+.wp-content h2 { font-size: 1.875rem; border-bottom: 1px solid hsl(var(--border)); padding-bottom: 0.5rem; }
 .wp-content h3 { font-size: 1.5rem; }
 .wp-content h4 { font-size: 1.25rem; }
 
@@ -234,7 +234,7 @@
 
 .wp-content figcaption {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: hsl(var(--muted-foreground));
   text-align: center;
   margin-top: 0.75rem;
   font-style: italic;
