@@ -15,18 +15,57 @@ import type { SlideData } from "@/lib/custom/slides";
 export function HeroCarouselClient({ slides }: { slides: SlideData[] }) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
+  const videoRefs = React.useRef<(HTMLVideoElement | null)[]>([]);
 
+  // Auto‑advance every 5s for static slides
   React.useEffect(() => {
     if (!api) return;
-    const interval = setInterval(() => api.scrollNext(), 5000);
+    const interval = setInterval(() => {
+      // Only auto‑advance if the current slide is NOT a video, or if video is paused/ended
+      const activeIndex = api.selectedScrollSnap();
+      const slide = slides[activeIndex];
+      if (!slide?.videoUrl) {
+        api.scrollNext();
+      }
+    }, 5000);
     return () => clearInterval(interval);
-  }, [api]);
+  }, [api, slides]);
 
+  // Track current slide and handle video events
   React.useEffect(() => {
     if (!api) return;
     setCurrent(api.selectedScrollSnap());
-    api.on("select", () => setCurrent(api.selectedScrollSnap()));
+
+    const onSelect = () => {
+      const newIndex = api.selectedScrollSnap();
+      setCurrent(newIndex);
+      // Pause any playing video when we leave a slide
+      videoRefs.current.forEach((v) => {
+        if (v) v.pause();
+      });
+    };
+
+    api.on("select", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
   }, [api]);
+
+  // When a video slide becomes active, play it and attach ended handler
+  React.useEffect(() => {
+    const video = videoRefs.current[current];
+    if (!video) return;
+
+    const handleEnded = () => {
+      api?.scrollNext();
+    };
+
+    video.muted = true;
+    video.playsInline = true;
+    video.play().catch(() => { }); // autoplay may fail silently
+    video.addEventListener("ended", handleEnded);
+    return () => video.removeEventListener("ended", handleEnded);
+  }, [current, api]);
 
   return (
     <div className="relative w-full" aria-roledescription="carousel">
@@ -35,20 +74,31 @@ export function HeroCarouselClient({ slides }: { slides: SlideData[] }) {
           {slides.map((slide, i) => (
             <CarouselItem key={slide.id} className="pl-0">
               <div className="relative w-full h-[70vh] min-h-[420px] flex items-center bg-gradient-to-br from-blue-950 to-slate-900">
-                {slide.imageUrl && (
-                  <Image
-                    src={slide.imageUrl}
-                    alt={slide.title}
-                    fill
-                    sizes="100vw"
-                    quality={75}
-                    priority={i === 0}
-                    // Explicitly flag the first image for highest network priority
-                    fetchPriority={i === 0 ? "high" : "auto"}
-                    // Dropped opacity slightly to guarantee text contrast
-                    className="object-cover opacity-30"
+                {/* Video or Image background */}
+                {slide.videoUrl ? (
+                  <video
+                    ref={(el) => { videoRefs.current[i] = el; }}
+                    src={slide.videoUrl}
+                    poster={slide.posterUrl || undefined}
+                    muted
+                    playsInline
+                    className="absolute inset-0 w-full h-full object-cover opacity-30"
                   />
+                ) : (
+                  slide.imageUrl && (
+                    <Image
+                      src={slide.imageUrl}
+                      alt={slide.title}
+                      fill
+                      sizes="100vw"
+                      quality={75}
+                      priority={i === 0}
+                      fetchPriority={i === 0 ? "high" : "auto"}
+                      className="object-cover opacity-30"
+                    />
+                  )
                 )}
+                {/* Same overlay and text as before */}
                 <div
                   className="absolute inset-0 opacity-10"
                   style={{
@@ -58,11 +108,9 @@ export function HeroCarouselClient({ slides }: { slides: SlideData[] }) {
                   }}
                 />
                 <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
-                  {/* Added drop-shadow to guarantee WCAG compliance against any background image */}
                   <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight max-w-2xl mb-6 drop-shadow-lg">
                     {slide.title}
                   </h1>
-                  {/* Increased base opacity to 95 and added shadow */}
                   <p className="text-lg md:text-xl text-white/95 max-w-xl mb-8 drop-shadow-md">
                     {slide.subtitle}
                   </p>
@@ -77,18 +125,12 @@ export function HeroCarouselClient({ slides }: { slides: SlideData[] }) {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <button
-          onClick={() => api?.scrollPrev()}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
-          aria-label="Previous slide"
-        >
+
+        {/* Navigation arrows and dots unchanged */}
+        <button onClick={() => api?.scrollPrev()} className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-white" aria-label="Previous slide">
           <ChevronLeft className="w-6 h-6" />
         </button>
-        <button
-          onClick={() => api?.scrollNext()}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
-          aria-label="Next slide"
-        >
+        <button onClick={() => api?.scrollNext()} className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-white" aria-label="Next slide">
           <ChevronRight className="w-6 h-6" />
         </button>
       </Carousel>

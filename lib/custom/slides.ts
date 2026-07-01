@@ -7,6 +7,8 @@ export interface SlideData {
   title: string;
   subtitle: string;
   imageUrl: string | null;
+  videoUrl: string | null;
+  posterUrl: string | null;
   ctaText: string;
   ctaUrl: string;
 }
@@ -28,6 +30,8 @@ export async function getSlides(): Promise<SlideData[]> {
       title: decodeHtmlEntities(p.title.rendered),
       subtitle: p.excerpt?.rendered?.replace(/<[^>]+>/g, "").trim() ?? "",
       imageUrl: p._embedded?.["wp:featuredmedia"]?.[0]?.source_url ?? null,
+      videoUrl: p.video_url ?? null,      // from our REST field
+      posterUrl: p.poster_url ?? null,    // from our REST field
       ctaText: p.meta?.cta_text || "Lihat Produk",
       ctaUrl: p.meta?.cta_url || "/shop",
     }));
