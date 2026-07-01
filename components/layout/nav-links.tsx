@@ -47,8 +47,8 @@ export function NavLinks({
             className={cn(
               "px-4 py-2 text-sm font-medium transition-colors duration-150",
               isActive
-                ? "text-[#1565C0]"
-                : "text-gray-700 hover:text-[#1565C0]"
+                ? "text-[#1565C0] dark:text-blue-400"
+                : "text-gray-700 dark:text-gray-300 hover:text-[#1565C0] dark:hover:text-blue-400"
             )}
           >
             {label}
@@ -58,3 +58,4 @@ export function NavLinks({
     </div>
   );
 }
+
