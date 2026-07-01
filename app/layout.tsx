@@ -1,4 +1,4 @@
-import { Inter as FontSans } from "next/font/google";
+import { Plus_Jakarta_Sans as FontSans } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { CartProvider } from "@/components/shop";
@@ -18,6 +18,9 @@ import { LiveChatWidget } from "@/components/custom/live-chat-wrapper";
 
 const font = FontSans({
   subsets: ["latin"],
+  // You can specify weights if you want to optimize bundle size,
+  // but for Plus Jakarta Sans, it loads as a variable font by default.
+  weight: ["400", "500", "700", "800"],
   variable: "--font-sans",
 });
 
