@@ -44,7 +44,7 @@ export function TentangKamiNavItem() {
         onClick={() => setOpen((v) => !v)}
         className={cn(
           "flex items-center gap-0.5 px-4 py-2 text-sm font-medium transition-colors duration-150",
-          isActive ? "text-[#1565C0]" : "text-gray-700 hover:text-[#1565C0]"
+          isActive ? "text-[#1565C0] dark:text-blue-400" : "text-gray-700 dark:text-gray-300 hover:text-[#1565C0] dark:hover:text-blue-400"
         )}
       >
         Tentang Kami
@@ -59,7 +59,7 @@ export function TentangKamiNavItem() {
 
       {open && (
         <div className="absolute left-0 top-full z-50 pt-1.5 w-56">
-        <div className="overflow-hidden rounded-md border bg-white shadow-lg">
+        <div className="overflow-hidden rounded-md border dark:border-gray-700 bg-white dark:bg-gray-900 shadow-lg">
           {tentangKamiSubMenu.map((item) => {
             const itemActive = pathname.startsWith(item.href);
             return (
@@ -70,12 +70,12 @@ export function TentangKamiNavItem() {
                 className={cn(
                   "block px-4 py-2.5 text-sm font-medium transition-colors",
                   itemActive
-                    ? "bg-blue-50 text-[#1565C0]"
-                    : "text-gray-700 hover:bg-gray-50 hover:text-[#1565C0]"
+                    ? "bg-blue-50 dark:bg-blue-900/30 text-[#1565C0] dark:text-blue-400"
+                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-[#1565C0] dark:hover:text-blue-400"
                 )}
               >
                 {item.label}
-                <p className="mt-0.5 text-xs font-normal text-gray-500">
+                <p className="mt-0.5 text-xs font-normal text-gray-500 dark:text-gray-400">
                   {item.description}
                 </p>
               </Link>
