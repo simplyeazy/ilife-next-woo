@@ -61,7 +61,7 @@ export function BrandsScrollClient({ clients, autoScroll }: Props) {
               />
             </div>
           ) : (
-            <div className="w-[120px] h-[80px] flex items-center justify-center text-center text-xs font-semibold text-gray-500 border border-gray-200 rounded px-2">
+            <div className="w-[120px] h-[80px] flex items-center justify-center text-center text-xs font-semibold text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700 rounded px-2">
               {client.name}
             </div>
           );

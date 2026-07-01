@@ -101,12 +101,12 @@ export function ProductFilters({
     currentMaxPrice;
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5 sm:p-6 space-y-6">
+    <div className="bg-white dark:bg-gray-950 rounded-xl border border-slate-200 dark:border-gray-700 shadow-sm p-5 sm:p-6 space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+      <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-gray-700">
         <div className="flex items-center gap-2">
-          <Filter className="w-5 h-5 text-[#1565C0]" />
-          <h3 className="font-semibold text-slate-800 text-lg">Filter Produk</h3>
+          <Filter className="w-4 h-4 text-[#1565C0] dark:text-blue-400" />
+          <h3 className="font-semibold text-slate-800 dark:text-gray-100 text-lg">Filter Produk</h3>
         </div>
         {isPending && (
           <span className="text-xs font-medium text-[#1565C0] animate-pulse">
@@ -118,9 +118,9 @@ export function ProductFilters({
       <div className="space-y-5">
         {/* Search */}
         <div className="space-y-2">
-          <Label htmlFor="search" className="text-slate-700 font-medium">Pencarian</Label>
+          <Label htmlFor="search" className="text-slate-700 dark:text-gray-300 font-medium">Pencarian</Label>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-gray-500" />
             <Input
               id="search"
               type="search"
@@ -141,7 +141,7 @@ export function ProductFilters({
         {/* Category */}
         {categories.length > 0 && (
           <div className="space-y-2">
-            <Label className="text-slate-700 font-medium">Kategori</Label>
+            <Label className="text-slate-700 dark:text-gray-300 font-medium">Kategori</Label>
             <Select
               value={currentCategory || "all"}
               onValueChange={(value) =>
@@ -166,7 +166,7 @@ export function ProductFilters({
         {/* Tags */}
         {tags.length > 0 && (
           <div className="space-y-2">
-            <Label className="text-slate-700 font-medium">Tag</Label>
+            <Label className="text-slate-700 dark:text-gray-300 font-medium">Tag</Label>
             <Select
               value={currentTag || "all"}
               onValueChange={(value) =>
@@ -190,7 +190,7 @@ export function ProductFilters({
 
         {/* Sort */}
         <div className="space-y-2">
-          <Label className="text-slate-700 font-medium">Urutkan</Label>
+          <Label className="text-slate-700 dark:text-gray-300 font-medium">Urutkan</Label>
           <Select
             value={currentSort || "default"}
             onValueChange={(value) =>
@@ -214,7 +214,7 @@ export function ProductFilters({
         {/* Price Range */}
         <div className="space-y-4">
           <div className="flex justify-between items-center">
-            <Label className="text-slate-700 font-medium">Rentang Harga</Label>
+            <Label className="text-slate-700 dark:text-gray-300 font-medium">Rentang Harga</Label>
           </div>
           <Slider
             value={priceRange}
@@ -231,9 +231,8 @@ export function ProductFilters({
               });
             }}
           />
-          <div className="flex justify-between items-center text-xs font-semibold text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
-            <span>{formatRupiah(priceRange[0])}</span>
-            <span className="text-slate-300">|</span>
+          <div className="flex justify-between items-center text-xs font-semibold text-slate-600 dark:text-gray-400 bg-slate-50 dark:bg-gray-800 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-gray-700">
+            <span className="text-slate-300 dark:text-gray-600">|</span>
             <span>{formatRupiah(priceRange[1])}</span>
           </div>
         </div>
@@ -241,11 +240,11 @@ export function ProductFilters({
 
       {/* Clear Filters */}
       {hasActiveFilters && (
-        <div className="pt-4 border-t border-slate-100">
+        <div className="pt-4 border-t border-slate-100 dark:border-gray-700">
           <Button
             variant="ghost"
             onClick={clearFilters}
-            className="w-full text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors"
+            className="w-full text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-950 transition-colors"
             disabled={isPending}
           >
             <X className="w-4 h-4 mr-2" />

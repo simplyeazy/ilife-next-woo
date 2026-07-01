@@ -111,8 +111,8 @@ export default function RootLayout({
       <body className={cn("min-h-screen font-sans antialiased", font.variable)}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
+          defaultTheme="system"
+          enableSystem
           disableTransitionOnChange
         >
           <CartProvider>

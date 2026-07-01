@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { MobileNav } from "@/components/nav/mobile-nav";
 import { CartDrawer } from "@/components/shop";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { cn } from "@/lib/utils";
 import { ILifeLogo } from "@/components/custom/ilife-logo";
 import { NavLinks } from "@/components/layout/nav-links";
@@ -30,7 +31,7 @@ export async function Nav({ className, children, id }: NavProps) {
   return (
     <nav
       className={cn(
-        "sticky z-50 top-0 bg-white border-b border-gray-200 shadow-sm",
+        "sticky z-50 top-0 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 shadow-sm",
         className
       )}
       id={id}
@@ -52,6 +53,7 @@ export async function Nav({ className, children, id }: NavProps) {
             layananItems={layananItems}
             productCategories={parentProductCategories}
           />
+          <ThemeToggle />
           {featureFlags.ENABLE_CART && <CartDrawer />}
           <MobileNav
             logoSrc={logo?.src}

@@ -31,7 +31,7 @@ export function StockBadge({
         <Badge
           variant={isLowStock ? "outline" : "secondary"}
           className={cn(
-            isLowStock && "border-yellow-500 text-yellow-600 bg-yellow-50"
+            isLowStock && "border-yellow-500 dark:border-yellow-600 text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-950"
           )}
         >
           <span
@@ -43,7 +43,7 @@ export function StockBadge({
           {message}
         </Badge>
       ) : isBackorder ? (
-        <Badge variant="outline" className="border-blue-500 text-blue-600 bg-blue-50">
+        <Badge variant="outline" className="border-blue-500 dark:border-blue-600 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950">
           <span className="w-2 h-2 rounded-full bg-blue-500 mr-2" />
           {message}
         </Badge>

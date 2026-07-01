@@ -51,7 +51,7 @@ export function ProdukLayananNavItem({
         onClick={() => setOpen((v) => !v)}
         className={cn(
           "flex items-center gap-0.5 px-4 py-2 text-sm font-medium transition-colors duration-150",
-          isActive ? "text-[#1565C0]" : "text-gray-700 hover:text-[#1565C0]"
+          isActive ? "text-[#1565C0] dark:text-blue-400" : "text-gray-700 dark:text-gray-300 hover:text-[#1565C0] dark:hover:text-blue-400"
         )}
       >
         Produk &amp; Layanan
@@ -66,11 +66,11 @@ export function ProdukLayananNavItem({
 
       {open && (
         <div className="absolute left-0 top-full z-50 pt-1.5 w-64">
-        <div className="overflow-hidden rounded-md border border-gray-100 bg-white shadow-lg">
+        <div className="overflow-hidden rounded-md border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-lg">
           {/* Kategori produk induk dari WooCommerce */}
           {productCategories.length > 0 ? (
-            <div className="border-b border-gray-100 py-1">
-              <p className="px-4 pt-1.5 pb-1 text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+            <div className="border-b border-gray-100 dark:border-gray-700 py-1">
+              <p className="px-4 pt-1.5 pb-1 text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">
                 Produk
               </p>
               <Link
@@ -79,11 +79,11 @@ export function ProdukLayananNavItem({
                 className={cn(
                   "flex items-center gap-2.5 px-4 py-2.5 text-sm font-semibold transition-colors",
                   pathname === "/produk-dan-layanan"
-                    ? "bg-blue-50 text-[#1565C0]"
-                    : "text-gray-800 hover:bg-gray-50 hover:text-[#1565C0]"
+                    ? "bg-blue-50 dark:bg-blue-900/30 text-[#1565C0] dark:text-blue-400"
+                    : "text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-[#1565C0] dark:hover:text-blue-400"
                 )}
               >
-                <Package className="h-4 w-4 shrink-0 text-[#1565C0]" />
+                <Package className="h-4 w-4 shrink-0 text-[#1565C0] dark:text-blue-400" />
                 <span>Lihat Semua Produk</span>
               </Link>
               {productCategories.map((category) => {
@@ -98,11 +98,11 @@ export function ProdukLayananNavItem({
                     className={cn(
                       "flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium transition-colors",
                       itemActive
-                        ? "bg-blue-50 text-[#1565C0]"
-                        : "text-gray-800 hover:bg-gray-50 hover:text-[#1565C0]"
+                        ? "bg-blue-50 dark:bg-blue-900/30 text-[#1565C0] dark:text-blue-400"
+                        : "text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-[#1565C0] dark:hover:text-blue-400"
                     )}
                   >
-                    <Package className="h-4 w-4 shrink-0 text-[#1565C0]" />
+                    <Package className="h-4 w-4 shrink-0 text-[#1565C0] dark:text-blue-400" />
                     <span>{category.name}</span>
                   </Link>
                 );
@@ -113,13 +113,13 @@ export function ProdukLayananNavItem({
               href="/produk-dan-layanan"
               onClick={() => setOpen(false)}
               className={cn(
-                "flex items-center gap-2.5 px-4 py-3 text-sm font-semibold transition-colors border-b border-gray-100",
+                "flex items-center gap-2.5 px-4 py-3 text-sm font-semibold transition-colors border-b border-gray-100 dark:border-gray-700",
                 pathname === "/produk-dan-layanan"
-                  ? "bg-blue-50 text-[#1565C0]"
-                  : "text-gray-800 hover:bg-gray-50 hover:text-[#1565C0]"
+                  ? "bg-blue-50 dark:bg-blue-900/30 text-[#1565C0] dark:text-blue-400"
+                  : "text-gray-800 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-[#1565C0] dark:hover:text-blue-400"
               )}
             >
-              <Package className="h-4 w-4 shrink-0 text-[#1565C0]" />
+              <Package className="h-4 w-4 shrink-0 text-[#1565C0] dark:text-blue-400" />
               <span>Produk</span>
             </Link>
           )}
@@ -127,7 +127,7 @@ export function ProdukLayananNavItem({
           {/* Layanan dinamis dari WP CPT */}
           {layananItems.length > 0 && (
             <div>
-              <p className="px-4 pt-2.5 pb-1 text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+              <p className="px-4 pt-2.5 pb-1 text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">
                 Layanan
               </p>
               {layananItems.map((item) => {
@@ -141,11 +141,11 @@ export function ProdukLayananNavItem({
                     className={cn(
                       "flex items-start gap-2.5 px-4 py-2.5 text-sm transition-colors",
                       itemActive
-                        ? "bg-blue-50 text-[#1565C0]"
-                        : "text-gray-700 hover:bg-gray-50 hover:text-[#1565C0]"
+                        ? "bg-blue-50 dark:bg-blue-900/30 text-[#1565C0] dark:text-blue-400"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-[#1565C0] dark:hover:text-blue-400"
                     )}
                   >
-                    <Wrench className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#1565C0]/60" />
+                    <Wrench className="h-4 w-4 shrink-0 text-[#1565C0] dark:text-blue-400" />
                     <span className="font-medium leading-snug">{item.title}</span>
                   </Link>
                 );

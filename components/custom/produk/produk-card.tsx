@@ -23,9 +23,10 @@ export function ProdukCard({ item, waNumber, priority = false }: ProdukCardProps
   const productUrl = item.wcProductSlug ? `/produk-dan-layanan/${item.wcProductSlug}` : "/produk-dan-layanan";
 
   return (
-    <div className="group flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+
+    <div className="group flex flex-col bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       {/* Image */}
-      <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
+      <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-800">
         {item.imageUrl ? (
           <Image
             src={item.imageUrl}
@@ -36,8 +37,7 @@ export function ProdukCard({ item, waNumber, priority = false }: ProdukCardProps
             priority={priority}
           />
         ) : (
-          <div className="flex items-center justify-center w-full h-full text-gray-400 text-sm">
-            Tidak ada gambar
+          <div className="flex items-center justify-center w-full h-full text-gray-400 dark:text-gray-500 text-sm">
           </div>
         )}
 
@@ -54,17 +54,17 @@ export function ProdukCard({ item, waNumber, priority = false }: ProdukCardProps
       {/* Content */}
       <div className="flex flex-col gap-3 p-5 flex-1">
         <div className="flex-1">
-          <h3 className="font-semibold text-gray-900 leading-snug line-clamp-2 mb-1">
+          <h3 className="font-semibold text-gray-900 dark:text-gray-100 leading-snug line-clamp-2 mb-1">
             {item.title}
           </h3>
           {item.excerpt && (
-            <p className="text-sm text-gray-500 line-clamp-2">{item.excerpt}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{item.excerpt}</p>
           )}
         </div>
 
         {/* Price */}
         {item.priceLabel && (
-          <p className="text-sm font-medium text-blue-600">{item.priceLabel}</p>
+          <p className="text-sm font-medium text-blue-600 dark:text-blue-400">{item.priceLabel}</p>
         )}
 
         {/* CTA Buttons */}
@@ -78,20 +78,20 @@ export function ProdukCard({ item, waNumber, priority = false }: ProdukCardProps
           <Button
             asChild
             variant="outline"
-            className="flex-1 border-green-600 text-green-700 hover:bg-green-600 hover:text-white gap-2"
+            className="flex-1 border-green-600 dark:border-green-700 text-green-700 dark:text-green-400 hover:bg-green-600 hover:text-white gap-2"
           >
             <a
-            href={waUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() =>
-              sendGAEvent("event", "whatsapp_click", {
-                product_name: item.title,
-                product_id: item.id,
-                source: "produk_card",
-              })
-            }
-          >
+              href={waUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() =>
+                sendGAEvent("event", "whatsapp_click", {
+                  product_name: item.title,
+                  product_id: item.id,
+                  source: "produk_card",
+                })
+              }
+            >
               <MessageCircle className="w-4 h-4" />
               WhatsApp
             </a>
