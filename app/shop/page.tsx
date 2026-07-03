@@ -21,6 +21,8 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { siteConfig } from "@/site.config";
+import { CustomBreadcrumb } from "@/components/custom/breadcrumb";
+import type { BreadcrumbItemType } from "@/components/custom/breadcrumb";
 
 // CUSTOM: replaced static metadata with dynamic generateMetadata for category/tag/search pages
 export async function generateMetadata({
@@ -205,9 +207,28 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
   const pageTitle = categoryData?.name || "Produk & Layanan";
 
+  // CUSTOM: Build breadcrumb items based on active filters
+  const breadcrumbItems: BreadcrumbItemType[] = [
+    { label: "Beranda", href: "/" },
+  ];
+
+  if (categoryData) {
+    breadcrumbItems.push({ label: "Produk & Layanan", href: "/produk-dan-layanan" });
+    breadcrumbItems.push({ label: decodeHtmlEntities(categoryData.name) });
+  } else if (tagData) {
+    breadcrumbItems.push({ label: "Produk & Layanan", href: "/produk-dan-layanan" });
+    breadcrumbItems.push({ label: `Tag: ${decodeHtmlEntities(tagData.name)}` });
+  } else if (search) {
+    breadcrumbItems.push({ label: "Produk & Layanan", href: "/produk-dan-layanan" });
+    breadcrumbItems.push({ label: `Cari: ${search}` });
+  } else {
+    breadcrumbItems.push({ label: "Produk & Layanan" });
+  }
+
   return (
     <Section>
       <Container>
+        <CustomBreadcrumb items={breadcrumbItems} />
         <div className="space-y-8">
           <Prose>
             <h1>{pageTitle}</h1>
