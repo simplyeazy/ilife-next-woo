@@ -5,6 +5,7 @@ import { MessageCircle } from "lucide-react";
 
 import { Section, Container, Prose } from "@/components/craft";
 import { Button } from "@/components/ui/button";
+import { CustomBreadcrumb } from "@/components/custom/breadcrumb";
 import { siteConfig } from "@/site.config";
 import type { LayananItem } from "@/lib/custom/layanan";
 
@@ -22,14 +23,13 @@ export async function LandingPageTemplate({ item }: LandingPageTemplateProps) {
     <Section>
       <Container>
         <div className="space-y-16">
-          {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Link href="/produk-dan-layanan" className="hover:text-foreground">
-              Produk dan Layanan
-            </Link>
-            <span>/</span>
-            <span className="text-foreground">{item.title}</span>
-          </nav>
+          <CustomBreadcrumb
+            items={[
+              { label: "Beranda", href: "/" },
+              { label: "Produk & Layanan", href: "/produk-dan-layanan" },
+              { label: item.title },
+            ]}
+          />
 
           {/* Hero */}
           <div className="space-y-6">
@@ -101,3 +101,4 @@ export async function LandingPageTemplate({ item }: LandingPageTemplateProps) {
     </Section>
   );
 }
+
