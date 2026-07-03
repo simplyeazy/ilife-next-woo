@@ -8,6 +8,8 @@ import { Section, Container, Prose } from "@/components/craft";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { siteConfig } from "@/site.config";
+import { CustomBreadcrumb } from "@/components/custom/breadcrumb";
+import type { BreadcrumbItemType } from "@/components/custom/breadcrumb";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -70,40 +72,16 @@ export default async function PortofolioDetailPage({
       ).slice(0, 3)
     : [];
 
-  // breadcrumb structured data
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Beranda",
-        item: siteConfig.site_domain,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Portofolio",
-        item: `${siteConfig.site_domain}/portofolio`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: item.title,
-        item: `${siteConfig.site_domain}/portofolio/${slug}`,
-      },
-    ],
-  };
+  const breadcrumbItems: BreadcrumbItemType[] = [
+    { label: "Beranda", href: "/" },
+    { label: "Portofolio", href: "/portofolio" },
+    { label: item.title },
+  ];
 
   return (
     <Section>
       <Container>
-        {/* Breadcrumb JSON‑LD */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-        />
+        <CustomBreadcrumb items={breadcrumbItems} />
 
         {/* Back link */}
         <Link
