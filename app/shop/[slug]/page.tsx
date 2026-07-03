@@ -25,6 +25,7 @@ import { VariationSelector } from "@/components/shop/variation-selector";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ProductDetailClient } from "./product-detail-client";
+import { CustomBreadcrumb } from "@/components/custom/breadcrumb";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
@@ -119,24 +120,96 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <Container>
         <div className="space-y-12">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Link href="/produk-dan-layanan" className="hover:text-foreground">
-              Produk
-            </Link>
-            <span>/</span>
-            {product.categories[0] && (
-              <>
-                <Link
-                  href={`/produk-dan-layanan?category=${product.categories[0].slug}`}
-                  className="hover:text-foreground"
-                >
-                  {product.categories[0].name}
-                </Link>
-                <span>/</span>
-              </>
-            )}
-            <span className="text-foreground">{product.name}</span>
-          </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <CustomBreadcrumb
+            items={[
+              { label: "Beranda", href: "/" },
+              { label: "Produk & Layanan", href: "/produk-dan-layanan" },
+              ...(product.categories[0]
+                ? [{ label: product.categories[0].name, href: `/produk-dan-layanan?category=${product.categories[0].slug}` }]
+                : []),
+              { label: product.name },
+            ]}
+          />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           {/* Product Details */}
           <div className="grid lg:grid-cols-2 gap-12">
@@ -149,8 +222,108 @@ export default async function ProductPage({ params }: ProductPageProps) {
               }
             />
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             {/* Info */}
             <div className="space-y-6">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               {/* Categories */}
               {product.categories.length > 0 && (
                 <div className="flex flex-wrap gap-2">
@@ -164,6 +337,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   ))}
                 </div>
               )}
+
+
+
+
+
+
+
+
+
+
+
+
 
               {/* Title */}
               <h1 className="text-3xl font-bold">{product.name}</h1>
@@ -315,4 +500,3 @@ export default async function ProductPage({ params }: ProductPageProps) {
     </Section>
   );
 }
-
