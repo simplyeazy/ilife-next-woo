@@ -10,6 +10,7 @@ import {
 
 import { Section, Container, Prose } from "@/components/craft";
 import { ProductGrid } from "@/components/shop";
+import { CustomBreadcrumb } from "@/components/custom/breadcrumb";
 import {
   Pagination,
   PaginationContent,
@@ -96,13 +97,13 @@ export default async function CategoryPage({
       <Container>
         <div className="space-y-8">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Link href="/shop" className="hover:text-foreground">
-              Produk
-            </Link>
-            <span>/</span>
-            <span className="text-foreground">{category.name}</span>
-          </nav>
+          <CustomBreadcrumb
+            items={[
+              { label: "Beranda", href: "/" },
+              { label: "Produk & Layanan", href: "/produk-dan-layanan" },
+              { label: category.name },
+            ]}
+          />
 
           <Prose>
             <h1>{category.name}</h1>

@@ -3,6 +3,8 @@ import { getPortofolioItems, getPortofolioKategori } from "@/lib/custom/portofol
 import { PortofolioGallery } from "@/components/custom/portofolio/portofolio-gallery";
 import { Section, Container } from "@/components/craft";
 import { siteConfig } from "@/site.config";
+import { CustomBreadcrumb } from "@/components/custom/breadcrumb";
+import type { BreadcrumbItemType } from "@/components/custom/breadcrumb";
 
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -27,9 +29,16 @@ export default async function PortofolioPage() {
   const featuredItems = items.filter((item) => item.isFeatured).slice(0, 2);
   const galleryItems = items.filter((item) => !item.isFeatured);
 
+  const breadcrumbItems: BreadcrumbItemType[] = [
+    { label: "Beranda", href: "/" },
+    { label: "Portofolio" },
+  ];
+
   return (
     <Section>
       <Container>
+        <CustomBreadcrumb items={breadcrumbItems} />
+
         {/* FEATURED PROJECTS HERO SECTION */}
         {featuredItems.length > 0 && (
           <div className="mb-16 space-y-12">

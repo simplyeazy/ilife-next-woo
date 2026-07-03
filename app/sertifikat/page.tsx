@@ -2,6 +2,7 @@
 import { getPageBySlug } from "@/lib/wordpress";
 import { generateContentMetadata } from "@/lib/metadata";
 import { Section, Container, Prose } from "@/components/craft";
+import { CustomBreadcrumb } from "@/components/custom/breadcrumb";
 import { notFound } from "next/navigation";
 
 import type { Metadata } from "next";
@@ -27,39 +28,15 @@ export default async function SertifikatPage() {
     notFound();
   }
 
-  // breadcrumb structured data
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Beranda",
-        item: "https://ilife.co.id",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Tentang Kami",
-        item: "https://ilife.co.id/tentang-kami",
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: "Sertifikat",
-        item: "https://ilife.co.id/sertifikat",
-      },
-    ],
-  };
-
   return (
     <Section>
       <Container>
-        {/* Breadcrumb JSON‑LD */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        <CustomBreadcrumb
+          items={[
+            { label: "Beranda", href: "/" },
+            { label: "Tentang Kami", href: "/tentang-kami" },
+            { label: "Sertifikat" },
+          ]}
         />
         <Prose>
           <h1 dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
@@ -72,3 +49,4 @@ export default async function SertifikatPage() {
     </Section>
   );
 }
+
