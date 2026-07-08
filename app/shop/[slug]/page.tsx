@@ -437,7 +437,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           {/* Full Description */}
           {product.description && (
             <div className="space-y-4">
-              <h2 className="text-2xl font-bold">Description</h2>
+              <h2 className="text-2xl font-bold">Deskripsi Produk dan Jasa</h2>
               <div
                 className="wp-content text-muted-foreground"
                 dangerouslySetInnerHTML={{ __html: product.description }}
