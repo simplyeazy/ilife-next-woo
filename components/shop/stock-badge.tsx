@@ -26,7 +26,7 @@ export function StockBadge({
   const isBackorder = product.stock_status === "onbackorder";
 
   return (
-    <div className={cn("flex items-center gap-2", className)}>
+    <div className={cn("flex items-center gap-2 mt-4", className)}>
       {inStock ? (
         <Badge
           variant={isLowStock ? "outline" : "secondary"}

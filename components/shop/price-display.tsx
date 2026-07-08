@@ -42,7 +42,7 @@ export function PriceDisplay({
 
   if (!price && !regularPrice) {
     return (
-      <span className={cn("font-semibold", sizeClasses[size].price)}>
+      <span className={cn("font-semibold", sizeClasses[size].price, "block")}>
         Hubungi kami untuk harga 
       </span>
     );
@@ -56,14 +56,14 @@ export function PriceDisplay({
     const [minRaw, maxRaw] = amounts;
     if (minRaw && maxRaw && minRaw !== maxRaw) {
       return (
-        <span className={cn("font-bold", sizeClasses[size].price)}>
+        <span className={cn("font-bold", sizeClasses[size].price, "block")}>
           {formatPrice(minRaw)} – {formatPrice(maxRaw)}
         </span>
       );
     }
     if (minRaw) {
       return (
-        <span className={cn("font-bold", sizeClasses[size].price)}>
+        <span className={cn("font-bold", sizeClasses[size].price, "block")}>
           {formatPrice(minRaw)}
         </span>
       );
@@ -95,7 +95,7 @@ export function PriceDisplay({
           )}
         </>
       ) : (
-        <span className={cn("font-bold", sizeClasses[size].price)}>
+        <span className={cn("font-bold", sizeClasses[size].price, "block")}>
           {formatPrice(price || regularPrice)}
         </span>
       )}
