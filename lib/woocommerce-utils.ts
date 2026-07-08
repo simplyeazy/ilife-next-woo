@@ -9,10 +9,15 @@ export function formatPrice(
 ): string {
   const numericPrice = typeof price === "string" ? parseFloat(price) : price;
 
+  // Check for NaN to prevent formatting errors
+  if (isNaN(numericPrice)) return ""; 
+
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency,
-  }).format(numericPrice);
+  })
+    .format(numericPrice)
+    .replace(/\u00a0/g, ""); // Removes the non-breaking space &nbsp;
 }
 
 export function calculateDiscountPercentage(

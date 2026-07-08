@@ -57,7 +57,7 @@ export function PriceDisplay({
     if (minRaw && maxRaw && minRaw !== maxRaw) {
       return (
         <span className={cn("font-bold", sizeClasses[size].price, "block")}>
-          {formatPrice(minRaw)} – {formatPrice(maxRaw)}
+          {formatPrice(minRaw)} - {formatPrice(maxRaw)}
         </span>
       );
     }
@@ -91,7 +91,7 @@ export function PriceDisplay({
             {formatPrice(regularPrice)}
           </span>
           {showBadge && discountPercentage > 0 && (
-            <Badge variant="destructive">Save {discountPercentage}%</Badge>
+            <Badge variant="destructive">Hemat {discountPercentage}%</Badge>
           )}
         </>
       ) : (
