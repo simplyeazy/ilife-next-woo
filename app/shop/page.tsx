@@ -173,8 +173,8 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   };
 
   // Fetch products and price range in parallel.
-  // getAbsolutePriceRange scans ALL products + variations so the slider always
-  // reflects the true catalog-wide min/max regardless of active filters.
+  // getAbsolutePriceRange now accepts filter params so the slider reflects
+  // only products matching the active category/tag/search.
   const [productsResponse, categories, tags, { min: absoluteMinPrice, max: absoluteMaxPrice }] =
     await Promise.all([
       getProducts(page, productsPerPage, {
@@ -186,7 +186,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
       }),
       getAllProductCategories(),
       getAllProductTags(),
-      getAbsolutePriceRange(),
+      getAbsolutePriceRange(baseParams),
     ]);
 
   const { data: products, headers } = productsResponse;

@@ -366,83 +366,105 @@ export async function getAllProductSlugs(): Promise<{ slug: string }[]> {
 // ============================================================================
 
 /**
- * Computes the true absolute minimum and maximum purchasable price across the
- * entire product catalog, correctly handling variable products.
+ * Computes the absolute minimum and maximum purchasable price for the given
+ * filter context (category, tag, search). Uses two efficient `orderby=price`
+ * queries (asc/desc) to find the cheapest and most expensive products, then
+ * checks variations for variable products to get the true max/min.
  *
- * Why not just orderby=price&order=desc ?
- * WooCommerce stores the MINIMUM variation price in a product's `price` field.
- * So sorting by price desc returns the product with the highest *minimum*
- * variation price — not the product whose *maximum* variation price is highest.
- * A variable product with variations at [100k, 5M] would rank below a simple
- * product at 700k. This function fetches all variations for variable products
- * to compute the real max.
+ * Falls back to global catalog-wide range when no filters are provided.
  */
-export async function getAbsolutePriceRange(): Promise<{ min: number; max: number }> {
+export async function getAbsolutePriceRange(
+  filterParams?: {
+    category?: number;
+    tag?: number;
+    search?: string;
+  }
+): Promise<{ min: number; max: number }> {
   if (!isConfigured) return { min: 0, max: 10_000_000 };
 
   try {
-    // Paginate through ALL published products — handles catalogs with > 100 items.
-    // We intentionally do NOT filter by stock_status at the product level because
-    // many variable products have stock managed per-variation; the product itself
-    // may not be "instock" even though purchasable variations are.
-    const allProducts: Product[] = [];
-    let productPage = 1;
-    let hasMore = true;
+    // Build base query with optional filters
+    const baseQuery: Record<string, any> = {
+      status: "publish",
+      per_page: 1,
+    };
+    if (filterParams?.category) baseQuery.category = filterParams.category;
+    if (filterParams?.tag) baseQuery.tag = filterParams.tag;
+    if (filterParams?.search) baseQuery.search = filterParams.search;
 
-    while (hasMore) {
-      const batch = await woocommerceFetchPaginatedGraceful<Product>(
-        "products",
-        { per_page: 100, page: productPage, status: "publish" },
-        ["woocommerce", "products", "price-range"]
-      );
-      allProducts.push(...batch.data);
-      hasMore = productPage < batch.headers.totalPages;
-      productPage++;
-    }
+    const cacheTags = ["woocommerce", "products", "price-range"];
 
-    if (allProducts.length === 0) return { min: 0, max: 10_000_000 };
-
-    // Collect prices from non-variable products directly.
-    const prices: number[] = allProducts
-      .filter((p) => p.type !== "variable")
-      .map((p) => parseFloat(p.price || "0"))
-      // 10_000 IDR floor filters out test/junk variations (e.g., price = "1500")
-      // while keeping the real cheapest items (typical min for this shop is ~1M IDR).
-      .filter((p) => p >= 10_000);
-
-    // For variable products the `price` field only holds the minimum variation
-    // price. Fetch all variations in parallel (no stock_status filter here either
-    // — we want every priced variation so the slider reflects what customers see).
-    const variableProducts = allProducts.filter(
-      (p) => p.type === "variable" && p.variations.length > 0
+    // Fetch cheapest product
+    const cheapestResponse = await woocommerceFetchPaginatedGraceful<Product>(
+      "products",
+      { ...baseQuery, orderby: "price", order: "asc" },
+      cacheTags
     );
 
-    if (variableProducts.length > 0) {
-      const variationResults = await Promise.all(
-        variableProducts.map((p) =>
-          woocommerceFetchGraceful<ProductVariation[]>(
-            `products/${p.id}/variations`,
-            [],
-            { per_page: 100, status: "publish" },
-            ["woocommerce", "products", `product-${p.id}`, "variations"]
-          )
-        )
-      );
+    // Fetch most expensive product
+    const mostExpensiveResponse = await woocommerceFetchPaginatedGraceful<Product>(
+      "products",
+      { ...baseQuery, orderby: "price", order: "desc" },
+      cacheTags
+    );
 
-      for (const variations of variationResults) {
-        for (const v of variations) {
-          const price = parseFloat(v.price || "0");
-          if (price >= 10_000) prices.push(price);
-        }
-      }
+    const cheapestProduct = cheapestResponse.data[0];
+    const mostExpensiveProduct = mostExpensiveResponse.data[0];
+
+    if (!cheapestProduct || !mostExpensiveProduct) {
+      return { min: 0, max: 10_000_000 };
     }
 
-    if (prices.length === 0) return { min: 0, max: 10_000_000 };
+    // Helper to get the true min/max price for a product (handles variable products)
+    async function getTruePriceRange(product: Product): Promise<{ min: number; max: number }> {
+      if (product.type !== "variable") {
+        const price = parseFloat(product.price || "0");
+        return { min: price, max: price };
+      }
 
-    return {
-      min: Math.min(...prices),
-      max: Math.max(...prices),
-    };
+      // Fetch variations to get the true min and max
+      const variations = await woocommerceFetchGraceful<ProductVariation[]>(
+        `products/${product.id}/variations`,
+        [],
+        { per_page: 100, status: "publish" },
+        ["woocommerce", "products", `product-${product.id}`, "variations"]
+      );
+
+      if (!variations || variations.length === 0) {
+        const price = parseFloat(product.price || "0");
+        return { min: price, max: price };
+      }
+
+      let minPrice = Infinity;
+      let maxPrice = -Infinity;
+
+      for (const v of variations) {
+        const price = parseFloat(v.price || "0");
+        if (price >= 10_000) {
+          if (price < minPrice) minPrice = price;
+          if (price > maxPrice) maxPrice = price;
+        }
+      }
+
+      if (minPrice === Infinity) {
+        return { min: 0, max: 10_000_000 };
+      }
+
+      return { min: minPrice, max: maxPrice };
+    }
+
+    // Get true ranges for both edge products
+    const [cheapestRange, mostExpensiveRange] = await Promise.all([
+      getTruePriceRange(cheapestProduct),
+      getTruePriceRange(mostExpensiveProduct),
+    ]);
+
+    // The overall min is the cheapest product's min (or its variation min)
+    // The overall max is the most expensive product's max (or its variation max)
+    const min = Math.max(cheapestRange.min, 10_000); // floor at 10k
+    const max = Math.max(mostExpensiveRange.max, min);
+
+    return { min, max };
   } catch {
     console.warn("getAbsolutePriceRange failed, using defaults");
     return { min: 0, max: 10_000_000 };
