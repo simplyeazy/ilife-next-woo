@@ -36,7 +36,9 @@ const formatRupiah = (value: number) => {
     currency: "IDR",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(value);
+  })
+    .format(value)
+    .replace(/\u00a0/g, ""); // Strips the non-breaking space
 };
 
 export function ProductFilters({
