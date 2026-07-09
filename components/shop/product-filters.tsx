@@ -234,7 +234,8 @@ export function ProductFilters({
             }}
           />
           <div className="flex justify-between items-center text-xs font-semibold text-slate-600 dark:text-gray-400 bg-slate-50 dark:bg-gray-800 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-gray-700">
-            <span className="text-slate-300 dark:text-gray-600">|</span>
+            <span>{formatRupiah(priceRange[0])}</span>
+            <span className="text-slate-300 dark:text-gray-600">—</span>
             <span>{formatRupiah(priceRange[1])}</span>
           </div>
         </div>
