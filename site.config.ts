@@ -9,6 +9,7 @@ type SiteConfig = {
   facebook?: string;
   tiktok?: string;
   shopee?: string;
+  tokopedia?: string;
 };
 
 // CUSTOM: Feature flags — set to true when ready to re-enable each capability
@@ -35,4 +36,5 @@ export const siteConfig: SiteConfig = {
   facebook: process.env.NEXT_PUBLIC_FACEBOOK ?? "",
   tiktok: process.env.NEXT_PUBLIC_TIKTOK ?? "",
   shopee: process.env.NEXT_PUBLIC_SHOPEE ?? "",
+  tokopedia: process.env.NEXT_PUBLIC_TOKOPEDIA ?? "",
 };
