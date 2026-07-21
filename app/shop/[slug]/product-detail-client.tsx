@@ -126,7 +126,7 @@ export function ProductDetailClient({
       {(shopeeUrl || tokopediaUrl) && (
         <div className="text-center space-y-2 pt-2 border-t border-gray-100">
           <p className="text-sm text-muted-foreground">
-            Belanja lebih percaya diri — produk kami juga tersedia di toko resmi
+            Belanja tanpa khawatir - produk kami juga tersedia di ecommerce terpercaya berikut:
           </p>
           <div className="flex items-center justify-center gap-3">
             {shopeeUrl && (
