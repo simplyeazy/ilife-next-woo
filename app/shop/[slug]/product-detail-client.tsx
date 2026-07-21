@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { MessageCircle, Mail } from "lucide-react";
+import { MessageCircle, Mail, ShoppingBag } from "lucide-react";
 import { sendGAEvent } from "@next/third-parties/google";
 
 import type { Product, ProductVariation } from "@/lib/woocommerce.d";
@@ -36,6 +36,14 @@ export function ProductDetailClient({
   const displaySalePrice = selectedVariation?.sale_price || product.sale_price;
   const isOnSale = selectedVariation?.on_sale ?? product.on_sale;
   const displayPriceHtml = selectedVariation ? undefined : product.price_html;
+
+  // Marketplace URLs: per-product custom field first, fallback to site config
+  const shopeeUrl =
+    (product.meta_data.find((m) => m.key === "shopee_url")?.value as string | undefined) ||
+    siteConfig.shopee;
+  const tokopediaUrl =
+    (product.meta_data.find((m) => m.key === "tokopedia_url")?.value as string | undefined) ||
+    siteConfig.tokopedia;
 
   return (
     <div className="space-y-6">
@@ -113,6 +121,53 @@ export function ProductDetailClient({
           </div>
         );
       })()}
+
+      {/* Marketplace trust section — Shopee & Tokopedia */}
+      {(shopeeUrl || tokopediaUrl) && (
+        <div className="text-center space-y-2 pt-2 border-t border-gray-100">
+          <p className="text-sm text-muted-foreground">
+            Belanja lebih percaya diri — produk kami juga tersedia di toko resmi
+          </p>
+          <div className="flex items-center justify-center gap-3">
+            {shopeeUrl && (
+              <a
+                href={shopeeUrl}
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-[#ee4d2d] hover:bg-[#d43f22] text-white text-sm font-medium transition-colors"
+                onClick={() =>
+                  sendGAEvent("event", "shopee_click", {
+                    product_name: product.name,
+                    product_id: product.id,
+                    source: "shop_detail",
+                  })
+                }
+              >
+                <ShoppingBag className="h-4 w-4" />
+                Shopee
+              </a>
+            )}
+            {tokopediaUrl && (
+              <a
+                href={tokopediaUrl}
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-[#42b549] hover:bg-[#359e3b] text-white text-sm font-medium transition-colors"
+                onClick={() =>
+                  sendGAEvent("event", "tokopedia_click", {
+                    product_name: product.name,
+                    product_id: product.id,
+                    source: "shop_detail",
+                  })
+                }
+              >
+                <ShoppingBag className="h-4 w-4" />
+                Tokopedia
+              </a>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
