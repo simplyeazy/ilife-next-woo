@@ -8,34 +8,13 @@
 
 import { Container, Section } from "@/components/craft";
 import { motion, Variants } from "framer-motion";
-import { Earth, Headset, History, Smile, Star } from "lucide-react";
-
-type Stat = {
-  icon: typeof Smile;
-  value: string;
-  label: string;
-};
+import { Earth, Headset, History } from "lucide-react";
 
 type Badge = {
-  icon: typeof Smile;
+  icon: typeof Headset;
   label: string;
   description: string;
 };
-
-// Quantifiable claims — shown as big-number counters.
-// Swap in real figures if you have more precise ones than the site copy.
-const stats: Stat[] = [
-  {
-    icon: Smile,
-    value: "1000+",
-    label: "Pelanggan Puas",
-  },
-  {
-    icon: Star,
-    value: "10+",
-    label: "Tahun Pengalaman",
-  },
-];
 
 // Qualitative claims — no honest number attached, shown as trust badges instead.
 const badges: Badge[] = [
@@ -72,33 +51,8 @@ const itemVariants: Variants = {
 
 export function TrustStatsSection() {
   return (
-    <Section className="bg-gray-50 dark:bg-gray-900/40">
+    <Section className="py-16 bg-gray-50 dark:bg-gray-900">
       <Container>
-        {/* Big-number stats */}
-        <motion.div
-          className="grid grid-cols-2 gap-6 max-w-md mx-auto mb-10"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          {stats.map(({ icon: Icon, value, label }) => (
-            <motion.div
-              key={label}
-              variants={itemVariants}
-              className="flex flex-col items-center text-center"
-            >
-              <Icon className="w-6 h-6 text-gray-400 dark:text-gray-500 mb-2" />
-              <div className="text-4xl font-semibold text-gray-800 dark:text-gray-100 tabular-nums">
-                {value}
-              </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                {label}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
         {/* Qualitative trust badges */}
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-3 gap-4"
@@ -107,6 +61,11 @@ export function TrustStatsSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
         >
+          <h2 className="text-3xl font-normal text-gray-800 dark:text-gray-200 mb-4">
+            Komitmen kami
+          </h2>
+          <hr className="w-12 border-t-2 border-gray-400 dark:border-gray-500 mx-auto mb-4" />
+
           {badges.map(({ icon: Icon, label, description }) => (
             <motion.div
               key={label}
