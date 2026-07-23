@@ -37,13 +37,13 @@ export function ProductDetailClient({
   const isOnSale = selectedVariation?.on_sale ?? product.on_sale;
   const displayPriceHtml = selectedVariation ? undefined : product.price_html;
 
-  // Marketplace URLs: per-product custom field first, fallback to site config
+  // Marketplace URLs: per-product custom field first (full URL), fallback to store ID from env
   const shopeeUrl =
     (product.meta_data.find((m) => m.key === "shopee_url")?.value as string | undefined) ||
-    siteConfig.shopee;
+    (siteConfig.shopee ? `https://shopee.co.id/${siteConfig.shopee}` : "");
   const tokopediaUrl =
     (product.meta_data.find((m) => m.key === "tokopedia_url")?.value as string | undefined) ||
-    siteConfig.tokopedia;
+    (siteConfig.tokopedia ? `https://tokopedia.com/${siteConfig.tokopedia}` : "");
 
   return (
     <div className="space-y-6">
