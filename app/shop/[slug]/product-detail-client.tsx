@@ -40,10 +40,10 @@ export function ProductDetailClient({
   // Marketplace URLs: per-product custom field first (full URL), fallback to store ID from env
   const shopeeUrl =
     (product.meta_data.find((m) => m.key === "shopee_url")?.value as string | undefined) ||
-    (siteConfig.shopee_store_id ? `https://shopee.co.id/${siteConfig.shopee_store_id}` : "");
+    (siteConfig.shopee ? `https://shopee.co.id/${siteConfig.shopee}` : "");
   const tokopediaUrl =
     (product.meta_data.find((m) => m.key === "tokopedia_url")?.value as string | undefined) ||
-    (siteConfig.tokopedia_store_id ? `https://tokopedia.com/${siteConfig.tokopedia_store_id}` : "");
+    (siteConfig.tokopedia ? `https://tokopedia.com/${siteConfig.tokopedia}` : "");
 
   return (
     <div className="space-y-6">
