@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import Image from "next/image";
+import { motion, Variants } from "framer-motion";
 import type { MerekItem } from "@/lib/custom/merek";
 import { wcImagesUnoptimized } from "@/lib/utils";
 
@@ -9,6 +10,23 @@ interface Props {
   brands: MerekItem[];
   autoScroll: boolean;
 }
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.05 },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { y: 15, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { type: "spring", stiffness: 120, damping: 14 },
+  },
+};
 
 export function MerekScrollClient({ brands, autoScroll }: Props) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -33,8 +51,12 @@ export function MerekScrollClient({ brands, autoScroll }: Props) {
 
   return (
     <div className={autoScroll ? "overflow-hidden" : ""}>
-      <div
+      <motion.div
         ref={trackRef}
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
         className={
           autoScroll
             ? "flex gap-12 w-max will-change-transform items-center"
@@ -66,19 +88,22 @@ export function MerekScrollClient({ brands, autoScroll }: Props) {
           );
 
           return (
-            <a
+            <motion.a
               key={`${brand.id}-${i}`}
               href={href}
               target={isExternal ? "_blank" : "_self"}
               rel={isExternal ? "noopener noreferrer" : undefined}
               aria-label={brand.name}
               className="flex-shrink-0"
+              variants={itemVariants}
+              whileHover={{ scale: 1.08 }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
             >
               {logo}
-            </a>
+            </motion.a>
           );
         })}
-      </div>
+      </motion.div>
     </div>
   );
 }
