@@ -9,8 +9,7 @@ import { MerekProdukSection } from "@/components/custom/home/merek-produk-sectio
 import { TrustStatsSection } from "@/components/custom/home/trust-stats-section";
 
 export default function Home() {
-  // CUSTOM: section order matches original ilife.co.id
-  // Hero → About → Client Logos → Features → Featured Products → Merek Produk
+
   return (
     <main>
       <HeroCarousel />

@@ -8,7 +8,7 @@ export async function AboutSection() {
 
   return (
 
-    <section className="py-16 bg-white dark:bg-gray-950">
+    <section>
       <div className="max-w-5xl mx-auto px-6">
         {/* Centered heading with separator */}
         <div className="text-center mb-12">
