@@ -51,8 +51,21 @@ const itemVariants: Variants = {
 
 export function TrustStatsSection() {
   return (
-    <Section className="py-16 bg-gray-50 dark:bg-gray-900">
+    <Section className="py-16 bg-white dark:bg-gray-950">
       <Container>
+        <motion.div
+          className="text-center mb-10"
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+        >
+          <h2 className="text-3xl font-normal text-gray-800 dark:text-gray-200 mb-4">
+            Komitmen kami
+          </h2>
+          <hr className="w-12 border-t-2 border-gray-400 dark:border-gray-500 mx-auto mb-4" />
+        </motion.div>
+
         {/* Qualitative trust badges */}
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-3 gap-4"
@@ -61,10 +74,6 @@ export function TrustStatsSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
         >
-          <h2 className="text-3xl font-normal text-gray-800 dark:text-gray-200 mb-4">
-            Komitmen kami
-          </h2>
-          <hr className="w-12 border-t-2 border-gray-400 dark:border-gray-500 mx-auto mb-4" />
 
           {badges.map(({ icon: Icon, label, description }) => (
             <motion.div
