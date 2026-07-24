@@ -60,12 +60,13 @@ export function FeaturedProductsClient({ products }: { products: Product[] }) {
               <motion.div
                 key={product.id}
                 variants={itemVariants}
+                className={isWide ? "sm:col-span-3" : "sm:col-span-2"}
               >
                 <Link
                   href={`/produk-dan-layanan/${product.slug}`}
                   className={[
                     "relative overflow-hidden group block",
-                    isWide ? "sm:col-span-3 aspect-[16/10]" : "sm:col-span-2 aspect-[4/3]",
+                    isWide ? "aspect-[16/10]" : "aspect-[4/3]",
                   ].join(" ")}
                 >
                   {img?.src ? (
