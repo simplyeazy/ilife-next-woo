@@ -4,6 +4,7 @@ import { HeroCarousel } from "@/components/custom/home/hero-carousel";
 import { AboutSection } from "@/components/custom/home/about-section";
 import { AboutSkeleton } from "@/components/custom/home/about-skeleton";
 import { FeaturedProductsSkeleton } from "@/components/custom/home/featured-products-skeleton";
+import { MerekProdukSkeleton } from "@/components/custom/home/merek-produk-skeleton";
 import { FeaturesSection } from "@/components/custom/home/features-section";
 import { FeaturedProductsSection } from "@/components/custom/home/featured-products";
 import { ClientsSection } from "@/components/custom/home/clients-section";
@@ -24,7 +25,7 @@ export default function Home() {
       <Suspense fallback={<FeaturedProductsSkeleton />}>
         <FeaturedProductsSection />
       </Suspense>
-      <Suspense>
+      <Suspense fallback={<MerekProdukSkeleton />}>
         <MerekProdukSection />
       </Suspense>
     </main>
