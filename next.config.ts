@@ -7,6 +7,25 @@ const isLocalDev = wordpressHostname === "localhost" || wordpressHostname === "w
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  // CUSTOM: build robustness for the Hostinger pipeline.
+  // api.ilife.co.id (WordPress + WooCommerce) runs on shared MySQL with a low connection limit.
+  // Next's defaults (4 export workers x maxConcurrency 8 => ~32 pages rendered in parallel, no
+  // retries, exit-on-first-error) exhausted those connections, so /shop/[slug] prerendering
+  // failed with `WooCommerceAPIError: <h1>Error establishing a database connection</h1>`
+  // (status 500, code wp_die) and `prerenderEarlyExit` aborted the entire deploy.
+  // Measured: 24 parallel WC REST calls => 8x HTTP 500; single calls => 200 in ~0.1s.
+  // Throttle to one export worker rendering 2 pages at a time, retry transient failures, and
+  // never kill the build on a transient backend error (those pages are ISR-rendered on demand).
+  experimental: {
+    /** Minimum pages per export batch; 100 keeps a build with <=100 prerenderable pages on 1 worker. */
+    staticGenerationMinPagesPerWorker: 100,
+    /** Pages rendered in parallel per export worker (Next default: 8). */
+    staticGenerationMaxConcurrency: 2,
+    /** Retry transient prerender failures (Next default: 1 = no retry). */
+    staticGenerationRetryCount: 3,
+    /** Keep building when a single page fails instead of exiting the build (Next default: true). */
+    prerenderEarlyExit: false,
+  },
   images: {
     remotePatterns: isLocalDev
       ? [
