@@ -4,6 +4,15 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
 
+# CUSTOM: pnpm v11 reads non-auth settings from THIS file (only auth/registry come from .npmrc).
+# pnpm's default "isolated" (symlinked) node_modules breaks Next.js `output: "standalone"`:
+# transitive @swc/helpers is traced only inside .pnpm/, so it never reaches the standalone
+# bundle root, while Turbopack's server runtime requires it as a BARE specifier from the
+# `.next/server/chunks` context -> "Cannot find module '@swc/helpers/_/_interop_require_default'"
+# -> HTTP 500 on every request (ilife.co.id incident, Sep 2026).
+# A hoisted (flat, npm-like) node_modules makes the tracer record root-level paths.
+nodeLinker: hoisted
+
 overrides:
   picomatch@^2: ">=2.3.2"
   picomatch@^4: ">=4.0.4"
